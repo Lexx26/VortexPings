@@ -1,19 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace VortexPings.Models
 {
-    public class NodeGroup
+    public class NodeGroup:IDisposable
     {
         public int Id { get; set; }
 
         public string? Name { get; set; }
 
-        private List<Node>? _nodes = new List<Node>();
-        public IEnumerable<Node>? Nodes { get { return _nodes; } }
+        private ObservableCollection<Node>? _nodes = new ObservableCollection<Node>();
+        public ObservableCollection<Node>? Nodes { get { return _nodes; } }
 
         public void AddNode(Node node)
         {
@@ -28,21 +30,22 @@ namespace VortexPings.Models
         public void DeleteNode(Node node)
         {
             var isContain = _nodes.Contains(node);
-
+            
             if (isContain == true)
             {
+                 node.Dispose();
                 _nodes.Remove(node);
             }
         }
 
-        public void DeleteGroup()
+        public void Dispose()
         {
             foreach (var node in _nodes)
             {
-               
-
+                node.Dispose();
             }
 
+            _nodes = null;
         }
     }
 }

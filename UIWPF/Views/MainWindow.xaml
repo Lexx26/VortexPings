@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:UIWPF.Views"
+        xmlns:localC="clr-namespace:UIWPF.Controls.Custom"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
@@ -27,7 +28,8 @@
 
             </Menu>
             <Grid>
-                <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
+                <localC:PingGroupPanel/>
+                <!--<ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>-->
             </Grid>
         </DockPanel>
         
