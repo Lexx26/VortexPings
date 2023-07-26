@@ -132,8 +132,7 @@ namespace VortexPings.Models
                     // TODO: dispose managed state (managed objects)
                 }
 
-                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
-                // TODO: set large fields to null
+               
 
                 Pinger.PingCompleted -= OnPingCompleted;
                 Pinger.Dispose();
@@ -143,14 +142,14 @@ namespace VortexPings.Models
             }
         }
 
-        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+       
         ~Node()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: false);
         }
 
-        void IDisposable.Dispose()
+        public void Dispose()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
             Dispose(disposing: true);
