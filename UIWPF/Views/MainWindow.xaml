@@ -3,10 +3,33 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:UIWPF.Views"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <DockPanel>
+            <Menu  VerticalAlignment="Top" DockPanel.Dock="Top" >
+                <MenuItem Header="Activate">
+                    <MenuItem Header="Start all ping" Command="{Binding StartPing}"></MenuItem>
+                    <MenuItem Header="Stop all ping" Command="{Binding StopPing}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="View" Command="{Binding ShowViewSetupDialog}"></MenuItem>
+                <MenuItem Header="Preferences"  IsEnabled="{Binding MenuIsEnabled }">
+                    <MenuItem Header="General settings" Command="{Binding EditProperty}" ></MenuItem>
+
+                </MenuItem>
+                <MenuItem Header="Logs" IsEnabled="{Binding MenuIsEnabled}">
+
+                    <MenuItem Header="Show log" Command="{Binding ShowLog}"></MenuItem>
+                    <MenuItem Header="ClearLog" Command="{Binding ClearLog}"></MenuItem>
+                </MenuItem>
+
+            </Menu>
+            <Grid>
+                <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
+            </Grid>
+        </DockPanel>
         
     </Grid>
 </Window>
