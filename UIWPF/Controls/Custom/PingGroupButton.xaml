@@ -6,32 +6,30 @@
              xmlns:local="clr-namespace:UIWPF.Controls.Custom"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200">
-    <Grid>
-        <StackPanel Orientation="Vertical">
-        <Button x:Name="GroupButton"  >
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="1" Name="GroupName" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Center" Text="none"/>
-                    <TextBlock Grid.Row="2" Name="NodeCount" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Right" Text="none"/>
-                </Grid>
-            </StackPanel>
-        </Button>
-        <Grid>
+    <DockPanel x:Name="DockPanelMain"  LastChildFill="False">
+        <Grid  DockPanel.Dock="Top">
+            <Button  x:Name="GroupButton" Click="GroupButton_Click" Height="80">
+            <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition></ColumnDefinition>
-                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Name="DeleteGroupButton" Content="Delete" Click="DeleteGroupButton_Click"  Height="20" />
-            <Button Grid.Column="1" Name="EditGroupButton" Content="Edit"   Height="20" />
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="1" Name="GroupName" FontSize="14" TextWrapping="Wrap" HorizontalAlignment="Center" Text="none"/>
+                <TextBlock Grid.Row="2" Name="NodeCount" FontSize="12" TextWrapping="Wrap" HorizontalAlignment="Right" Text="none"/>
+            </Grid>
+        </Button>
         </Grid>
-        </StackPanel>
-    </Grid>
+        <Grid DockPanel.Dock="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Name="DeleteGroupButton" Content="Delete" Click="DeleteGroupButton_Click"  Height="20" />
+            <Button Grid.Column="1" Name="EditGroupButton" Content="Edit" Click="EditGroupButton_Click"  Height="20" />
+        </Grid>
+    </DockPanel>
 </UserControl>

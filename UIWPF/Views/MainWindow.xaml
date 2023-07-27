@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:local="clr-namespace:UIWPF.Views"
+        xmlns:vm="clr-namespace:UIWPF.ViewModels"
+        prism:ViewModelLocator.AutoWireViewModel="True"
         xmlns:localC="clr-namespace:UIWPF.Controls.Custom"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <DockPanel>
@@ -28,7 +31,13 @@
 
             </Menu>
             <Grid>
-                <localC:PingGroupPanel/>
+                <localC:PingGroupPanel DataItems="{Binding NodeGroups}" ClickedCroupeNode="{Binding ClikedNodeGroup, Mode=TwoWay}"
+                                       AddGroupCommand="{Binding AddGroupCommand}" 
+                                       DeleteGroupCommand="{Binding DeleteGroupCommand}" 
+                                       EditGroupCommand="{Binding EditGroupCommand}"
+                                       GroupCommand="{Binding GroupCommand}"
+                                       />
+                
                 <!--<ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>-->
             </Grid>
         </DockPanel>

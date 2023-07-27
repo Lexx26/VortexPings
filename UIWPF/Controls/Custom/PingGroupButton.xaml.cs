@@ -46,9 +46,25 @@ namespace UIWPF.Controls.Custom
 
         private void DeleteGroupButton_Click(object sender, RoutedEventArgs e)
         {
-            ParentPingGroupPanel.RemoveGroupe(this);
+            ParentPingGroupPanel.ClickedCroupeNode = NodeGroupItem;
+            if(ParentPingGroupPanel.DeleteGroupCommand!=null)
+            ParentPingGroupPanel.DeleteGroupCommand.Execute(null);
         }
 
-       
+        private void EditGroupButton_Click(object sender, RoutedEventArgs e)
+        {
+            ParentPingGroupPanel.ClickedCroupeNode = NodeGroupItem;
+            if(ParentPingGroupPanel.EditGroupCommand!=null)
+            ParentPingGroupPanel.EditGroupCommand.Execute(null);
+            SetGroupName();
+        }
+
+        private void GroupButton_Click(object sender, RoutedEventArgs e)
+        {
+            ParentPingGroupPanel.ClickedCroupeNode = NodeGroupItem;
+            if (ParentPingGroupPanel.GroupCommand != null)
+                ParentPingGroupPanel.GroupCommand.Execute(null);
+
+        }
     }
 }
