@@ -35,7 +35,7 @@ namespace UIConsole
 
         private static void Node_PingResultDataUpdated()
         {
-            Console.WriteLine(_node.PingResultData.ResponseAdress + " " + _node.PingResultData.lastRoundTripeTime + " " + _node.PingResultData.PingResult + " " + _node.PingResultData.PingStatus);
+            Console.WriteLine(_node.PingResultData.ResponseAdress + " " + _node.PingResultData.LastRoundTripTime + " " + _node.PingResultData.PingResult + " " + _node.PingResultData.PingStatus);
         }
     }
 }

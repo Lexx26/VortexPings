@@ -14,12 +14,11 @@ namespace VortexPings.Models
 
         public NodeData? NodeData { get; set; }
 
+        public PingResultData? PingResultData { get; private set; }
+
         public int Order { get; set; }
 
-
         public event Action PingResultDataUpdated;
-
-        public PingResultData? PingResultData { get; private set; }
 
         private System.Net.NetworkInformation.Ping Pinger { get; } = new System.Net.NetworkInformation.Ping();
 
@@ -36,7 +35,7 @@ namespace VortexPings.Models
 
                 using (cancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
                 {
-                    
+
                     Pinger.SendAsync(NodeData.HostOrIPadress, NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
 
                     PingReply pingReply = await pingTaskCompletionSource.Task;
@@ -87,7 +86,7 @@ namespace VortexPings.Models
         private void СreatePingResultData(PingReply pingReply)
         {
             PingResultData = new PingResultData();
-            PingResultData.lastRoundTripeTime = pingReply.RoundtripTime;
+            PingResultData.LastRoundTripTime = pingReply.RoundtripTime;
             PingResultData.PingResult = pingReply.Status.ToString();
             if (PingResultData.PingResult == "11050")
             {
@@ -111,7 +110,7 @@ namespace VortexPings.Models
         {
             if (pingReply.Status == IPStatus.Success)
             {
-                if (PingResultData.lastRoundTripeTime >= NodeData.WarningTime)
+                if (PingResultData.LastRoundTripTime >= NodeData.WarningTime)
                 {
                     PingResultData.PingStatus = PingStatus.Yellow;
                     return;
@@ -134,7 +133,7 @@ namespace VortexPings.Models
                     // TODO: dispose managed state (managed objects)
                 }
 
-               
+
 
                 Pinger.PingCompleted -= OnPingCompleted;
                 Pinger.Dispose();
@@ -144,7 +143,6 @@ namespace VortexPings.Models
             }
         }
 
-       
         ~Node()
         {
             // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method

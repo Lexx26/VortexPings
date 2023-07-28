@@ -10,7 +10,7 @@ namespace VortexPings.Models
     {
         public string? ResponseAdress { get; set; }
 
-        public long? lastRoundTripeTime { get; set; }
+        public long? LastRoundTripTime { get; set; }
         public PingStatus PingStatus { get; set; }
         public string? PingResult { get; set; }
     }

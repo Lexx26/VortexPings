@@ -15,7 +15,23 @@ namespace VortexPings.Models
         public int GroupID { get; set; }
 
         private int _PackageSize;
-        public int PackageSize { get { return _PackageSize; } set { _PackageSize = value; CreateBuffer(); } }
+        public int PackageSize
+        {
+            get { return _PackageSize; }
+            set
+            {
+                if (value < 28)
+                {
+                    _PackageSize = 28;
+                }
+                else
+                {
+                    _PackageSize = value;
+                }
+
+                CreateBuffer();
+            }
+        }
 
         private void CreateBuffer()
         {
@@ -25,7 +41,7 @@ namespace VortexPings.Models
         }
 
         private byte[]? _Buffer;
-        public byte[]? Buffer { get { return _Buffer; } }
+        public byte[]? Buffer { get {return _Buffer; } }
 
         private int _TTL;
         public int TTL { get { return _TTL; } set { _TTL = value; UpdatePingOption(); } }

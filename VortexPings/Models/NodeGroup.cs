@@ -19,16 +19,6 @@ namespace VortexPings.Models
         private ObservableCollection<Node>? _nodes = new ObservableCollection<Node>();
         public ObservableCollection<Node>? Nodes { get { return _nodes; } }
 
-        public void AddNode(Node node)
-        {
-            var isContain = _nodes.Contains(node);
-
-            if(isContain==false)
-            {
-                _nodes.Add(node);
-            }
-        }
-
         public void DeleteNode(Node node)
         {
             var isContain = _nodes.Contains(node);
