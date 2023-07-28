@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -150,6 +151,15 @@ namespace UIWPF.Controls.Custom
                 }
 
             }
+
+            if(e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                while(_pingGroupButtons.Count>0)
+                {
+                    var pingGroupButton = _pingGroupButtons.FirstOrDefault();
+                    RemoveGroup(pingGroupButton);
+                }
+            }
         }
 
         private void DeleteNodeGroup(NodeGroup nodeGroup)
@@ -177,6 +187,7 @@ namespace UIWPF.Controls.Custom
             newButton.NodeGroupItem = addedItem;
             newButton.ParentPingGroupPanel = this;
             _pingGroupButtons.Add(newButton);
+            Grid.SetColumn(newButton,0);
             Grid.SetRow(newButton, GroupGrid.RowDefinitions.Count - 1); // Устанавливаем новую кнопку в новую строку
             GroupGrid.Children.Add(newButton);
 

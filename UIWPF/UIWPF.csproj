@@ -16,4 +16,8 @@
     <ProjectReference Include="..\VortexPings\VortexPings.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

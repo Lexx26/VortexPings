@@ -40,7 +40,7 @@ namespace VortexPings.Models
                 _PingOptions = new PingOptions();
             }
             if (TTL == 0)
-                TTL = 128;
+                TTL = 64;
 
             _PingOptions.DontFragment = DontFragment;
             _PingOptions.Ttl = _TTL;

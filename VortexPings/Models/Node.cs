@@ -12,7 +12,9 @@ namespace VortexPings.Models
     {
         private bool disposedValue;
 
-        public NodeData? NodeData { get; set; } = new NodeData();
+        public NodeData? NodeData { get; set; }
+
+        public int Order { get; set; }
 
 
         public event Action PingResultDataUpdated;

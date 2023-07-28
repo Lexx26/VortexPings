@@ -14,6 +14,8 @@ namespace VortexPings.Models
 
         public string? Name { get; set; }
 
+        public int Order { get; set; }
+
         private ObservableCollection<Node>? _nodes = new ObservableCollection<Node>();
         public ObservableCollection<Node>? Nodes { get { return _nodes; } }
 

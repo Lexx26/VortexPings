@@ -1,7 +1,9 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using System;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Documents;
 using VortexPings.Models;
 
 namespace UIWPF.ViewModels
@@ -87,9 +89,18 @@ namespace UIWPF.ViewModels
 
         void GroupCommandExecute()
         {
-            MessageBox.Show($"EditCommand for Groupe {ClikedNodeGroup.Name}");
+            NodeGroups.Clear();
 
-            ClikedNodeGroup.Name = "dfffsdf";
+            var groupNodeItem = new NodeGroup();
+            groupNodeItem.Name = "Test33333";
+            groupNodeItem.Id = 3;
+
+            var groupNodeItem2 = new NodeGroup();
+            groupNodeItem2.Name = "Test333444";
+            groupNodeItem2.Id = 3;
+
+            NodeGroups.AddRange(new NodeGroup[] { groupNodeItem, groupNodeItem2 });
+
         }
 
         bool CanExecuteGroupCommand()
