@@ -12,18 +12,20 @@ namespace UIWPF.ViewModels
     {
         public MainWindowViewModel()
         {
-            NodeGroups = new ObservableCollection<NodeGroup>();
+            NodeGroups = new ObservableCollection<NodeGroupViewModel>();
 
             var groupNodeItem = new NodeGroup();
             groupNodeItem.Name = "Test";
             groupNodeItem.Id = 1;
 
+            var NodeViewModel
+
             NodeGroups.Add(groupNodeItem);
         }
 
 
-        private ObservableCollection<NodeGroup> _NodeGroups;
-        public ObservableCollection<NodeGroup> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
+        private ObservableCollection<NodeGroupViewModel> _NodeGroups;
+        public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
 
         
         public NodeGroup ClikedNodeGroup { get; set; }

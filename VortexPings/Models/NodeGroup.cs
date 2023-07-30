@@ -16,8 +16,8 @@ namespace VortexPings.Models
 
         public int Order { get; set; }
 
-        private ObservableCollection<Node>? _nodes = new ObservableCollection<Node>();
-        public ObservableCollection<Node>? Nodes { get { return _nodes; } }
+        private List<Node>? _nodes = new List<Node>();
+        public List<Node>? Nodes { get { return _nodes; } }
 
         public void DeleteNode(Node node)
         {

@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UIWPF.ViewModels;
 using VortexPings.Models;
 
 namespace UIWPF.Controls.Custom
@@ -25,7 +26,7 @@ namespace UIWPF.Controls.Custom
         public static readonly DependencyProperty GroupItemProperty =
           DependencyProperty.Register("GroupItem", typeof(NodeGroup), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public NodeGroup NodeGroupItem
+        public NodeGroupViewModel NodeGroupItem
         {
             get { return (NodeGroup)GetValue(GroupItemProperty); }
             set { SetValue(GroupItemProperty, value); SetGroupName(); }

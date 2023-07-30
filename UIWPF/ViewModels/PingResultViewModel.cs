@@ -10,21 +10,21 @@ namespace UIWPF.ViewModels
 {
     public class PingResultDataViewModel:BindableBase
     {
-        private PingResultData _pingResultDataModel;
+        public PingResultData PingResultDataModel;
 
         public PingResultDataViewModel(PingResultData pingResultData)
         {
-            _pingResultDataModel = pingResultData;
+            PingResultDataModel = pingResultData;
         }
 
         public string? ResponseAdress
         {
-            get { return _pingResultDataModel.ResponseAdress; }
+            get { return PingResultDataModel.ResponseAdress; }
             set
             {
-                if (_pingResultDataModel.ResponseAdress != value)
+                if (PingResultDataModel.ResponseAdress != value)
                 {
-                    _pingResultDataModel.ResponseAdress = value;
+                    PingResultDataModel.ResponseAdress = value;
                     RaisePropertyChanged(nameof(ResponseAdress));
                 }
             }
@@ -32,12 +32,12 @@ namespace UIWPF.ViewModels
 
         public long? LastRoundTripTime
         {
-            get { return _pingResultDataModel.LastRoundTripTime; }
+            get { return PingResultDataModel.LastRoundTripTime; }
             set
             {
-                if (_pingResultDataModel.LastRoundTripTime != value)
+                if (PingResultDataModel.LastRoundTripTime != value)
                 {
-                    _pingResultDataModel.LastRoundTripTime = value;
+                    PingResultDataModel.LastRoundTripTime = value;
                     RaisePropertyChanged(nameof(LastRoundTripTime));
                 }
             }
@@ -45,12 +45,12 @@ namespace UIWPF.ViewModels
 
         public PingStatus PingStatus
         {
-            get { return _pingResultDataModel.PingStatus; }
+            get { return PingResultDataModel.PingStatus; }
             set
             {
-                if (_pingResultDataModel.PingStatus != value)
+                if (PingResultDataModel.PingStatus != value)
                 {
-                    _pingResultDataModel.PingStatus = value;
+                    PingResultDataModel.PingStatus = value;
                     RaisePropertyChanged(nameof(PingStatus));
                 }
             }
@@ -58,12 +58,12 @@ namespace UIWPF.ViewModels
 
         public string? PingResult
         {
-            get { return _pingResultDataModel.PingResult; }
+            get { return PingResultDataModel.PingResult; }
             set
             {
-                if (_pingResultDataModel.PingResult != value)
+                if (PingResultDataModel.PingResult != value)
                 {
-                    _pingResultDataModel.PingResult = value;
+                    PingResultDataModel.PingResult = value;
                     RaisePropertyChanged(nameof(PingResult));
                 }
             }

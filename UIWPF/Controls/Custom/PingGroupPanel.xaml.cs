@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using UIWPF.Commands;
+using UIWPF.ViewModels;
 using VortexPings.Models;
 
 namespace UIWPF.Controls.Custom
@@ -20,7 +21,7 @@ namespace UIWPF.Controls.Custom
     public partial class PingGroupPanel : UserControl
     {
         public static readonly DependencyProperty DataItemsProperty =
-           DependencyProperty.Register("DataItems", typeof(ObservableCollection<NodeGroup>), typeof(PingGroupPanel), new PropertyMetadata(null));
+           DependencyProperty.Register("DataItems", typeof(ObservableCollection<NodeGroupViewModel>), typeof(PingGroupPanel), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ClickedCroupeNodeProperty =
            DependencyProperty.Register("ClickedCroupeNode", typeof(NodeGroup), typeof(PingGroupPanel), new PropertyMetadata(null));
@@ -31,15 +32,15 @@ namespace UIWPF.Controls.Custom
             set { SetValue(ClickedCroupeNodeProperty, value); }
         }
 
-        public ObservableCollection<NodeGroup> DataItems
+        public ObservableCollection<NodeGroupViewModel> DataItems
         {
-            get { return (ObservableCollection<NodeGroup>)GetValue(DataItemsProperty); }
+            get { return (ObservableCollection<NodeGroupViewModel>)GetValue(DataItemsProperty); }
             set { SetValue(DataItemsProperty, value); }
         }
 
         private List<PingGroupButton> _pingGroupButtons = new List<PingGroupButton>();
 
-        private ObservableCollection<NodeGroup> _previousDataItems;
+        private ObservableCollection<NodeGroupViewModel> _previousDataItems;
 
         public static readonly DependencyProperty AddGroupCommandProperty =
         DependencyProperty.Register("AddGroupCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
@@ -172,7 +173,7 @@ namespace UIWPF.Controls.Custom
             RemoveGroup(pingGroupButton);
         }
 
-        private void AddGroupNode(NodeGroup addedItem)
+        private void AddGroupNode(NodeGroupViewModel addedItem)
         {
             if (addedItem == null)
                 return;
