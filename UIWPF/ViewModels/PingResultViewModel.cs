@@ -10,7 +10,7 @@ namespace UIWPF.ViewModels
 {
     public class PingResultDataViewModel:BindableBase
     {
-        public PingResultData PingResultDataModel;
+        public PingResultData PingResultDataModel { get; private set; }
 
         public PingResultDataViewModel(PingResultData pingResultData)
         {

@@ -24,11 +24,11 @@ namespace UIWPF.Controls.Custom
            DependencyProperty.Register("DataItems", typeof(ObservableCollection<NodeGroupViewModel>), typeof(PingGroupPanel), new PropertyMetadata(null));
 
         public static readonly DependencyProperty ClickedCroupeNodeProperty =
-           DependencyProperty.Register("ClickedCroupeNode", typeof(NodeGroup), typeof(PingGroupPanel), new PropertyMetadata(null));
+           DependencyProperty.Register("ClickedCroupeNode", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public NodeGroup ClickedCroupeNode
+        public NodeGroupViewModel ClickedCroupeNode
         {
-            get { return (NodeGroup)GetValue(ClickedCroupeNodeProperty); }
+            get { return (NodeGroupViewModel)GetValue(ClickedCroupeNodeProperty); }
             set { SetValue(ClickedCroupeNodeProperty, value); }
         }
 
@@ -136,7 +136,7 @@ namespace UIWPF.Controls.Custom
                 {
                     foreach (var removedItem in e.OldItems)
                     {
-                        DeleteNodeGroup(removedItem as NodeGroup);
+                        DeleteNodeGroup(removedItem as NodeGroupViewModel);
                     }
                 }
             }
@@ -147,7 +147,7 @@ namespace UIWPF.Controls.Custom
                 {
                     foreach(var addedItem in e.NewItems)
                     {
-                        AddGroupNode(addedItem as NodeGroup);
+                        AddGroupNode(addedItem as NodeGroupViewModel);
                     }
                 }
 
@@ -163,7 +163,7 @@ namespace UIWPF.Controls.Custom
             }
         }
 
-        private void DeleteNodeGroup(NodeGroup nodeGroup)
+        private void DeleteNodeGroup(NodeGroupViewModel nodeGroup)
         {
             if (nodeGroup == null)
                 return;

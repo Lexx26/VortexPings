@@ -8,7 +8,7 @@ using VortexPings.Models;
 
 namespace VortexPings.Factories
 {
-    public class NodeDataFactory : INodeDataFactory
+    public class NodeDataFactory
     {
         public NodeData CreateNodeData(string nodeName, string hostOrIPAddress, int packageSize, int ttl, bool dontFragment, int timeout, int warningTime)
         {

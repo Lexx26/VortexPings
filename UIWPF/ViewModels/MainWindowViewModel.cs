@@ -2,25 +2,31 @@
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
+using System.Security.Policy;
 using System.Windows;
 using System.Windows.Documents;
+using VortexPings.Factories;
 using VortexPings.Models;
 
 namespace UIWPF.ViewModels
 {
     class MainWindowViewModel:BindableBase
     {
-        public MainWindowViewModel()
+        private NodeFactory _nodeFactory;
+        public MainWindowViewModel(NodeFactory nodeFactory)
         {
+            _nodeFactory = nodeFactory;
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
 
-            var groupNodeItem = new NodeGroup();
-            groupNodeItem.Name = "Test";
-            groupNodeItem.Id = 1;
+            var node = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
 
-            var NodeViewModel
+            var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0};
+            nodeGroup.Nodes.Add(node);
 
-            NodeGroups.Add(groupNodeItem);
+            var groupViewModel = new NodeGroupViewModel(nodeGroup);
+
+            NodeGroups.Add(groupViewModel);
         }
 
 
@@ -28,21 +34,22 @@ namespace UIWPF.ViewModels
         public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
 
         
-        public NodeGroup ClikedNodeGroup { get; set; }
+        public NodeGroupViewModel ClikedNodeGroup { get; set; }
 
         #region Commands
         private DelegateCommand _AddGroupCommand;
         public DelegateCommand AddGroupCommand =>
             _AddGroupCommand ?? (_AddGroupCommand = new DelegateCommand(AddGroupCommandExecute, CanExecuteAddGroupCommand));
 
-        private int Counter = 0;
+        private int _Counter = 0;
         void AddGroupCommandExecute()
         {
             var groupNodeItem = new NodeGroup();
-            groupNodeItem.Name = "Test"+Counter++;
-            groupNodeItem.Id = 2;
+            groupNodeItem.Name = " New Test №"+_Counter++;
+            groupNodeItem.Id = _Counter;
 
-            NodeGroups.Add(groupNodeItem);
+            var groupViewModel = new NodeGroupViewModel(groupNodeItem);
+            NodeGroups.Add(groupViewModel);
 
 
         }
@@ -91,17 +98,7 @@ namespace UIWPF.ViewModels
 
         void GroupCommandExecute()
         {
-            NodeGroups.Clear();
-
-            var groupNodeItem = new NodeGroup();
-            groupNodeItem.Name = "Test33333";
-            groupNodeItem.Id = 3;
-
-            var groupNodeItem2 = new NodeGroup();
-            groupNodeItem2.Name = "Test333444";
-            groupNodeItem2.Id = 3;
-
-            NodeGroups.AddRange(new NodeGroup[] { groupNodeItem, groupNodeItem2 });
+            MessageBox.Show("You clicked "+ ClikedNodeGroup.Name);
 
         }
 

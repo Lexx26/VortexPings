@@ -24,11 +24,11 @@ namespace UIWPF.Controls.Custom
     public partial class PingGroupButton : UserControl
     {
         public static readonly DependencyProperty GroupItemProperty =
-          DependencyProperty.Register("GroupItem", typeof(NodeGroup), typeof(PingGroupPanel), new PropertyMetadata(null));
+          DependencyProperty.Register("GroupItem", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
 
         public NodeGroupViewModel NodeGroupItem
         {
-            get { return (NodeGroup)GetValue(GroupItemProperty); }
+            get { return (NodeGroupViewModel)GetValue(GroupItemProperty); }
             set { SetValue(GroupItemProperty, value); SetGroupName(); }
         }
 

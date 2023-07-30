@@ -11,7 +11,7 @@ namespace UIWPF.ViewModels
 {
     public class NodeDataViewModel:BindableBase
     {
-        public NodeData NodeDataModel;
+        public NodeData NodeDataModel { get; private set; }
 
         public NodeDataViewModel(NodeData nodeData)
         {

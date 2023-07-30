@@ -33,7 +33,7 @@ namespace VortexPings.Factories
 
         public Node CreateNodeWithDefaultValue(string nodeName, string hostOrIPAddress)
         {
-            var nodeData = _nodeDataFactory.CreateNodeData(nodeName, hostOrIPAddress, 32, 54, false, 2000, 200);
+            var nodeData = _nodeDataFactory.CreateNodeDataDefaultValue(nodeName, hostOrIPAddress);
 
             var node = new Node
             {

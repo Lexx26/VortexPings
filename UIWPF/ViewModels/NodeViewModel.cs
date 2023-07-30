@@ -30,7 +30,7 @@ namespace UIWPF.ViewModels
             set { SetProperty(ref _order, value);}
         }
 
-        public Node Node;
+        public Node Node { get; private set; }
         public NodeViewModel(Node node)
         {
             Node = node;

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using UIWPF.Views;
+using VortexPings.Factories;
 
 namespace UIWPF
 {
@@ -20,6 +21,8 @@ namespace UIWPF
     {
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<NodeDataFactory, NodeDataFactory>();
+            containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
 
         }
 
