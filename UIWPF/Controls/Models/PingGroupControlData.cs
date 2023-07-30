@@ -11,7 +11,7 @@ using VortexPings.Models;
 
 namespace UIWPF.Controls.Models
 {
-    internal class PingGroupControlData
+    public class PingGroupControlData
     {
         public NodeGroupViewModel NodeGroupViewModel { get; private set; }
         public PingGroupControlData(NodeGroupViewModel nodeGroupViewModel, PingGroupPanel parentPingGroupPanel, UIElement controlToStorePingNodeButtons)
