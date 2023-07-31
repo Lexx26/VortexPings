@@ -24,13 +24,13 @@ namespace UIWPF.Controls.Custom
         public static readonly DependencyProperty DataItemsProperty =
            DependencyProperty.Register("DataItems", typeof(ObservableCollection<NodeGroupViewModel>), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty ClickedCroupeNodeProperty =
-           DependencyProperty.Register("ClickedCroupeNode", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
+        public static readonly DependencyProperty ClickedGroupNodeProperty =
+           DependencyProperty.Register("ClickedGroupNode", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public NodeGroupViewModel ClickedCroupeNode
+        public NodeGroupViewModel ClickedGroupNode
         {
-            get { return (NodeGroupViewModel)GetValue(ClickedCroupeNodeProperty); }
-            set { SetValue(ClickedCroupeNodeProperty, value); }
+            get { return (NodeGroupViewModel)GetValue(ClickedGroupNodeProperty); }
+            set { SetValue(ClickedGroupNodeProperty, value); }
         }
 
         public ObservableCollection<NodeGroupViewModel> DataItems

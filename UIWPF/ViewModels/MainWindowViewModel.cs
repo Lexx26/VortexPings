@@ -38,7 +38,7 @@ namespace UIWPF.ViewModels
         public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
 
         
-        public NodeGroupViewModel ClikedNodeGroup { get; set; }
+        public NodeGroupViewModel ClikedNodeGroup1 { get; set; }
 
         #region Commands
         private DelegateCommand _AddGroupCommand;
@@ -70,7 +70,7 @@ namespace UIWPF.ViewModels
 
         void DeleteGroupCommandExecute()
         {
-            NodeGroups.Remove(ClikedNodeGroup);
+            NodeGroups.Remove(ClikedNodeGroup1);
         }
 
         bool CanExecuteDeleteGroupCommand()
@@ -88,9 +88,9 @@ namespace UIWPF.ViewModels
             
             var node = _nodeFactory.CreateNodeWithDefaultValue("SuperNew", "localhost");
             var nodeViewModel = new NodeViewModel(node);
-            if (ClikedNodeGroup.Nodes == null)
-                ClikedNodeGroup.Nodes = new ObservableCollection<NodeViewModel>();
-            ClikedNodeGroup.Nodes.Add(nodeViewModel);
+            if (ClikedNodeGroup1.Nodes == null)
+                ClikedNodeGroup1.Nodes = new ObservableCollection<NodeViewModel>();
+            ClikedNodeGroup1.Nodes.Add(nodeViewModel);
 
         }
 
@@ -106,8 +106,8 @@ namespace UIWPF.ViewModels
 
         void GroupCommandExecute()
         {
-            MessageBox.Show("You clicked "+ ClikedNodeGroup.Name);
-            ClikedNodeGroup.Nodes = null;
+            MessageBox.Show("You clicked "+ ClikedNodeGroup1.Name);
+            ClikedNodeGroup1.Nodes = null;
         }
 
         bool CanExecuteGroupCommand()

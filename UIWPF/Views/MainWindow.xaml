@@ -31,7 +31,7 @@
 
             </Menu>
             <Grid>
-                <localC:PingGroupPanel DataItems="{Binding NodeGroups}" ClickedCroupeNode="{Binding ClikedNodeGroup, Mode=TwoWay}"
+                <localC:PingGroupPanel DataItems="{Binding NodeGroups}" ClickedGroupNode="{Binding ClikedNodeGroup1, Mode=TwoWay}"
                                        AddGroupCommand="{Binding AddGroupCommand}" 
                                        DeleteGroupCommand="{Binding DeleteGroupCommand}" 
                                        EditGroupCommand="{Binding EditGroupCommand}"
