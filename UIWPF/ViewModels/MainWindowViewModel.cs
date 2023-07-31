@@ -38,7 +38,9 @@ namespace UIWPF.ViewModels
         public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
 
         
-        public NodeGroupViewModel ClikedNodeGroup1 { get; set; }
+        public NodeGroupViewModel ClikedNodeGroup { get; set; }
+
+        public NodeViewModel ClikedNode { get; set; }
 
         #region Commands
         private DelegateCommand _AddGroupCommand;
@@ -70,7 +72,7 @@ namespace UIWPF.ViewModels
 
         void DeleteGroupCommandExecute()
         {
-            NodeGroups.Remove(ClikedNodeGroup1);
+            NodeGroups.Remove(ClikedNodeGroup);
         }
 
         bool CanExecuteDeleteGroupCommand()
@@ -88,9 +90,9 @@ namespace UIWPF.ViewModels
             
             var node = _nodeFactory.CreateNodeWithDefaultValue("SuperNew", "localhost");
             var nodeViewModel = new NodeViewModel(node);
-            if (ClikedNodeGroup1.Nodes == null)
-                ClikedNodeGroup1.Nodes = new ObservableCollection<NodeViewModel>();
-            ClikedNodeGroup1.Nodes.Add(nodeViewModel);
+            if (ClikedNodeGroup.Nodes == null)
+                ClikedNodeGroup.Nodes = new ObservableCollection<NodeViewModel>();
+            ClikedNodeGroup.Nodes.Add(nodeViewModel);
 
         }
 
@@ -106,13 +108,26 @@ namespace UIWPF.ViewModels
 
         void GroupCommandExecute()
         {
-            MessageBox.Show("You clicked "+ ClikedNodeGroup1.Name);
-            ClikedNodeGroup1.Nodes = null;
+            MessageBox.Show("You clicked "+ ClikedNodeGroup.Name);
+            ClikedNodeGroup.Nodes = null;
         }
 
         bool CanExecuteGroupCommand()
         {
             return true;
+        }
+
+
+        private DelegateCommand _NodeCommand;
+        public DelegateCommand NodeCommand =>
+            _NodeCommand ?? (_NodeCommand = new DelegateCommand(ExecuteCommandName));
+
+        void ExecuteCommandName()
+        {
+            MessageBox.Show("You clicked node" + ClikedNode.NodeDataViewModel.NodeName);
+            ClikedNode.NodeDataViewModel.NodeName = "1112";
+            ClikedNode.PingResultData.LastRoundTripTime = 25;
+            ClikedNode.PingResultData.PingResult = "TimeOut";
         }
         #endregion
     }

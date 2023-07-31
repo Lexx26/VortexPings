@@ -132,7 +132,7 @@ namespace UIWPF.Controls.Models
 
         private void AddNode(NodeViewModel node)
         {
-            var nodeButton = new PingNodeButton(node);
+            var nodeButton = new PingNodeButton(node, ParentPingGroupPanel);
             NodesWrapPanel.Children.Add(nodeButton);
 
             PingNodeButtons.Add(nodeButton);

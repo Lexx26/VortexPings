@@ -11,7 +11,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Name="PingNodeButtonMain" Grid.Row="0">
+            <Button Name="PingNodeButtonMain" Grid.Row="0" Click="PingNodeButtonMain_Click">
                 <Grid Margin="-1" Height="{Binding ElementName=PingNodeButtonMain, Path=ActualHeight}" Width="auto">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>
@@ -20,7 +20,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock  x:Name="NodeName" Text="none" TextWrapping="Wrap" Margin="2" HorizontalAlignment="Center" FontSize="14" Grid.Row="0"  ></TextBlock>
                     <TextBlock  x:Name="PingResultMs" Text="0"  HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center" Grid.Row="1"/>
-                    <TextBlock  Margin="4" x:Name="PingResult" Text="192.168.1.0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2"/>
+                    <TextBlock  Margin="4" x:Name="PingResult" Text="0.0.0.0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2"/>
                 </Grid>
             </Button>
             

@@ -27,6 +27,14 @@ namespace UIWPF.Controls.Custom
         public static readonly DependencyProperty ClickedGroupNodeProperty =
            DependencyProperty.Register("ClickedGroupNode", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
 
+        public static readonly DependencyProperty ClickedNodeProperty =
+            DependencyProperty.Register("ClickedNode", typeof(NodeViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
+
+        public NodeViewModel ClickedNode
+        {
+            get { return (NodeViewModel)GetValue(ClickedNodeProperty); }
+            set { SetValue(ClickedNodeProperty, value); }
+        }
         public NodeGroupViewModel ClickedGroupNode
         {
             get { return (NodeGroupViewModel)GetValue(ClickedGroupNodeProperty); }
@@ -42,6 +50,16 @@ namespace UIWPF.Controls.Custom
         private List<PingGroupController> _GroupsControls = new List<PingGroupController>();
 
         private ObservableCollection<NodeGroupViewModel> _previousDataItems;
+
+        #region Commands
+        public static readonly DependencyProperty NodeCommandPropert =
+            DependencyProperty.Register("NodeCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
+
+        public ICommand NodeCommand
+        {
+            get { return (ICommand)GetValue(NodeCommandPropert); }
+            set { SetValue(NodeCommandPropert, value); }
+        }
 
         public static readonly DependencyProperty AddGroupCommandProperty =
         DependencyProperty.Register("AddGroupCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
@@ -99,7 +117,7 @@ namespace UIWPF.Controls.Custom
         {
 
         }
-
+        #endregion
         public PingGroupPanel()
         {
             InitializeComponent();

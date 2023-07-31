@@ -14,7 +14,10 @@ namespace UIWPF.ViewModels
 
         public PingResultDataViewModel(PingResultData pingResultData)
         {
-            PingResultDataModel = pingResultData;
+            if (pingResultData != null)
+                PingResultDataModel = pingResultData;
+            else
+                PingResultDataModel = new PingResultData();
         }
 
         public string? ResponseAdress
