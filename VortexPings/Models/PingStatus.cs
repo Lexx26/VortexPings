@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace VortexPings.Models
 {
     public enum PingStatus
-    {
-        Green = 0,
-        Yellow = 1,
-        Red = 2
+    {   Stoped=0,
+        Green = 1,
+        Yellow = 2,
+        Red = 3
     }
 }
