@@ -85,9 +85,13 @@ namespace UIWPF.ViewModels
 
         void EditGroupCommandExecute()
         {
-            MessageBox.Show($"EditCommand for Groupe {ClikedNodeGroup.Name}");
+            
+            var node = _nodeFactory.CreateNodeWithDefaultValue("SuperNew", "localhost");
+            var nodeViewModel = new NodeViewModel(node);
+            if (ClikedNodeGroup.Nodes == null)
+                ClikedNodeGroup.Nodes = new ObservableCollection<NodeViewModel>();
+            ClikedNodeGroup.Nodes.Add(nodeViewModel);
 
-            ClikedNodeGroup.Name = "dfffsdf";
         }
 
         bool CanExecuteEditGroupCommand()
@@ -103,7 +107,7 @@ namespace UIWPF.ViewModels
         void GroupCommandExecute()
         {
             MessageBox.Show("You clicked "+ ClikedNodeGroup.Name);
-
+            ClikedNodeGroup.Nodes = null;
         }
 
         bool CanExecuteGroupCommand()

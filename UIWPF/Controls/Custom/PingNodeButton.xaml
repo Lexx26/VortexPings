@@ -6,12 +6,23 @@
              xmlns:local="clr-namespace:UIWPF.Controls.Custom"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200">
-    <Grid VerticalAlignment="Stretch" Height="150" Width="150" >
+    <Grid VerticalAlignment="Stretch" Height="100" Width="150" >
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Content="Node" Grid.Row="0"></Button>
+            <Button Name="PingNodeButtonMain" Grid.Row="0">
+                <Grid Margin="-1" Height="{Binding ElementName=PingNodeButtonMain, Path=ActualHeight}" Width="auto">
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock  x:Name="NodeName" Text="none" TextWrapping="Wrap" Margin="2" HorizontalAlignment="Center" FontSize="14" Grid.Row="0"  ></TextBlock>
+                    <TextBlock  x:Name="PingResultMs" Text="0"  HorizontalAlignment="Center" FontSize="14" VerticalAlignment="Center" Grid.Row="1"/>
+                    <TextBlock  Margin="4" x:Name="PingResult" Text="192.168.1.0" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="2"/>
+                </Grid>
+            </Button>
             
         </Grid>
     </Grid>

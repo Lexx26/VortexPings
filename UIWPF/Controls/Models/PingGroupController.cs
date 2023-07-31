@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,9 @@ namespace UIWPF.Controls.Models
     public class PingGroupController
     {
         public NodeGroupViewModel NodeGroupViewModel { get; private set; }
+
+
+        private ObservableCollection<NodeViewModel> _previosNodes;
         public PingGroupController(NodeGroupViewModel nodeGroupViewModel, PingGroupPanel parentPingGroupPanel)
         {
             NodeGroupViewModel = nodeGroupViewModel;
@@ -23,12 +27,69 @@ namespace UIWPF.Controls.Models
             AddGroupButton();
             AddWarpPanel();
             AddNodes();
+
+            _previosNodes = NodeGroupViewModel.Nodes;
+            NodeGroupViewModel.PropertyChanged += NodeGroupViewModel_PropertyChanged;
+            SubscribeNodesChange();
+        }
+
+        private void NodeGroupViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName=="Nodes")
+            {
+                UnsubscribeNodesChange();
+                RemoveAllPingNodes();
+                if(NodeGroupViewModel.Nodes!=null)
+                {
+                    AddNodes();
+                    SubscribeNodesChange();
+                    _previosNodes = NodeGroupViewModel.Nodes;
+                }
+            }
+        }
+
+        private void UnsubscribeNodesChange()
+        {
+            if(_previosNodes!=null)
+            {
+                _previosNodes.CollectionChanged -= Nodes_CollectionChanged;
+            }
+        }
+
+        private void SubscribeNodesChange()
+        {
+            if(NodeGroupViewModel.Nodes!=null)
+            NodeGroupViewModel.Nodes.CollectionChanged += Nodes_CollectionChanged;
+        }
+
+        private void Nodes_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (NodeViewModel newNode in e.NewItems)
+                {
+                    AddNode(newNode);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (NodeViewModel removedNode in e.OldItems)
+                {
+                    var pingNodeButton = PingNodeButtons.FirstOrDefault(t => t.NodeViewModel == removedNode);
+                    if(pingNodeButton!=null)
+                    RemoveNode(pingNodeButton);
+                }
+            }
+            else if(e.Action==NotifyCollectionChangedAction.Reset)
+            {
+                RemoveAllPingNodes();
+            }
         }
 
         private void AddGroupButton()
         {
             var newRow = new RowDefinition();
-            newRow.Height = new GridLength(150);
+            newRow.MinHeight = 100;
             ParentPingGroupPanel.GroupGrid.RowDefinitions.Add(newRow);
 
             var newButton = new PingGroupButton();
@@ -37,7 +98,10 @@ namespace UIWPF.Controls.Models
             newButton.NodeGroupItem = NodeGroupViewModel;
             Grid.SetColumn(newButton, 0);
             Grid.SetRow(newButton, ParentPingGroupPanel.GroupGrid.RowDefinitions.Count - 1);
+            var dockPanel = new DockPanel();
+
             ParentPingGroupPanel.GroupGrid.Children.Add(newButton);
+
             PingGroupButtonControl = newButton;
         }
 
@@ -80,17 +144,18 @@ namespace UIWPF.Controls.Models
             {
                 var pingNodeButton = PingNodeButtons.FirstOrDefault();
                 RemoveNode(pingNodeButton);
-                PingNodeButtons.Remove(pingNodeButton);
+               
             }
         }
 
         public void RemoveNode(PingNodeButton pingNodeButton)
         {
             NodesWrapPanel.Children.Remove(pingNodeButton);
-            pingNodeButton.Destroy();
+            pingNodeButton.DestroyControl();
+            PingNodeButtons.Remove(pingNodeButton);
         }
 
-        public void Destroy()
+        public void DestroyControls()
         {
             int rowIndex = Grid.GetRow(PingGroupButtonControl);
             if (rowIndex != -1)
@@ -102,9 +167,11 @@ namespace UIWPF.Controls.Models
                 RebuildRowIndex(rowIndex);
             }
 
-            PingGroupButtonControl.Destroy();
+            PingGroupButtonControl.Dispose();
             RemoveAllPingNodes();
             ParentPingGroupPanel.GroupGrid.Children.Remove(NodesWrapPanel);
+            UnsubscribeNodesChange();
+            NodeGroupViewModel.PropertyChanged -= NodeGroupViewModel_PropertyChanged;
         }
 
         private void RebuildRowIndex(int rowIndex)

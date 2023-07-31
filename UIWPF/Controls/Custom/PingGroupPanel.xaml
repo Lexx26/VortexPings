@@ -8,12 +8,12 @@
              x:Name="PingGroupPanel1"
              d:DesignHeight="450" d:DesignWidth="800">
    
-        <DockPanel HorizontalAlignment="Stretch">
+        <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
             <Button DockPanel.Dock="Top" Content="Add group" Grid.ColumnSpan="2" Click="AddGroup_Click" />
             <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="GroupGrid" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="150"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 

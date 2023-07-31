@@ -222,7 +222,7 @@ namespace UIWPF.Controls.Custom
 
         public void RemovePingGroupController(PingGroupController groupControls)
         {
-            groupControls.Destroy();
+            groupControls.DestroyControls();
             _GroupsControls.Remove(groupControls);
           
         }

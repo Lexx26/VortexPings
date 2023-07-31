@@ -80,7 +80,7 @@ namespace UIWPF.Controls.Custom
 
         }
 
-        public void Destroy()
+        public void Dispose()
         {
             Unbind();
         }
