@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UIWPF.ViewModels;
 using VortexPings.Models;
 
 namespace UIWPF.Controls.Custom
@@ -25,13 +26,29 @@ namespace UIWPF.Controls.Custom
     /// </summary>
     public partial class PingNodeButton : UserControl
     {
+        private NodeViewModel _nodeViewModel;
 
-        public PingNodeButton()
+        public NodeViewModel NodeViewModel { get { return _nodeViewModel; } private set { _nodeViewModel = value; } }
+
+        public PingNodeButton(NodeViewModel nodeViewModel)
         {
-           
+            NodeViewModel = nodeViewModel;
             InitializeComponent();
         }
 
-       
+        private void BindData()
+        {
+
+        }
+
+        private void Unbind()
+        {
+
+        }
+
+       public void Destroy()
+        {
+
+        }
     }
 }

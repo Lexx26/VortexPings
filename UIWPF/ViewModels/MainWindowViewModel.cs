@@ -24,7 +24,11 @@ namespace UIWPF.ViewModels
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0};
             nodeGroup.Nodes.Add(node);
 
-            var groupViewModel = new NodeGroupViewModel(nodeGroup);
+            var node1 = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
+
+            nodeGroup.Nodes.Add(node1);
+
+             var groupViewModel = new NodeGroupViewModel(nodeGroup);
 
             NodeGroups.Add(groupViewModel);
         }

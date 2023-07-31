@@ -6,19 +6,13 @@
              xmlns:local="clr-namespace:UIWPF.Controls.Custom"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200">
-    <DockPanel HorizontalAlignment="Stretch">
-        <Grid DockPanel.Dock="Top">
+    <Grid VerticalAlignment="Stretch" Height="150" Width="150" >
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition Height="30"></RowDefinition>
-                <RowDefinition Height="20" ></RowDefinition>
+                <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
             <Button Content="Node" Grid.Row="0"></Button>
-            <Button Content="Ping" Grid.Row="1"></Button>
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Button Width="100" Content="Delete"></Button>
-                <Button Width="100" Content="Edit"></Button>
-            </StackPanel>
+            
         </Grid>
-    </DockPanel>
+    </Grid>
 </UserControl>

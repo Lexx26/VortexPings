@@ -24,22 +24,34 @@ namespace UIWPF.Controls.Custom
     public partial class PingGroupButton : UserControl
     {
         public static readonly DependencyProperty GroupItemProperty =
-          DependencyProperty.Register("GroupItem", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
+          DependencyProperty.Register("NodeGroupItem", typeof(NodeGroupViewModel), typeof(PingGroupPanel), new PropertyMetadata(null));
 
         public NodeGroupViewModel NodeGroupItem
         {
             get { return (NodeGroupViewModel)GetValue(GroupItemProperty); }
-            set { SetValue(GroupItemProperty, value); SetGroupName(); }
+            set {Unbind() ; SetValue(GroupItemProperty, value); BindData(); }
+        }
+
+        private void BindData()
+        {
+            Binding binding = new Binding("NodeGroupItem.Name");
+            binding.Source = this;
+            binding.Mode = BindingMode.OneWay;
+            this.GroupName.SetBinding(TextBlock.TextProperty, binding);
+        }
+
+        private void Unbind()
+        {
+            if (NodeGroupItem == null)
+                return;
+
+            BindingOperations.ClearAllBindings(this);
+
         }
 
         public PingGroupPanel ParentPingGroupPanel { get; set; }
 
-        private void SetGroupName()
-        {
-            this.GroupName.Text = NodeGroupItem.Name;
-        }
-
-
+        
         public PingGroupButton()
         {
             InitializeComponent();
@@ -57,7 +69,7 @@ namespace UIWPF.Controls.Custom
             ParentPingGroupPanel.ClickedCroupeNode = NodeGroupItem;
             if(ParentPingGroupPanel.EditGroupCommand!=null)
             ParentPingGroupPanel.EditGroupCommand.Execute(null);
-            SetGroupName();
+            
         }
 
         private void GroupButton_Click(object sender, RoutedEventArgs e)
@@ -66,6 +78,11 @@ namespace UIWPF.Controls.Custom
             if (ParentPingGroupPanel.GroupCommand != null)
                 ParentPingGroupPanel.GroupCommand.Execute(null);
 
+        }
+
+        public void Destroy()
+        {
+            Unbind();
         }
     }
 }

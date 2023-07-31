@@ -39,7 +39,7 @@ namespace UIWPF.Controls.Custom
             set { SetValue(DataItemsProperty, value); }
         }
 
-        private List<PingGroupControlData> _GroupsControls = new List<PingGroupControlData>();
+        private List<PingGroupController> _GroupsControls = new List<PingGroupController>();
 
         private ObservableCollection<NodeGroupViewModel> _previousDataItems;
 
@@ -155,8 +155,8 @@ namespace UIWPF.Controls.Custom
             {
                 while(_GroupsControls.Count>0)
                 {
-                    var pingGroupButton = _GroupsControls.FirstOrDefault();
-                    RemoveGroup(pingGroupButton);
+                    var pingGroupController = _GroupsControls.FirstOrDefault();
+                    RemovePingGroupController(pingGroupController);
                 }
             }
         }
@@ -166,29 +166,18 @@ namespace UIWPF.Controls.Custom
             if (nodeGroup == null)
                 return;
 
-            var pingGroupButton = _GroupsControls.FirstOrDefault(t => t.NodeGroupItem == nodeGroup);
-            if (pingGroupButton != null) ;
-            RemoveGroup(pingGroupButton);
+            var pingGroupController = _GroupsControls.FirstOrDefault(t => t.NodeGroupViewModel == nodeGroup);
+            if (pingGroupController != null) ;
+            RemovePingGroupController(pingGroupController);
         }
 
         private void AddGroupNode(NodeGroupViewModel addedItem)
         {
             if (addedItem == null)
                 return;
-            
-            // Создание новой строки и кнопки внутри грида
-            var newRow = new RowDefinition();
-            newRow.Height = new GridLength(100);
-            GroupGrid.RowDefinitions.Add(newRow);
 
-            var newButton = new PingGroupButton();
-
-            newButton.NodeGroupItem = addedItem;
-            newButton.ParentPingGroupPanel = this;
-            _GroupsControls.Add(newButton);
-            Grid.SetColumn(newButton,0);
-            Grid.SetRow(newButton, GroupGrid.RowDefinitions.Count - 1); // Устанавливаем новую кнопку в новую строку
-            GroupGrid.Children.Add(newButton);
+            var pingGroup = new PingGroupController(addedItem, this);
+            _GroupsControls.Add(pingGroup);
 
         }
 
@@ -218,7 +207,7 @@ namespace UIWPF.Controls.Custom
         {
             while (_GroupsControls.Count>0)
             {
-                RemoveGroup(_GroupsControls.First()); 
+                RemovePingGroupController(_GroupsControls.First()); 
             }
         }
 
@@ -231,39 +220,14 @@ namespace UIWPF.Controls.Custom
 
         }
 
-        public void RemoveGroup(PingGroupControlData groupControls)
+        public void RemovePingGroupController(PingGroupController groupControls)
         {
-            _GroupsControls.Remove(pingGroupButton);
-            int rowIndex = Grid.GetRow(pingGroupButton);
-
-            // Если строка найдена, то удаляем ее и кнопку из Grid
-            if (rowIndex != -1)
-            {
-                GroupGrid.RowDefinitions.RemoveAt(rowIndex);
-
-                // Также удаляем кнопку из коллекции Children
-                GroupGrid.Children.Remove(pingGroupButton);
-
-
-                // Обновляем индексы всех остальных кнопок в Grid
-                RebuildRowIndex(rowIndex);
-            }
+            groupControls.Destroy();
+            _GroupsControls.Remove(groupControls);
           
         }
 
-        private void RebuildRowIndex(int rowIndex)
-        {
-            for (int i = rowIndex; i < GroupGrid.RowDefinitions.Count; i++)
-            {
-                foreach (UIElement child in GroupGrid.Children)
-                {
-                    if (Grid.GetRow(child) == i + 1)
-                    {
-                        Grid.SetRow(child, i);
-                    }
-                }
-            }
-        }
+      
 
 
         
