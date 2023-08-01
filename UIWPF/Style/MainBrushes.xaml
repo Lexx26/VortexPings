@@ -21,5 +21,53 @@
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="RedBrush" Color="{StaticResource Red}"></SolidColorBrush>
-    
+
+    <DrawingBrush x:Key="GridBrush" Stretch="None" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{StaticResource Border}" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <!-- Горизонтальные линии -->
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="0,0" EndPoint="10,0" />
+                            <LineGeometry StartPoint="0,1" EndPoint="10,1" />
+                            <LineGeometry StartPoint="0,2" EndPoint="10,2" />
+                            <LineGeometry StartPoint="0,3" EndPoint="10,3" />
+                            <LineGeometry StartPoint="0,4" EndPoint="10,4" />
+                            <LineGeometry StartPoint="0,5" EndPoint="10,5" />
+                            <LineGeometry StartPoint="0,6" EndPoint="10,6" />
+                            <LineGeometry StartPoint="0,7" EndPoint="10,7" />
+                            <LineGeometry StartPoint="0,8" EndPoint="10,8" />
+                            <LineGeometry StartPoint="0,9" EndPoint="10,9" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+
+                <GeometryDrawing Brush="Transparent">
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{StaticResource BackgroundNoOpacity}" Thickness="1" />
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <!-- Вертикальные линии -->
+                        <GeometryGroup>
+                            <LineGeometry StartPoint="0,0" EndPoint="0,10" />
+                            <LineGeometry StartPoint="1,0" EndPoint="1,10" />
+                            <LineGeometry StartPoint="2,0" EndPoint="2,10" />
+                            <LineGeometry StartPoint="3,0" EndPoint="3,10" />
+                            <LineGeometry StartPoint="4,0" EndPoint="4,10" />
+                            <LineGeometry StartPoint="5,0" EndPoint="5,10" />
+                            <LineGeometry StartPoint="6,0" EndPoint="6,10" />
+                            <LineGeometry StartPoint="7,0" EndPoint="7,10" />
+                            <LineGeometry StartPoint="8,0" EndPoint="8,10" />
+                            <LineGeometry StartPoint="9,0" EndPoint="9,10" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
 </ResourceDictionary>

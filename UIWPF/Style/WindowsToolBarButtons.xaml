@@ -5,12 +5,10 @@
     
     <Style x:Key="SWButtonMinimize" TargetType="{x:Type Button}">
         <Setter Property="Content" Value="_"></Setter>
-        <Setter Property="Width" Value="30"></Setter>
-        <Setter Property="Height" Value="20"></Setter>
         <Setter Property="Background" Value="{StaticResource BackgroundColor}"></Setter>
         <Setter Property="BorderBrush" Value="{StaticResource Border}"></Setter>
         <Setter Property="Foreground" Value="{StaticResource Foreground}"></Setter>
-        <Setter Property="Margin" Value="1,-1,1,1"></Setter>
+        <Setter Property="Margin" Value="1,1,1,1"></Setter>
         <Setter Property="Command" Value="{Binding MinimizeWindowCommand, RelativeSource={RelativeSource AncestorType={x:Type local:WindowSizebleBase}}}" />
         <Setter Property="Template">
             <Setter.Value>

@@ -31,7 +31,7 @@
                 </MenuItem>
 
             </Menu>
-            <Grid>
+            <Grid Background="{StaticResource GridBrush}">
                 <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
             </Grid>
         </DockPanel>

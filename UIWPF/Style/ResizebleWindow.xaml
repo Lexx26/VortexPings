@@ -23,9 +23,9 @@
                             </Grid.RowDefinitions>
                             <Rectangle x:Name="TitleBar"  Fill="{StaticResource WindowToolBarBrush}" Height="25" Grid.Row="0"></Rectangle>
                             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" >
-                                <Button Style="{DynamicResource SWButtonMinimize}" x:Name="MinButton"></Button>
-                                <Button Style="{DynamicResource SWButtonExpand}" x:Name="MaxButton"></Button>
-                                <Button Style="{DynamicResource SWButtonClose}" x:Name="CloseButton" ></Button>
+                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonMinimize}" x:Name="MinButton"></Button>
+                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonExpand}" x:Name="MaxButton"></Button>
+                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonClose}" x:Name="CloseButton" ></Button>
                             </StackPanel>
                             <AdornerDecorator Grid.Row="1">
                                 <ContentPresenter Grid.Column="0" Grid.Row="1" ></ContentPresenter>
