@@ -2,12 +2,17 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--DefaultColors-->
 
-    <Color x:Key="MainBlack">#FF0A1214</Color>
+    <Color x:Key="Background.Black">#FF0A1214</Color>
+    <Color x:Key="Background.ColorFill">#FF153726</Color>
+    <Color x:Key="Background.MouseOver">#FF196363</Color>
 
-    <Color x:Key="BorderFont">#FF5F8F8A</Color>
+    <Color x:Key="Foreground">#FF8EE4B2</Color>
+    <Color x:Key="Foreground.Border">#FF335D5D</Color>
+    
+    <Color x:Key="Disabled.Background">#FF292929</Color>
+    <Color x:Key="Disabled.Border">#FF3C4040</Color>
+    <Color x:Key="Disabled.Foreground">#FF555555</Color>
 
-    <Color x:Key="BorderFontInFocus">#FF6AD1C6</Color>
-
-
+    <Color x:Key="Red">#FFAA3B3B</Color>
 
 </ResourceDictionary>

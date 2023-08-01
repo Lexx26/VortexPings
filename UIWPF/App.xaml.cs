@@ -24,6 +24,7 @@ namespace UIWPF
             containerRegistry.RegisterSingleton<NodeDataFactory, NodeDataFactory>();
             containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
 
+            containerRegistry.RegisterForNavigation<PingGridView>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

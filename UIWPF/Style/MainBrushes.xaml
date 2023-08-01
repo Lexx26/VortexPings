@@ -1,12 +1,25 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="BackGroundOpacity" Opacity="0.9" Color="{StaticResource MainBlack}"/>
+    <SolidColorBrush x:Key="BackgroundOpacity" Opacity="0.9" Color="{StaticResource Background.Black}"/>
+    <SolidColorBrush x:Key="BackgroundNoOpacity" Opacity="1" Color="{StaticResource Background.Black}"/>
+    <SolidColorBrush x:Key="BackgroundColor" Color="{StaticResource Background.ColorFill}" />
+    <SolidColorBrush x:Key="Background.MouseOver" Color="{StaticResource Background.MouseOver}"/>
+    <SolidColorBrush x:Key="Background.Pressed" Color="{StaticResource Background.ColorFill}"/>
+    <SolidColorBrush x:Key="Background.Disabled" Color="{StaticResource Disabled.Background}" />
 
-    <SolidColorBrush x:Key="BackGroundNoOpacity" Opacity="1" Color="{StaticResource MainBlack}"/>
 
-    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderFont}"/>
+    <SolidColorBrush x:Key="Border" Color="{StaticResource Foreground.Border}"/>
+    <SolidColorBrush x:Key="Border.MouseOver" Color="{StaticResource Foreground}"/>
+    <SolidColorBrush x:Key="Border.Disabled" Color="{StaticResource Disabled.Border}" />
 
-    <SolidColorBrush x:Key="WindowToolBarBrush" Color="{StaticResource BorderFont}"/>
+    <SolidColorBrush x:Key="Foreground" Color="{StaticResource Foreground}" />
+    <SolidColorBrush x:Key="Foreground.Disabled" Color="{StaticResource Disabled.Foreground}" />
 
+    <LinearGradientBrush x:Key="WindowToolBarBrush">
+        <GradientStop Color="{StaticResource Background.ColorFill}" Offset="1"/>
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="RedBrush" Color="{StaticResource Red}"></SolidColorBrush>
+    
 </ResourceDictionary>

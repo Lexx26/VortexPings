@@ -4,13 +4,13 @@
         <Setter Property="WindowStyle" Value="None"></Setter>
         <Setter Property="AllowsTransparency" Value="True"></Setter>
 
-        <Setter Property="Background" Value="{StaticResource BackGroundNoOpacity}" />
+        <Setter Property="Background" Value="{StaticResource BackgroundNoOpacity}" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border BorderBrush="{StaticResource BorderBrush}" BorderThickness="1">
-                        <Grid ShowGridLines="False" Background="{StaticResource BackGroundNoOpacity}">
+                    <Border BorderBrush="{StaticResource Border}" BorderThickness="1">
+                        <Grid ShowGridLines="False" Background="{StaticResource BackgroundNoOpacity}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
