@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:UIWPF.Views"
         xmlns:vm="clr-namespace:UIWPF.ViewModels"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        xmlns:localC="clr-namespace:UIWPF.Controls.Custom"
+        
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel, IsDesignTimeCreatable=True}"
         Title="MainWindow" Height="450" Width="800">
@@ -31,16 +31,7 @@
 
             </Menu>
             <Grid>
-                <localC:PingGroupPanel DataItems="{Binding NodeGroups}" ClickedGroupNode="{Binding ClikedNodeGroup, Mode=TwoWay}"
-                                       AddGroupCommand="{Binding AddGroupCommand}" 
-                                       DeleteGroupCommand="{Binding DeleteGroupCommand}" 
-                                       EditGroupCommand="{Binding EditGroupCommand}"
-                                       GroupCommand="{Binding GroupCommand}"
-                                       NodeCommand="{Binding NodeCommand}"
-                                       ClickedNode="{Binding ClikedNode,Mode=TwoWay}"
-                                       />
-                
-                <!--<ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>-->
+                <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
             </Grid>
         </DockPanel>
         

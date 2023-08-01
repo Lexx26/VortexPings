@@ -12,7 +12,7 @@ namespace VortexPings.Models
     {
         private bool disposedValue;
 
-        public NodeData? NodeData { get; set; }
+        public NodeData? NodeData { get;  set; }
 
         public PingResultData? PingResultData { get; private set; }
 
@@ -24,6 +24,12 @@ namespace VortexPings.Models
 
         public CancellationTokenSource? CancellationTokenSource { get; private set; } = new CancellationTokenSource();
         private TaskCompletionSource<PingReply> pingTaskCompletionSource = null;
+
+        public Node()
+        {
+            NodeData = new NodeData();
+            PingResultData = new PingResultData();
+        }
         public async Task PingAsync(int minPingTime)
         {
 
@@ -85,7 +91,6 @@ namespace VortexPings.Models
 
         private void СreatePingResultData(PingReply pingReply)
         {
-            PingResultData = new PingResultData();
             PingResultData.LastRoundTripTime = pingReply.RoundtripTime;
             PingResultData.PingResult = pingReply.Status.ToString();
             if (PingResultData.PingResult == "11050")
