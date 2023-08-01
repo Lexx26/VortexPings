@@ -4,6 +4,13 @@
              xmlns:local="clr-namespace:UIWPF"
             xmlns:prism="http://prismlibrary.com/">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style/MainColors.xaml"/>
+                <ResourceDictionary Source="Style/MainBrushes.xaml"/>
+                <ResourceDictionary Source="Style/ResizebleWindow.xaml"/>
+                <ResourceDictionary Source="Style/WindowsToolBarButtons.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </prism:PrismApplication>
