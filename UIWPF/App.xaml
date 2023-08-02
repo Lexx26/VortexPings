@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Style/MainBrushes.xaml"/>
                 <ResourceDictionary Source="Style/ResizebleWindow.xaml"/>
                 <ResourceDictionary Source="Style/WindowsToolBarButtons.xaml"/>
+                <ResourceDictionary Source="Style/Menu.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
