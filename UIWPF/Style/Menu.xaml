@@ -35,21 +35,21 @@
                                     <Grid Margin="0" VerticalAlignment="Top">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <!-- Левая скобка -->
+                                            
                                             <ColumnDefinition Width="Auto" />
-                                            <!-- Контент -->
+                                            
                                             <ColumnDefinition Width="Auto" />
-                                            <!-- Правая скобка -->
+                                            
                                         </Grid.ColumnDefinitions>
 
-                                        <!-- Левая скобка -->
-                                        <TextBlock VerticalAlignment="Top" FontSize="18" FontWeight="DemiBold" Margin="0" Text="[   "  />
+                                        
+                                        <TextBlock VerticalAlignment="Top" FontSize="15"  Margin="0" Text="|   "  />
 
-                                        <!-- Контент -->
-                                        <ContentPresenter Grid.Column="1" Margin="6,3,6,3" ContentSource="Header" RecognizesAccessKey="True" />
+                                       
+                                        <ContentPresenter Grid.Column="1" Margin="2,2,2,3" ContentSource="Header" RecognizesAccessKey="True" />
 
-                                        <!-- Правая скобка -->
-                                        <TextBlock VerticalAlignment="Top" FontSize="18" FontWeight="DemiBold" Text="   ]" Grid.Column="2" />
+                                        
+                                        <TextBlock VerticalAlignment="Top" FontSize="15" Text="   |" Grid.Column="2" />
 
                                         <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
                                             <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{StaticResource Background}">
