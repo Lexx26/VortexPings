@@ -14,8 +14,10 @@
         Title="MainWindow" Height="450" Width="800" Style="{StaticResource ResizebleWindow}">
     <Grid>
         <DockPanel>
-            <Menu  VerticalAlignment="Top" DockPanel.Dock="Top" >
-                <MenuItem Header="Activate">
+            <Grid DockPanel.Dock="Top">
+                
+            <Menu  VerticalAlignment="Top" Grid.Column="1" >
+                <MenuItem Header="Ping">
                     <MenuItem Header="Start all ping" Command="{Binding StartPing}"></MenuItem>
                     <MenuItem Header="Stop all ping" Command="{Binding StopPing}"></MenuItem>
                 </MenuItem>
@@ -31,6 +33,7 @@
                 </MenuItem>
 
             </Menu>
+            </Grid>
             <Grid Background="{StaticResource GridBrush}">
                 <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
             </Grid>
