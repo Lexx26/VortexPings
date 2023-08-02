@@ -1,7 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--DefaultColors-->
-
     <Color x:Key="BackgroundColor.Black">#FF0A1214</Color>
     <Color x:Key="BackgroundColor.ColorFill">#FF153726</Color>
     <Color x:Key="BackgroundColor.MouseOver">#FF196363</Color>
@@ -14,5 +13,14 @@
     <Color x:Key="DisabledColor.Foreground">#FF555555</Color>
 
     <Color x:Key="RedColor">#FFAA3B3B</Color>
+    
+    <!--SecondColors-->
+    <Color x:Key="Second.BackgroundColor.ColorFill">#FF054764</Color>
+    <Color x:Key="Second.BackgroundColor.Pressed">#FF129EDC</Color>
+    <Color x:Key="Second.BackgroundColor.MouseOver">#FF112F3C</Color>
+
+    <Color x:Key="Second.ForegroundColor.Border">#FF107AA8</Color>
+    <Color x:Key="Second.ForegroundColor.Border.Pressed">#FF0A8CC5</Color>
+    <Color x:Key="Second.ForegroundColor">#FF01DDD6</Color>
 
 </ResourceDictionary>

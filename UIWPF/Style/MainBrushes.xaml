@@ -30,7 +30,7 @@
                         <Pen Brush="{StaticResource Border}" Thickness="1" />
                     </GeometryDrawing.Pen>
                     <GeometryDrawing.Geometry>
-                        <!-- Горизонтальные линии -->
+                      
                         <GeometryGroup>
                             <LineGeometry StartPoint="0,0" EndPoint="10,0" />
                             <LineGeometry StartPoint="0,1" EndPoint="10,1" />
@@ -51,7 +51,7 @@
                         <Pen Brush="{StaticResource BackgroundNoOpacity}" Thickness="1" />
                     </GeometryDrawing.Pen>
                     <GeometryDrawing.Geometry>
-                        <!-- Вертикальные линии -->
+                  
                         <GeometryGroup>
                             <LineGeometry StartPoint="0,0" EndPoint="0,10" />
                             <LineGeometry StartPoint="1,0" EndPoint="1,10" />
@@ -69,5 +69,15 @@
             </DrawingGroup>
         </DrawingBrush.Drawing>
     </DrawingBrush>
+
+    <!--SecondBrushes-->
+    <SolidColorBrush x:Key="Second.Background" Color="{StaticResource Second.BackgroundColor.ColorFill}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="Second.Background.Pressed" Color="{StaticResource Second.BackgroundColor.Pressed}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="Second.Background.MouseOver" Color="{StaticResource Second.BackgroundColor.Pressed}" ></SolidColorBrush>
+
+    <SolidColorBrush x:Key="Second.Border" Color="{StaticResource Second.ForegroundColor.Border}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="Second.Border.Pressed" Color="{StaticResource Second.ForegroundColor.Border.Pressed}" ></SolidColorBrush>
+
+    <SolidColorBrush x:Key="Second.Foreground" Color="{StaticResource Second.ForegroundColor}" ></SolidColorBrush>
 
 </ResourceDictionary>

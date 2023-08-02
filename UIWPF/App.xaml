@@ -11,6 +11,8 @@
                 <ResourceDictionary Source="Style/ResizebleWindow.xaml"/>
                 <ResourceDictionary Source="Style/WindowsToolBarButtons.xaml"/>
                 <ResourceDictionary Source="Style/Menu.xaml"/>
+                <ResourceDictionary Source="Style/FocusVisual.xaml"/>
+                <ResourceDictionary Source="Style/ButtonSecond.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
