@@ -73,10 +73,11 @@
     <!--SecondBrushes-->
     <SolidColorBrush x:Key="Second.Background" Color="{StaticResource Second.BackgroundColor.ColorFill}" ></SolidColorBrush>
     <SolidColorBrush x:Key="Second.Background.Pressed" Color="{StaticResource Second.BackgroundColor.Pressed}" ></SolidColorBrush>
-    <SolidColorBrush x:Key="Second.Background.MouseOver" Color="{StaticResource Second.BackgroundColor.Pressed}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="Second.Background.MouseOver" Color="{StaticResource Second.BackgroundColor.MouseOver}" ></SolidColorBrush>
 
     <SolidColorBrush x:Key="Second.Border" Color="{StaticResource Second.ForegroundColor.Border}" ></SolidColorBrush>
     <SolidColorBrush x:Key="Second.Border.Pressed" Color="{StaticResource Second.ForegroundColor.Border.Pressed}" ></SolidColorBrush>
+    <SolidColorBrush x:Key="Second.Border.MouseOver" Color="{StaticResource Second.ForegroundColor.Border.MouseOver}" ></SolidColorBrush>
 
     <SolidColorBrush x:Key="Second.Foreground" Color="{StaticResource Second.ForegroundColor}" ></SolidColorBrush>
 

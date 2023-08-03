@@ -20,6 +20,7 @@
     <Color x:Key="Second.BackgroundColor.MouseOver">#FF112F3C</Color>
 
     <Color x:Key="Second.ForegroundColor.Border">#FF107AA8</Color>
+    <Color x:Key="Second.ForegroundColor.Border.MouseOver">#FF2AA8A8</Color>
     <Color x:Key="Second.ForegroundColor.Border.Pressed">#FF0A8CC5</Color>
     <Color x:Key="Second.ForegroundColor">#FF01DDD6</Color>
 
