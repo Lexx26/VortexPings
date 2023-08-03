@@ -9,9 +9,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
    
         <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-        <Border BorderThickness="0" Height="30" Margin="5" BorderBrush="{StaticResource Second.Foreground}" DockPanel.Dock="Top">
+       
             <Button Style="{StaticResource SecondButton}"  Content="Add group" Grid.ColumnSpan="2" Click="AddGroup_Click" />
-        </Border>
+       
            
             <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="GroupGrid" VerticalAlignment="Stretch">
