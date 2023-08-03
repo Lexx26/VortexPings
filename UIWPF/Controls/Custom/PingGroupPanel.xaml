@@ -10,7 +10,7 @@
    
         <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
        
-            <Button Style="{StaticResource SecondButton}"  Content="Add group" Grid.ColumnSpan="2" Click="AddGroup_Click" />
+            <Button Style="{StaticResource SecondButton}" DockPanel.Dock="Top" Margin="5" Height="30" Content="Add group" Grid.ColumnSpan="2" Click="AddGroup_Click" />
        
            
             <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
