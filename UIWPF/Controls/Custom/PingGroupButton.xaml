@@ -13,7 +13,7 @@
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="20"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0" Style="{StaticResource SecondButton}" x:Name="GroupButton" Click="GroupButton_Click">
+                <Button Grid.Row="0" Style="{StaticResource NodeGroup}" x:Name="GroupButton" Click="GroupButton_Click">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
