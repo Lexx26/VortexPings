@@ -28,8 +28,6 @@ namespace UIWPF.Views
             ExpandWindowCommand = new RelayCommand(ExpandWindow);
             CloseWindowCommand = new RelayCommand(CloseWindow);
 
-            this.MaxHeight = SystemParameters.WorkArea.Height;
-            this.MaxWidth = SystemParameters.WorkArea.Width;
         }
 
         private void WindowSizebleBase_Closing(object? sender, System.ComponentModel.CancelEventArgs e)

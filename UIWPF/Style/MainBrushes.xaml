@@ -10,11 +10,13 @@
 
 
     <SolidColorBrush x:Key="Border" Color="{StaticResource ForegroundColor.Border}"/>
+    <SolidColorBrush x:Key="Border.Bright" Color="{StaticResource ForegroundColor.Border.Bright}"/>
     <SolidColorBrush x:Key="Border.MouseOver" Color="{StaticResource ForegroundColor}"/>
     <SolidColorBrush x:Key="Border.Disabled" Color="{StaticResource DisabledColor.Border}" />
 
     <SolidColorBrush x:Key="Foreground" Color="{StaticResource ForegroundColor}" />
     <SolidColorBrush x:Key="Foreground.Disabled" Color="{StaticResource DisabledColor.Foreground}" />
+    
 
     <LinearGradientBrush x:Key="WindowToolBarBrush">
         <GradientStop Color="{StaticResource BackgroundColor.ColorFill}" Offset="1"/>

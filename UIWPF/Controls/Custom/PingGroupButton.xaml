@@ -6,13 +6,14 @@
              xmlns:local="clr-namespace:UIWPF.Controls.Custom"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="200">
-    <DockPanel x:Name="DockPanelMain" VerticalAlignment="Stretch" >
-        <Grid DockPanel.Dock="Top">
+    <DockPanel x:Name="DockPanelMain" VerticalAlignment="Stretch" Margin="5,0,0,2">
+        <Border BorderBrush="{StaticResource Border.Bright}" BorderThickness="1" CornerRadius="1">
+        <Grid DockPanel.Dock="Top" Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
                 <RowDefinition Height="20"></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Grid.Row="0"  x:Name="GroupButton" Click="GroupButton_Click">
+            <Button Grid.Row="0" Style="{StaticResource SecondButton}" x:Name="GroupButton" Click="GroupButton_Click">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -30,9 +31,10 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Name="DeleteGroupButton"  Content="Delete" Click="DeleteGroupButton_Click"  />
-                <Button Grid.Column="1" Name="EditGroupButton"    Content="Edit" Click="EditGroupButton_Click"   />
+                <Button Grid.Column="0" Style="{StaticResource SecondButton}" Name="DeleteGroupButton"  Content="Delete" Click="DeleteGroupButton_Click"  />
+                <Button Grid.Column="1" Name="EditGroupButton" Style="{StaticResource SecondButton}"    Content="Edit" Click="EditGroupButton_Click"   />
             </Grid>
             </Grid>
+        </Border>
     </DockPanel>
 </UserControl>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -25,7 +26,7 @@ namespace UIWPF.Controls.Models
             NodeGroupViewModel = nodeGroupViewModel;
             ParentPingGroupPanel = parentPingGroupPanel;
             AddGroupButton();
-            AddWarpPanel();
+            AddBorderAndWarpPanel();
             AddNodes();
 
             _previosNodes = NodeGroupViewModel.Nodes;
@@ -105,15 +106,20 @@ namespace UIWPF.Controls.Models
             PingGroupButtonControl = newButton;
         }
 
-        private void AddWarpPanel()
+        private void AddBorderAndWarpPanel()
         {
+            var border = new Border();
+            border.BorderThickness = new Thickness(1);
+            border.BorderBrush = (Brush)border.FindResource("Border.Bright");
+            border.Margin = new Thickness(2,0,0,2);
             var wrapPanel = new WrapPanel();
             wrapPanel.HorizontalAlignment = HorizontalAlignment.Left;
             wrapPanel.VerticalAlignment = VerticalAlignment.Stretch;
 
-            Grid.SetColumn(wrapPanel, 1);
-            Grid.SetRow(wrapPanel, ParentPingGroupPanel.GroupGrid.RowDefinitions.Count - 1);
-            ParentPingGroupPanel.GroupGrid.Children.Add(wrapPanel);
+            border.Child = wrapPanel;
+            Grid.SetColumn(border, 1);
+            Grid.SetRow(border, ParentPingGroupPanel.GroupGrid.RowDefinitions.Count - 1);
+            ParentPingGroupPanel.GroupGrid.Children.Add(border);
             NodesWrapPanel = wrapPanel;
         }
 
@@ -169,6 +175,7 @@ namespace UIWPF.Controls.Models
 
             PingGroupButtonControl.Dispose();
             RemoveAllPingNodes();
+            ParentPingGroupPanel.GroupGrid.Children.Remove((UIElement)NodesWrapPanel.Parent);
             ParentPingGroupPanel.GroupGrid.Children.Remove(NodesWrapPanel);
             UnsubscribeNodesChange();
             NodeGroupViewModel.PropertyChanged -= NodeGroupViewModel_PropertyChanged;

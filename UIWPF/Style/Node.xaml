@@ -30,7 +30,17 @@
                                 <VisualState x:Name="Disabled"/>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter  x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Grid>
+                            <Grid>
+                                <Polygon Points="0,0 10,0 0,10" Fill="{StaticResource Border}" />
+                            </Grid>
+                            <!-- Нижний правый угол -->
+                            <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                <Polygon Points="10,10 0,10 10,0" Fill="{StaticResource Border}" />
+                            </Grid>
+                            <ContentPresenter  x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                       
 
                     </Border>
 
