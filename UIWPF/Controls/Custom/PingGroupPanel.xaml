@@ -16,7 +16,7 @@
             <ScrollViewer DockPanel.Dock="Bottom" VerticalScrollBarVisibility="Auto">
                 <Grid x:Name="GroupGrid" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="180"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 

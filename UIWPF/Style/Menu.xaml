@@ -6,10 +6,8 @@
        TargetType="{x:Type Menu}">
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Foreground" Value="{StaticResource Foreground}" />
-        <Setter Property="Background" Value="{StaticResource Background}" />
-        <Setter Property="BorderBrush" Value="{StaticResource Border}" />
-        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{StaticResource Second.Foreground}" />
+        <Setter Property="BorderThickness" Value="1,1,1,1" />
         <Setter Property="Padding" Value="4,2" />
         <Setter Property="Template">
             <Setter.Value>
@@ -52,7 +50,7 @@
                                         <TextBlock VerticalAlignment="Top" FontSize="15" Text="   |" Grid.Column="2" />
 
                                         <Popup x:Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
-                                            <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" Background="{StaticResource Background}">
+                                            <Border x:Name="SubmenuBorder" SnapsToDevicePixels="True" BorderThickness="1" BorderBrush="{StaticResource Second.Border.MouseOver}" Background="{StaticResource Background}">
                                                 <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
                                             </Border>
                                         </Popup>
@@ -61,8 +59,8 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource Background.MouseOver}" />
-                                        <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Border.MouseOver}" />
+                                        <Setter TargetName="Border" Property="Background" Value="{StaticResource Second.Background}" />
+                                        <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource Second.Border}" />
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Foreground" Value="{StaticResource Foreground.Disabled}" />
@@ -119,7 +117,7 @@
                 <Setter Property="Background"
               TargetName="Border">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource BackgroundColor.MouseOver}"></SolidColorBrush>
+                        <SolidColorBrush Color="Red"></SolidColorBrush>
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -165,8 +163,8 @@
                                EndPoint="0,1">
                             <LinearGradientBrush.GradientStops>
                                 <GradientStopCollection>
-                                    <GradientStop Color="{StaticResource BackgroundColor.MouseOver}" />
-                                    <GradientStop Color="{DynamicResource BackgroundColor.MouseOver}"
+                                    <GradientStop Color="Red" />
+                                    <GradientStop Color="Red"
                               Offset="1.0" />
                                 </GradientStopCollection>
                             </LinearGradientBrush.GradientStops>
@@ -276,7 +274,7 @@
                 <Setter Property="Background"
               TargetName="Border">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource ForegroundColor.Border}" />
+                        <SolidColorBrush Color="{StaticResource Second.BackgroundColor.Pressed}" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderBrush"
@@ -284,7 +282,7 @@
                     <Setter.Value>
                         <LinearGradientBrush EndPoint="0.5,1"
                                StartPoint="0.5,0">
-                            <GradientStop Color="{StaticResource ForegroundColor.Border}"
+                            <GradientStop Color="{StaticResource Second.BackgroundColor.Pressed}"
                           Offset="0" />
                             <GradientStop Color="Transparent"
                           Offset="1" />
@@ -349,7 +347,7 @@
                 Background="{DynamicResource ControlFill}"
                 BorderThickness="1">
                         <Border.BorderBrush>
-                            <SolidColorBrush Color="{StaticResource ForegroundColor.Border}" />
+                            <SolidColorBrush Color="Red" />
                         </Border.BorderBrush>
 
                         <StackPanel IsItemsHost="True"
@@ -371,7 +369,7 @@
                 <Setter Property="Background"
               TargetName="Border">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource ForegroundColor.Border}" />
+                        <SolidColorBrush Color="Red" />
                     </Setter.Value>
                 </Setter>
                 <Setter Property="BorderBrush"
@@ -379,7 +377,7 @@
                     <Setter.Value>
                         <LinearGradientBrush EndPoint="0.5,1"
                                StartPoint="0.5,0">
-                            <GradientStop Color="{StaticResource ForegroundColor.Border}"
+                            <GradientStop Color="Red"
                           Offset="0" />
                             <GradientStop Color="Transparent"
                           Offset="1" />

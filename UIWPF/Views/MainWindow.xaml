@@ -14,9 +14,12 @@
         Title="MainWindow" Height="450" Width="800" Style="{StaticResource ResizebleWindow}">
     <Grid>
         <DockPanel>
-            <Grid DockPanel.Dock="Top">
-                
-            <Menu  VerticalAlignment="Top" Grid.Column="1" >
+            
+                <Grid DockPanel.Dock="Top" >
+                <StackPanel DockPanel.Dock="Top" Background="{StaticResource WindowToolBarBrush}"  Orientation="Horizontal" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Vortex ping" FontSize="25" Foreground="White" Margin="50,-15,0,0" />
+                    <TextBlock Text="   V-2.1.1.   " FontSize="12"  Foreground="White" Margin="20,-30,50,0" Background="OrangeRed" Height="16"></TextBlock>
+                    <Menu  VerticalAlignment="Top"    Grid.Column="1" >
                 <MenuItem Header="Ping">
                     <MenuItem Header="Start all ping" Command="{Binding StartPing}"></MenuItem>
                     <MenuItem Header="Stop all ping" Command="{Binding StopPing}"></MenuItem>
@@ -33,10 +36,13 @@
                 </MenuItem>
 
             </Menu>
+                </StackPanel>
             </Grid>
+            
             <Grid Background="{StaticResource GridBrush}">
                 <ContentControl Margin="0,0,0,0" prism:RegionManager.RegionName="MainRegion"/>
             </Grid>
+            
         </DockPanel>
         
     </Grid>

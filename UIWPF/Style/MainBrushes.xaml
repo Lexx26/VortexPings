@@ -18,7 +18,7 @@
     <SolidColorBrush x:Key="Foreground.Disabled" Color="{StaticResource DisabledColor.Foreground}" />
     
 
-    <LinearGradientBrush x:Key="WindowToolBarBrush">
+    <LinearGradientBrush x:Key="WindowToolBarBrush" Opacity="0.6">
         <GradientStop Color="{StaticResource BackgroundColor.ColorFill}" Offset="1"/>
     </LinearGradientBrush>
 

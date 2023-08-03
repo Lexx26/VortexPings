@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--DefaultColors-->
     <Color x:Key="BackgroundColor.Black">#FF0A1214</Color>
-    <Color x:Key="BackgroundColor.ColorFill">#FF153726</Color>
+    <Color x:Key="BackgroundColor.ColorFill">#FF054764</Color>
     <Color x:Key="BackgroundColor.MouseOver">#FF196363</Color>
 
     <Color x:Key="ForegroundColor">#FF8EE4B2</Color>

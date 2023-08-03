@@ -111,7 +111,7 @@ namespace UIWPF.Controls.Models
             var border = new Border();
             border.BorderThickness = new Thickness(1);
             border.BorderBrush = (Brush)border.FindResource("Border.Bright");
-            border.Margin = new Thickness(2,0,0,2);
+            border.Margin = new Thickness(2,0,5,2);
             var wrapPanel = new WrapPanel();
             wrapPanel.HorizontalAlignment = HorizontalAlignment.Left;
             wrapPanel.VerticalAlignment = VerticalAlignment.Stretch;

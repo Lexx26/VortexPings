@@ -4,28 +4,28 @@
         <Setter Property="WindowStyle" Value="None"></Setter>
         <Setter Property="AllowsTransparency" Value="True"></Setter>
 
-        <Setter Property="Background" Value="{StaticResource BackgroundNoOpacity}" />
+        <Setter Property="Background" Value="{StaticResource GridBrush}" />
         <Setter Property="ResizeMode" Value="CanResizeWithGrip"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border BorderBrush="{StaticResource Border}" BorderThickness="1">
-                        <Grid ShowGridLines="False" Background="{StaticResource BackgroundNoOpacity}">
+                        <Grid Background="{StaticResource GridBrush}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
-                                <RowDefinition  Height="25"  >
+                                <RowDefinition  Height="22"  >
                                 </RowDefinition>
                                 <RowDefinition Height="*"></RowDefinition>
                                 <RowDefinition Height="10"></RowDefinition>
 
                             </Grid.RowDefinitions>
-                            <Rectangle x:Name="TitleBar"  Fill="{StaticResource WindowToolBarBrush}" Height="25" Grid.Row="0"></Rectangle>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" >
-                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonMinimize}" x:Name="MinButton"></Button>
-                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonExpand}" x:Name="MaxButton"></Button>
-                                <Button Width="25" Height="18" Style="{DynamicResource SWButtonClose}" x:Name="CloseButton" ></Button>
+                            <Rectangle x:Name="TitleBar" VerticalAlignment="Top" Fill="{StaticResource WindowToolBarBrush}" Height="22" Grid.Row="0"></Rectangle>
+                            <StackPanel Margin="0,0,15,0" Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Right" Grid.Row="0" >
+                                <Button Width="22" Height="20" Style="{DynamicResource SWButtonMinimize}" x:Name="MinButton"></Button>
+                                <Button Width="22" Height="20" Style="{DynamicResource SWButtonExpand}" x:Name="MaxButton"></Button>
+                                <Button Width="22" Height="20" Style="{DynamicResource SWButtonClose}" x:Name="CloseButton" ></Button>
                             </StackPanel>
                             <AdornerDecorator Grid.Row="1">
                                 <ContentPresenter Grid.Column="0" Grid.Row="1" ></ContentPresenter>
