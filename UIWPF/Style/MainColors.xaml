@@ -24,6 +24,6 @@
     <Color x:Key="Second.ForegroundColor.Border">#FF107AA8</Color>
     <Color x:Key="Second.ForegroundColor.Border.MouseOver">#FF2AA8A8</Color>
     <Color x:Key="Second.ForegroundColor.Border.Pressed">#FF0A8CC5</Color>
-    <Color x:Key="Second.ForegroundColor">#FF01DDD6</Color>
+    <Color x:Key="Second.ForegroundColor">#00C5D6</Color>
 
 </ResourceDictionary>

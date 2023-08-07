@@ -88,5 +88,11 @@
         <GradientStop Color="{StaticResource BackgroundColor.Black}" Offset="1.6"/>
         <GradientStop Color="{StaticResource Second.BackgroundColor.Dark}" Offset="0"/>
     </LinearGradientBrush>
+<!--TextBoxBackground -->
+    <LinearGradientBrush x:Key="TextBoxBackground" EndPoint="0.5,1" StartPoint="0.5,0">
+        <GradientStop Color="{StaticResource BackgroundColor.Black}"/>
+        <GradientStop Color="{StaticResource Second.BackgroundColor.ColorFill}" Offset="1"/>
+        <GradientStop Color="{StaticResource Second.BackgroundColor.Dark}" Offset="0"/>
+    </LinearGradientBrush>
 
 </ResourceDictionary>

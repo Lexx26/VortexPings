@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              xmlns:vm="clr-namespace:UIWPF.ViewModels"
              d:DataContext="{d:DesignInstance vm:NodeGroupEditViewModel, IsDesignTimeCreatable=True}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="120" d:DesignWidth="250">
 
         <Grid Margin="10,0,10,0">
             <Grid.RowDefinitions>
@@ -21,8 +21,8 @@
             <TextBox HorizontalAlignment="Left" Text="{Binding GroupName}" Grid.Row="1" Width="205" />
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Content="Save" Command="{Binding CloseDialogCommand}" CommandParameter="true" IsDefault="False" Width="100"></Button>
-            <Button Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" Content="Cancel" Width="100"></Button>
+            <Button Width="100" Height="25" Style="{StaticResource SecondButton}" Content="Save" Command="{Binding CloseDialogCommand}" CommandParameter="true" IsDefault="False" ></Button>
+            <Button Width="100" Height="25"  Style="{StaticResource SecondButton}" Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" Content="Cancel" ></Button>
         </StackPanel>
     </Grid>
        
