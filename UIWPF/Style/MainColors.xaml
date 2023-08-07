@@ -17,6 +17,7 @@
     
     <!--SecondColors-->
     <Color x:Key="Second.BackgroundColor.ColorFill">#FF054764</Color>
+    <Color x:Key="Second.BackgroundColor.Dark">#0B1E26</Color>
     <Color x:Key="Second.BackgroundColor.Pressed">#FF129EDC</Color>
     <Color x:Key="Second.BackgroundColor.MouseOver">#FF112F3C</Color>
 

@@ -1,9 +1,11 @@
 ﻿using Prism.Commands;
 using Prism.Mvvm;
+using Prism.Services.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,9 +16,11 @@ namespace UIWPF.ViewModels
 {
     public class PingGridViewModel:BindableBase
     {
+        private readonly IDialogService _dialogService;
         private NodeFactory _nodeFactory;
-        public PingGridViewModel(NodeFactory nodeFactory)
+        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService)
         {
+            _dialogService = dialogService;
             _nodeFactory = nodeFactory;
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
 
@@ -50,12 +54,26 @@ namespace UIWPF.ViewModels
         private int _Counter = 0;
         void AddGroupCommandExecute()
         {
-            var groupNodeItem = new NodeGroup();
-            groupNodeItem.Name = " New Test №" + _Counter++;
-            groupNodeItem.Id = _Counter;
+            var dialogParameters = new DialogParameters();
+            dialogParameters.Add("GroupName", "");
 
-            var groupViewModel = new NodeGroupViewModel(groupNodeItem);
-            NodeGroups.Add(groupViewModel);
+            _dialogService.ShowDialog("NodeGroupEditView", dialogParameters, r => 
+            { 
+              if(r.Result==ButtonResult.OK)
+                {
+                   if(r.Parameters!=null)
+                    {
+                        var groupName = r.Parameters.GetValue<string>("GroupName");
+                        var groupNodeItem = new NodeGroup();
+                        groupNodeItem.Name = groupName;
+                        groupNodeItem.Id = _Counter;
+
+                        var groupViewModel = new NodeGroupViewModel(groupNodeItem);
+                        NodeGroups.Add(groupViewModel);
+                    }
+                }
+            },"FixedDialogWindow");
+           
 
 
         }
@@ -125,7 +143,7 @@ namespace UIWPF.ViewModels
         void ExecuteCommandName()
         {
             MessageBox.Show("You clicked node" + ClikedNode.NodeDataViewModel.NodeName);
-            ClikedNode.NodeDataViewModel.NodeName = "1112";
+            ClikedNode.NodeDataViewModel.NodeName = "yandex.com";
             ClikedNode.PingResultData.LastRoundTripTime = 25;
             ClikedNode.PingResultData.PingResult = "TimeOut";
         }

@@ -15,6 +15,7 @@
                 <ResourceDictionary Source="Style/ButtonSecond.xaml"/>
                 <ResourceDictionary Source="Style/Node.xaml"/>
                 <ResourceDictionary Source="Style/NodeGroup.xaml"/>
+                <ResourceDictionary Source="Style/FixedDialogWindow.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

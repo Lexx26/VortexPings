@@ -9,6 +9,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using UIWPF.ViewModels;
 using UIWPF.Views;
 using VortexPings.Factories;
 
@@ -25,6 +26,9 @@ namespace UIWPF
             containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
 
             containerRegistry.RegisterForNavigation<PingGridView>();
+
+            containerRegistry.RegisterDialog<NodeGroupEditView, NodeGroupEditViewModel>();
+            containerRegistry.RegisterDialogWindow<FixedDialogWindow>("FixedDialogWindow");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
