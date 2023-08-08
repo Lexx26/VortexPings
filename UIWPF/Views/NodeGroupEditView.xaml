@@ -17,12 +17,12 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Vertical"  Width="205">
-            <Label  Content="Group name" Foreground="White"/>
-            <TextBox HorizontalAlignment="Left" Text="{Binding GroupName}" Grid.Row="1" Width="205" />
+            <Label  Content="Group name"  Foreground="{StaticResource Second.Foreground}"/>
+            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}" HorizontalAlignment="Left" Text="{Binding GroupName,ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Width="205" />
         </StackPanel>
         <StackPanel Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button Width="100" Height="25" Style="{StaticResource SecondButton}" Content="Save" Command="{Binding CloseDialogCommand}" CommandParameter="true" IsDefault="False" ></Button>
-            <Button Width="100" Height="25"  Style="{StaticResource SecondButton}" Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" Content="Cancel" ></Button>
+            <Button Width="100" Height="25" Style="{StaticResource SecondButton}" Content="Save" IsEnabled="{Binding CanSave, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Command="{Binding CloseDialogCommand}" CommandParameter="true" IsDefault="False" ></Button>
+            <Button Width="100" Height="25"  Style="{StaticResource SecondButton}"  Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" Content="Cancel" ></Button>
         </StackPanel>
     </Grid>
        

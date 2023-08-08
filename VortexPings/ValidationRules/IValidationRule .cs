@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace VortexPings.ValidationRules
 {
-    internal interface IValidationRule
+    public interface IValidationRule
     {
+        ValidationResult Validate(object value, string? propertyName=null, Predicate<object>? predicate=null);
     }
 }

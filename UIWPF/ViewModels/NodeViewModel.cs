@@ -30,14 +30,14 @@ namespace UIWPF.ViewModels
             set { SetProperty(ref _order, value);}
         }
 
-        public Node Node { get; private set; }
+        public Node _node;
         public NodeViewModel(Node node)
         {
-            Node = node;
+            _node = node;
             Order = node.Order;
             NodeDataViewModel = new NodeDataViewModel(node.NodeData);
             PingResultData = new PingResultDataViewModel(node.PingResultData);
-            Node.PingResultDataUpdated += _Node_PingResultDataUpdated;
+            _node.PingResultDataUpdated += _Node_PingResultDataUpdated;
         }
 
         private void _Node_PingResultDataUpdated()
@@ -47,10 +47,10 @@ namespace UIWPF.ViewModels
 
         public void Dispose()
         {
-            if (Node != null)
+            if (_node != null)
             {
-                Node.PingResultDataUpdated -= _Node_PingResultDataUpdated;
-                Node.Dispose();
+                _node.PingResultDataUpdated -= _Node_PingResultDataUpdated;
+                _node.Dispose();
             }
               
         }

@@ -39,18 +39,18 @@ namespace UIWPF.ViewModels
             set { SetProperty(ref _nodes, value); }
         }
 
-        public NodeGroup NodeGroup { get;private set; }
+        private NodeGroup _nodeGroup;
         public NodeGroupViewModel(NodeGroup nodeGroup)
         {
-            NodeGroup = nodeGroup;
-            Name = NodeGroup.Name;
-            Id = NodeGroup.Id;
-            Order = NodeGroup.Order;
+            _nodeGroup = nodeGroup;
+            Name = _nodeGroup.Name;
+            Id = _nodeGroup.Id;
+            Order = _nodeGroup.Order;
 
-            if(NodeGroup.Nodes!=null)
+            if(_nodeGroup.Nodes!=null)
             {
                 Nodes = new ObservableCollection<NodeViewModel>();
-                foreach (var node in NodeGroup.Nodes)
+                foreach (var node in _nodeGroup.Nodes)
                 {
                     var nodeViewModel = new NodeViewModel(node);
                     Nodes.Add(nodeViewModel);
@@ -72,8 +72,7 @@ namespace UIWPF.ViewModels
 
         public void Dispose()
         {
-            NodeGroup.Dispose();
-
+          //  NodeGroupData.Dispose();
             foreach (var node in Nodes)
             {
                 node.Dispose();

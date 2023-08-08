@@ -15,7 +15,6 @@ namespace UIWPF.ViewModels
         public DelegateCommand<string> CloseDialogCommand =>
             _closeDialogCommand ?? (_closeDialogCommand = new DelegateCommand<string>(CloseDialog));
 
-
         public IDialogParameters DialogParameters { get; protected set; }
 
         private string _title;
@@ -57,11 +56,17 @@ namespace UIWPF.ViewModels
                 result = ButtonResult.Cancel;
 
             RaiseRequestClose(new DialogResult(result,DialogParameters));
+            Dispose();
         }
 
         public virtual void RaiseRequestClose(IDialogResult dialogResult)
         {
             RequestClose?.Invoke(dialogResult);
+        }
+
+        public virtual void Dispose()
+        {
+
         }
     }
 }

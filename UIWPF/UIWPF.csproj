@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Commands\Global\" />
     <Folder Include="Models\" />
   </ItemGroup>
 

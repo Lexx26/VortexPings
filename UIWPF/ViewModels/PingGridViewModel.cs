@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
 using System;
@@ -16,10 +17,12 @@ namespace UIWPF.ViewModels
 {
     public class PingGridViewModel:BindableBase
     {
+        private readonly IEventAggregator _eventAggregator;
         private readonly IDialogService _dialogService;
         private NodeFactory _nodeFactory;
-        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService)
+        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService, IEventAggregator eventAggregator)
         {
+            _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _nodeFactory = nodeFactory;
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
@@ -36,7 +39,10 @@ namespace UIWPF.ViewModels
             var groupViewModel = new NodeGroupViewModel(nodeGroup);
 
             NodeGroups.Add(groupViewModel);
+           
         }
+
+
 
         private ObservableCollection<NodeGroupViewModel> _NodeGroups;
         public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
@@ -56,6 +62,8 @@ namespace UIWPF.ViewModels
         {
             var dialogParameters = new DialogParameters();
             dialogParameters.Add("GroupName", "");
+            var list = NodeGroups.Select(t=>t.Name).ToList();
+            dialogParameters.Add("GroupNames", list);
 
             _dialogService.ShowDialog("NodeGroupEditView", dialogParameters, r => 
             { 
@@ -126,8 +134,12 @@ namespace UIWPF.ViewModels
 
         void GroupCommandExecute()
         {
-            MessageBox.Show("You clicked " + ClikedNodeGroup.Name);
-            ClikedNodeGroup.Nodes = null;
+            var dialogParameters = new DialogParameters();
+            dialogParameters.Add("NodeGroup", ClikedNodeGroup);
+            dialogParameters.Add("NodeGroups", NodeGroups);
+
+            _dialogService.ShowDialog("NodeGroupDetailView", dialogParameters, null
+            , "FixedDialogWindow");
         }
 
         bool CanExecuteGroupCommand()

@@ -28,6 +28,7 @@ namespace UIWPF
             containerRegistry.RegisterForNavigation<PingGridView>();
 
             containerRegistry.RegisterDialog<NodeGroupEditView, NodeGroupEditViewModel>();
+            containerRegistry.RegisterDialog<NodeGroupDetailView, NodeGroupDetailViewModel>();
             containerRegistry.RegisterDialogWindow<FixedDialogWindow>("FixedDialogWindow");
         }
 
