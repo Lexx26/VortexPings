@@ -105,6 +105,8 @@ namespace UIWPF.ViewModels
             var nodeDataViewModel = new NodeDataViewModel(nodeData);
             var dialogParameters = new DialogParameters();
             dialogParameters.Add("NodeDataViewModel", nodeDataViewModel);
+            var nodeNames = _NodeGroups.SelectMany(t => t.Nodes.Select(n => n.NodeDataViewModel.NodeName)).ToList();
+            dialogParameters.Add("NodeNames", nodeNames);
             
             _dialogService.ShowDialog("NodeEditView", dialogParameters, r =>
             {

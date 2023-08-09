@@ -42,7 +42,7 @@ namespace VortexPings.Models
                 using (cancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
                 {
 
-                    Pinger.SendAsync(NodeData.HostOrIPadress, NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
+                    Pinger.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
 
                     PingReply pingReply = await pingTaskCompletionSource.Task;
 

@@ -55,11 +55,14 @@
 
     <ControlTemplate x:Key="ErrorTemplate" >
         <StackPanel>
-            <Border  BorderBrush="{StaticResource RedBrush}" BorderThickness="1">
+            <Border x:Name="ErrorBorder"  BorderBrush="{StaticResource RedBrush}" BorderThickness="1">
                 <AdornedElementPlaceholder />
             </Border>
-            <StackPanel Background="{StaticResource RedBrush}" Margin="0,1,0,0">
-                <TextBlock  TextWrapping="Wrap" Margin="0.5" HorizontalAlignment="Center" VerticalAlignment="Bottom" MaxWidth="150" FontSize="10" Foreground="White" Text="{Binding [0].ErrorContent}"></TextBlock>
+            <StackPanel Background="{StaticResource RedBrush}" Margin="0,1,0,0" MaxWidth="{Binding ActualWidth, ElementName=ErrorBorder}">
+                <TextBlock TextWrapping="Wrap" Margin="0.5" HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                       FontSize="10" Foreground="White" Text="{Binding [0].ErrorContent}">
+                    
+                </TextBlock>
             </StackPanel>
 
         </StackPanel>

@@ -1,15 +1,20 @@
 ﻿using Prism.Mvvm;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using VortexPings.Models;
+using VortexPings.ValidationRules;
+using ValidationResult = VortexPings.ValidationRules.ValidationResult;
 
 namespace UIWPF.ViewModels
 {
-    public class NodeDataViewModel:BindableBase
+    public class NodeDataViewModel:ViewModelValidatingBase
     {
         public NodeData NodeDataModel { get; private set; }
 
@@ -70,16 +75,16 @@ namespace UIWPF.ViewModels
             }
         }
 
-        public int PackageSize
+        public int? PackageSize
         {
             get { return NodeDataModel.PackageSize; }
             set
             {
                 if (NodeDataModel.PackageSize != value)
                 {
-                    NodeDataModel.PackageSize = value;
-                    RaisePropertyChanged(nameof(PackageSize));
-                    RaisePropertyChanged(nameof(Buffer));
+                        NodeDataModel.PackageSize = value;
+                        RaisePropertyChanged(nameof(PackageSize));
+                        RaisePropertyChanged(nameof(Buffer));
                 }
             }
         }
@@ -89,7 +94,7 @@ namespace UIWPF.ViewModels
             get { return NodeDataModel.Buffer; }
         }
 
-        public int TTL
+        public int? TTL
         {
             get { return NodeDataModel.TTL; }
             set
@@ -117,7 +122,7 @@ namespace UIWPF.ViewModels
             }
         }
 
-        public int TimeOut
+        public int? TimeOut
         {
             get { return NodeDataModel.TimeOut; }
             set
@@ -130,7 +135,7 @@ namespace UIWPF.ViewModels
             }
         }
 
-        public int WarningTime
+        public int? WarningTime
         {
             get { return NodeDataModel.WarningTime; }
             set

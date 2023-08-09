@@ -14,28 +14,35 @@ namespace VortexPings.Models
         public string? HostOrIPadress { get; set; }
         public int GroupID { get; set; }
 
-        private int _PackageSize;
-        public int PackageSize
+        private int? _PackageSize;
+        public int? PackageSize
         {
             get { return _PackageSize; }
             set
             {
+                if (value == null)
+                {
+                    _PackageSize = value;
+                    return;
+                }
+                  
                 if (value < 28)
                 {
-                    _PackageSize = 28;
+                     CreateBuffer(28);
                 }
                 else
                 {
-                    _PackageSize = value;
+                    CreateBuffer((int)value);
                 }
 
-                CreateBuffer();
+                _PackageSize = value;
+              
             }
         }
 
-        private void CreateBuffer()
+        private void CreateBuffer(int bufferSize)
         {
-            string data = new string('a', _PackageSize);
+            string data = new string('a', bufferSize);
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             _Buffer = buffer;
         }
@@ -43,8 +50,8 @@ namespace VortexPings.Models
         private byte[]? _Buffer;
         public byte[]? Buffer { get {return _Buffer; } }
 
-        private int _TTL;
-        public int TTL { get { return _TTL; } set { _TTL = value; UpdatePingOption(); } }
+        private int? _TTL;
+        public int? TTL { get { return _TTL; } set { _TTL = value; UpdatePingOption(); } }
 
         private bool _DontFragment;
         public bool DontFragment { get { return _DontFragment; } set { _DontFragment = value; UpdatePingOption(); } }
@@ -55,15 +62,22 @@ namespace VortexPings.Models
             {
                 _PingOptions = new PingOptions();
             }
-            if (TTL == 0)
-                TTL = 64;
+
+            if (TTL == 0||TTL<0||TTL==null)
+            {
+                _PingOptions.DontFragment = DontFragment;
+                _PingOptions.Ttl = 1;
+
+                return;
+            }
+        
 
             _PingOptions.DontFragment = DontFragment;
-            _PingOptions.Ttl = _TTL;
+            _PingOptions.Ttl = (int)_TTL;
         }
 
-        public int TimeOut { get; set; }
-        public int WarningTime { get; set; }
+        public int? TimeOut { get; set; }
+        public int? WarningTime { get; set; }
 
         public PingOptions _PingOptions;
         public PingOptions? PingOptions { get { return _PingOptions; } }

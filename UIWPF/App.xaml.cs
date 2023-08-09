@@ -12,6 +12,7 @@ using System.Windows;
 using UIWPF.ViewModels;
 using UIWPF.Views;
 using VortexPings.Factories;
+using VortexPings.ValidationRules;
 
 namespace UIWPF
 {
@@ -25,12 +26,23 @@ namespace UIWPF
             containerRegistry.RegisterSingleton<NodeDataFactory, NodeDataFactory>();
             containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
 
+            //ValidationRules
+            containerRegistry.RegisterSingleton<UniqueNameValidationRule, UniqueNameValidationRule>();
+            containerRegistry.RegisterSingleton<IPaddressHostValidationRule, IPaddressHostValidationRule>();
+            containerRegistry.RegisterSingleton<PacketSizeValidationRule, PacketSizeValidationRule>();
+            containerRegistry.RegisterSingleton<TTLValidationRule, TTLValidationRule>();
+            containerRegistry.RegisterSingleton<WarningTimeValidatonRule, WarningTimeValidatonRule>();
+            containerRegistry.RegisterSingleton<TimeOutValidationRule, TimeOutValidationRule>();
+
+            //Navigation
             containerRegistry.RegisterForNavigation<PingGridView>();
 
+            //Dialogs
             containerRegistry.RegisterDialog<NodeGroupEditView, NodeGroupEditViewModel>();
             containerRegistry.RegisterDialog<NodeGroupDetailView, NodeGroupDetailViewModel>();
             containerRegistry.RegisterDialog<NodeEditView, NodeEditViewModel>();
             containerRegistry.RegisterDialogWindow<FixedDialogWindow>("FixedDialogWindow");
+            
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

@@ -8,15 +8,19 @@
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
              xmlns:vm="clr-namespace:UIWPF.ViewModels"
+             xmlns:converter ="clr-namespace:UIWPF.Controls.Converters"
              d:DataContext="{d:DesignInstance vm:NodeEditViewModel, IsDesignTimeCreatable=True}"
              Width="370" Height="290">
+    <UserControl.Resources>
+        <converter:StringToIntConverter x:Key="ConverterStringToInt"/>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
             <Label Content="Node name"  Foreground="{StaticResource Second.Foreground}" />
             <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  Text="{Binding NodeDataViewModel.NodeName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-            <Label Margin="0,8,0,0" Content="IP address\Domain name " Foreground="{StaticResource Second.Foreground}"></Label>
+            <Label Margin="0,12,0,0" Content="IP address\Host name " Foreground="{StaticResource Second.Foreground}"></Label>
             <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  Text="{Binding NodeDataViewModel.HostOrIPaddress, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged }"></TextBox>
-            <Grid HorizontalAlignment="Left" Width="280" Margin="0,8,0,0">
+            <Grid HorizontalAlignment="Left" Width="280" Margin="0,12,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
@@ -27,20 +31,20 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Grid.Column="0">
                     <Label Margin="-8,0,0,0" Foreground="{StaticResource Second.Foreground}"  Width="130"   Content="Packet size (bytes) "></Label>
-                    <TextBox HorizontalAlignment="Left" Width="100" MaxLength="5" Text="{Binding NodeDataViewModel.PackageSize}"  ></TextBox>
+                    <TextBox HorizontalAlignment="Left" Width="100" MaxLength="5" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.PackageSize, Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  ></TextBox>
                 </StackPanel>
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <Label Margin="40,0,0,0" Foreground="{StaticResource Second.Foreground}" Width="100" Content="TTL"></Label>
-                    <TextBox Margin="40,0,0,0" Width="100" MaxLength="3"  Text="{Binding NodeDataViewModel.TTL }"></TextBox>
+                    <TextBox Margin="40,0,0,0" Width="100" MaxLength="3"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.TTL,  Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0,8,0,0"   Grid.ColumnSpan="2">
                     <StackPanel >
                         <Label Foreground="{StaticResource Second.Foreground}" Margin="0" Width="90" Content="TimeOut (ms)"></Label>
-                        <TextBox HorizontalAlignment="Left"  Width="50"  MaxLength="5"  Text="{Binding NodeDataViewModel.TimeOut}"></TextBox>
+                        <TextBox HorizontalAlignment="Left"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Width="50"  MaxLength="5"  Text="{Binding NodeDataViewModel.TimeOut, Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                     <StackPanel >
                         <Label Foreground="{StaticResource Second.Foreground}" Margin="0" Width="110" Content="WarningTime (ms)"></Label>
-                        <TextBox  Margin="0" Width="50"  MaxLength="5"  Text="{Binding NodeDataViewModel.WarningTime}"></TextBox>
+                        <TextBox  Margin="0" Width="50"  MaxLength="5" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.WarningTime, Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     </StackPanel>
                     <StackPanel >
                         <Label Margin="-5,0,0,0" Foreground="{StaticResource Second.Foreground}" Width="90" Content="Don't fragment"></Label>
@@ -50,7 +54,7 @@
                 </StackPanel>
             </Grid>
             <StackPanel Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
-                <Button Width="100" Height="25" Style="{StaticResource SecondButton}" Content="Save" IsEnabled="{Binding CanSave, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsDefault="True" Command="{Binding CloseDialogCommand}" CommandParameter="true" ></Button>
+                <Button Width="100" Height="25" Style="{StaticResource SecondButton}"  Content="Save" IsEnabled="{Binding NodeDataViewModel.CanSave, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsDefault="True" Command="{Binding CloseDialogCommand}" CommandParameter="true" ></Button>
                 <Button Width="100" Height="25"  Style="{StaticResource SecondButton}"  Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="False" Content="Cancel" ></Button>
             </StackPanel>
         </StackPanel>
