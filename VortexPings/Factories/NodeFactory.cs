@@ -25,7 +25,19 @@ namespace VortexPings.Factories
             {
                
                 NodeData = nodeData,
-                Order = 0 // Установите необходимое значение для свойства Order
+                Order = 0 
+            };
+
+            return node;
+        }
+
+        public Node CreateNode(NodeData nodeData)
+        {
+            var node = new Node
+            {
+
+                NodeData = nodeData,
+                Order = 0
             };
 
             return node;
@@ -38,7 +50,7 @@ namespace VortexPings.Factories
             var node = new Node
             {
                 NodeData = nodeData,
-                Order = 0 // Установите необходимое значение для свойства Order
+                Order = 0 
             };
 
             return node;

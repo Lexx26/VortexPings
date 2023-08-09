@@ -8,6 +8,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VortexPings.Factories;
 using VortexPings.Models;
 
 namespace UIWPF.ViewModels
@@ -15,10 +16,14 @@ namespace UIWPF.ViewModels
     class NodeGroupDetailViewModel : FixedDialogBaseViewModel
     {
         private readonly IDialogService _dialogService;
+        private readonly NodeFactory _nodeFactory;
+        private readonly NodeDataFactory _nodeDataFactory;
 
-        public NodeGroupDetailViewModel(IDialogService dialogService)
+        public NodeGroupDetailViewModel(IDialogService dialogService, NodeFactory nodeFactory, NodeDataFactory nodeDataFactory)
         {
             _dialogService = dialogService;
+            _nodeFactory = nodeFactory;
+            _nodeDataFactory = nodeDataFactory;
         }
         private ObservableCollection<NodeGroupViewModel> _NodeGroups;
 
@@ -85,6 +90,39 @@ namespace UIWPF.ViewModels
         }
 
         bool CanExecuteDeleteGroupNodeCommand()
+        {
+            return true;
+        }
+
+        private DelegateCommand _addNodeCommand;
+        public DelegateCommand AddNodeCommand =>
+            _addNodeCommand ?? (_addNodeCommand = new DelegateCommand(ExecuteAddNodeCommand, CanExecuteAddNodeCommand));
+
+        void ExecuteAddNodeCommand()
+        {
+            var nodeData = _nodeDataFactory.CreateNodeDataDefaultValue("", "");
+
+            var nodeDataViewModel = new NodeDataViewModel(nodeData);
+            var dialogParameters = new DialogParameters();
+            dialogParameters.Add("NodeDataViewModel", nodeDataViewModel);
+            
+            _dialogService.ShowDialog("NodeEditView", dialogParameters, r =>
+            {
+                if (r.Result == ButtonResult.OK)
+                {
+                    if (r.Parameters != null)
+                    {
+                        nodeDataViewModel = r.Parameters.GetValue<NodeDataViewModel>("NodeDataViewModel");
+                        var node = _nodeFactory.CreateNode(nodeDataViewModel.NodeDataModel);
+                        var nodeViewModel = new NodeViewModel(node);
+                        NodeGroup.Nodes.Add(nodeViewModel);
+                    }
+                }
+            }, "FixedDialogWindow");
+
+        }
+
+        bool CanExecuteAddNodeCommand()
         {
             return true;
         }

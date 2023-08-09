@@ -117,6 +117,32 @@ namespace UIWPF.ViewModels
             }
         }
 
+        public int TimeOut
+        {
+            get { return NodeDataModel.TimeOut; }
+            set
+            {
+                if (NodeDataModel.TimeOut != value)
+                {
+                    NodeDataModel.TimeOut = value;
+                    RaisePropertyChanged(nameof(TimeOut));
+                }
+            }
+        }
+
+        public int WarningTime
+        {
+            get { return NodeDataModel.WarningTime; }
+            set
+            {
+                if (NodeDataModel.WarningTime != value)
+                {
+                    NodeDataModel.WarningTime = value;
+                    RaisePropertyChanged(nameof(WarningTime));
+                }
+            }
+        }
+
         public PingOptions? PingOptions
         {
             get { return NodeDataModel.PingOptions; }
