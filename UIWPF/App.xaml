@@ -17,6 +17,7 @@
                 <ResourceDictionary Source="Style/NodeGroup.xaml"/>
                 <ResourceDictionary Source="Style/FixedDialogWindow.xaml"/>
                 <ResourceDictionary Source="Style/Text.xaml"/>
+                <ResourceDictionary Source="Style/CheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

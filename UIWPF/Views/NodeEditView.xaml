@@ -5,8 +5,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:UIWPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:prism="http://prismlibrary.com/"
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:vm="clr-namespace:UIWPF.ViewModels"
+             Width="370" Height="290">
     <Grid>
-            
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <Label Content="Node name"  Foreground="{StaticResource Second.Foreground}" />
+            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  Text="{Binding NodeName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+            <Label Margin="0,8,0,0" Content="IP address\Domain name " Foreground="{StaticResource Second.Foreground}"></Label>
+            <TextBox Validation.ErrorTemplate="{StaticResource ErrorTemplate}"  Text="{Binding NodeIPadress, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged }"></TextBox>
+            <Grid HorizontalAlignment="Left" Width="280" Margin="0,8,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0">
+                    <Label Margin="-8,0,0,0" Foreground="{StaticResource Second.Foreground}"  Width="130"   Content="Packet size (bytes) "></Label>
+                    <TextBox HorizontalAlignment="Left" Width="100" MaxLength="5" Text="{Binding NodePackageSize}"  ></TextBox>
+                </StackPanel>
+                <StackPanel Grid.Row="0" Grid.Column="1">
+                    <Label Margin="40,0,0,0" Foreground="{StaticResource Second.Foreground}" Width="100" Content="TTL"></Label>
+                    <TextBox Margin="40,0,0,0" Width="100" MaxLength="3"  Text="{Binding NodeTTL }"></TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Margin="0,8,0,0"   Grid.ColumnSpan="2">
+                    <StackPanel >
+                        <Label Foreground="{StaticResource Second.Foreground}" Margin="0" Width="90" Content="TimeOut (ms)"></Label>
+                        <TextBox HorizontalAlignment="Left"  Width="50"  MaxLength="5"  Text="{Binding NodeTimeOut}"></TextBox>
+                    </StackPanel>
+                    <StackPanel >
+                        <Label Foreground="{StaticResource Second.Foreground}" Margin="0" Width="110" Content="WarningTime (ms)"></Label>
+                        <TextBox  Margin="0" Width="50"  MaxLength="5"  Text="{Binding NodeWarningTime}"></TextBox>
+                    </StackPanel>
+                    <StackPanel >
+                        <Label Foreground="{StaticResource Second.Foreground}" Width="90" Content="Don't fragment"></Label>
+                        <CheckBox  HorizontalAlignment="Center"  IsChecked="{Binding NodeDontFragment}" ></CheckBox>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Grid>
+            <StackPanel Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" Orientation="Horizontal">
+                <Button Width="100" Height="25" Style="{StaticResource SecondButton}" Content="Save" IsEnabled="{Binding CanSave, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  IsDefault="True" Command="{Binding CloseDialogCommand}" CommandParameter="true" ></Button>
+                <Button Width="100" Height="25"  Style="{StaticResource SecondButton}"  Margin="5,0,0,0" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="False" Content="Cancel" ></Button>
+            </StackPanel>
+        </StackPanel>
+       
     </Grid>
 </UserControl>
