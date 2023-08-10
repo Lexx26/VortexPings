@@ -154,10 +154,14 @@ namespace UIWPF.ViewModels
 
         void ExecuteCommandName()
         {
-            MessageBox.Show("You clicked node" + ClikedNode.NodeDataViewModel.NodeName);
-            ClikedNode.NodeDataViewModel.NodeName = "yandex.com";
-            ClikedNode.PingResultData.LastRoundTripTime = 25;
-            ClikedNode.PingResultData.PingResult = "TimeOut";
+            var dialogParameters = new DialogParameters();
+            dialogParameters.Add("Node", ClikedNode);
+
+            var nodeGroup = NodeGroups.Where(t => t.Nodes.Contains(ClikedNode)).FirstOrDefault();
+            dialogParameters.Add("NodeGroup", nodeGroup);
+
+            _dialogService.ShowDialog("NodeDetailView", dialogParameters, null
+            , "FixedDialogWindow");
         }
     }
     #endregion

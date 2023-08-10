@@ -41,6 +41,7 @@ namespace UIWPF
             containerRegistry.RegisterDialog<NodeGroupEditView, NodeGroupEditViewModel>();
             containerRegistry.RegisterDialog<NodeGroupDetailView, NodeGroupDetailViewModel>();
             containerRegistry.RegisterDialog<NodeEditView, NodeEditViewModel>();
+            containerRegistry.RegisterDialog<NodeDetailView, NodeDetailViewModel>();
             containerRegistry.RegisterDialogWindow<FixedDialogWindow>("FixedDialogWindow");
             
         }
