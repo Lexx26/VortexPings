@@ -14,7 +14,7 @@
     <Grid>
         <localC:PingGroupPanel DataItems="{Binding NodeGroups}" ClickedGroupNode="{Binding ClikedNodeGroup, Mode=TwoWay}"
                                        AddGroupCommand="{Binding AddGroupCommand}" 
-                                       ButtonLeftCommand="{Binding DeleteGroupCommand}" 
+                                       ButtonLeftCommand="{Binding StartGroupPingCommand}" 
                                        ButtonRightCommand="{Binding EditGroupCommand}"
                                        GroupCommand="{Binding GroupCommand}"
                                        NodeCommand="{Binding NodeCommand}"

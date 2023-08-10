@@ -13,6 +13,7 @@ using System.Windows;
 using System.Xml.Linq;
 using VortexPings.Factories;
 using VortexPings.Models;
+using VortexPings.Ping;
 
 namespace UIWPF.ViewModels
 {
@@ -21,13 +22,16 @@ namespace UIWPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IDialogService _dialogService;
         private NodeFactory _nodeFactory;
-        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService, IEventAggregator eventAggregator)
+        private readonly Pinger _pinger;
+
+        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService, IEventAggregator eventAggregator, Pinger pinger)
         {
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
             _nodeFactory = nodeFactory;
-            NodeGroups = new ObservableCollection<NodeGroupViewModel>();
+            _pinger = pinger;
 
+            NodeGroups = new ObservableCollection<NodeGroupViewModel>();
             var node = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
 
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
@@ -55,6 +59,22 @@ namespace UIWPF.ViewModels
 
         #region Commands
 
+        private DelegateCommand _startGroupPing;
+        public DelegateCommand StartGroupPingCommand =>
+            _startGroupPing ?? (_startGroupPing = new DelegateCommand(ExecuteStartGroupPingCommand));
+
+        async void ExecuteStartGroupPingCommand()
+        {
+            if (ClikedNodeGroup == null||ClikedNodeGroup.Nodes==null|| ClikedNodeGroup.Nodes.Count==0)
+                return;
+
+            foreach (var node in ClikedNodeGroup.Nodes)
+            {
+               await _pinger.StartPing(node.NodeModel);
+            }
+        }
+
+      
 
         private DelegateCommand _AddGroupCommand;
         public DelegateCommand AddGroupCommand =>

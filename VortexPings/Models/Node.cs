@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +45,7 @@ namespace VortexPings.Models
 
                     Pinger.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
 
-                    PingReply pingReply = await pingTaskCompletionSource.Task;
+                    var pingReply = await pingTaskCompletionSource.Task;
 
                     int remainingTime = minPingTime - (int)pingReply.RoundtripTime;
                     if (remainingTime > 0)
@@ -52,8 +53,9 @@ namespace VortexPings.Models
                         await Task.Delay(remainingTime, cancellationTokenSource.Token);
                     }
 
-                    СreatePingResultData(pingReply);
-                    PingResultDataUpdated?.Invoke();
+                    var pingReplayResult = new PingReplyResult(pingReply);
+                    СreatePingResultData(pingReplayResult);
+                   
                 }
             }
             catch (OperationCanceledException)
@@ -66,9 +68,27 @@ namespace VortexPings.Models
             {
 
             }
+            catch (Exception ex)
+            {
+               if(ex.InnerException!=null&&ex.InnerException.InnerException!=null)
+                {
+                    var socketException = ex.InnerException.InnerException as SocketException;
+                    if(socketException != null)
+                    {
+                        var pingReplayResult = new PingReplyResult(socketException.SocketErrorCode.ToString(),null,0);
+                        СreatePingResultData(pingReplayResult);
+                    }
+                    else
+                    {
+                        var pingReplayResult = new PingReplyResult("DestinationHostUnreachable", null, 0);
+                        СreatePingResultData(pingReplayResult);
+                    }
+                }
+              
+            }
             finally
             {
-
+                PingResultDataUpdated?.Invoke();
             }
 
         }
@@ -89,14 +109,11 @@ namespace VortexPings.Models
             }
         }
 
-        private void СreatePingResultData(PingReply pingReply)
+        private void СreatePingResultData(PingReplyResult pingReply)
         {
             PingResultData.LastRoundTripTime = pingReply.RoundtripTime;
-            PingResultData.PingResult = pingReply.Status.ToString();
-            if (PingResultData.PingResult == "11050")
-            {
-                PingResultData.PingResult = "DestinationHostUnreachable";
-            }
+            PingResultData.PingResult = pingReply.Status;
+     
 
             if (pingReply.Address != null)
             {
@@ -111,9 +128,9 @@ namespace VortexPings.Models
 
         }
 
-        private void StatusSelector(PingReply pingReply)
+        private void StatusSelector(PingReplyResult pingReply)
         {
-            if (pingReply.Status == IPStatus.Success)
+            if (pingReply.Status == "Success")
             {
                 if (PingResultData.LastRoundTripTime >= NodeData.WarningTime)
                 {

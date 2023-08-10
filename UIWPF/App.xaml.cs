@@ -12,6 +12,7 @@ using System.Windows;
 using UIWPF.ViewModels;
 using UIWPF.Views;
 using VortexPings.Factories;
+using VortexPings.Ping;
 using VortexPings.ValidationRules;
 
 namespace UIWPF
@@ -25,6 +26,7 @@ namespace UIWPF
         {
             containerRegistry.RegisterSingleton<NodeDataFactory, NodeDataFactory>();
             containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
+            containerRegistry.RegisterSingleton<Pinger, Pinger>();
 
             //ValidationRules
             containerRegistry.RegisterSingleton<UniqueNameValidationRule, UniqueNameValidationRule>();
