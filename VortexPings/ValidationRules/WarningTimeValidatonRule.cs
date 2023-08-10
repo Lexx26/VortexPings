@@ -23,9 +23,9 @@ namespace VortexPings.ValidationRules
                 return new ValidationResult(false, "Value must be integer!", propertyName);
             }
 
-            if (intValue < 0)
+            if (intValue <= 10)
             {
-                return new ValidationResult(false, "Value must be greater than zero!", propertyName);
+                return new ValidationResult(false, "Value must be greater than 10!", propertyName);
             }
 
             if (intValue > 99999)

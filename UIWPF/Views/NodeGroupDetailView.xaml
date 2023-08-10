@@ -10,12 +10,12 @@
              d:DataContext="{d:DesignInstance vm:NodeGroupDetailViewModel, IsDesignTimeCreatable=True}"
              mc:Ignorable="d" 
              Width="800" Height="400" >
-    <Grid>
+    <DockPanel>
+    <Grid DockPanel.Dock="Top" Height="365">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="30"></RowDefinition>
-        </Grid.RowDefinitions>
+            <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -38,15 +38,15 @@
                 </StackPanel>
             </Border>
         </StackPanel>
-        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock Margin="15,1,15,1" Text="Group name:" Foreground="{StaticResource Second.Foreground}" FontSize="12"></TextBlock>
-            <TextBlock Margin="45,1,25,1" Text="{Binding NodeGroup.Name}" Foreground="{StaticResource Second.Foreground}" FontSize="18"></TextBlock>
-            <Separator Margin="15,0,15,1" Height="1" Background="{StaticResource Second.Foreground}"/>
-        </StackPanel>
-        
-        <StackPanel Grid.Row="2" Grid.Column="0" Grid.RowSpan="2" HorizontalAlignment="Stretch">
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                <TextBlock Margin="15,1,15,1" Text="Group name:" Foreground="{StaticResource Second.Foreground}" FontSize="12"></TextBlock>
+                <TextBlock Margin="45,1,25,1" Text="{Binding NodeGroup.Name}" Foreground="{StaticResource Second.Foreground}" FontSize="18"></TextBlock>
+                <Separator Margin="15,0,15,1" Height="1" Background="{StaticResource Second.Foreground}"/>
+            </StackPanel>
+        </Grid>
+        <StackPanel DockPanel.Dock="Bottom" Grid.RowSpan="2" HorizontalAlignment="Stretch">
             <Button   Width="100" Height="25" Content="Close" Style="{StaticResource SecondButton}" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" />
         </StackPanel>
 
-    </Grid>
+    </DockPanel>
 </UserControl>

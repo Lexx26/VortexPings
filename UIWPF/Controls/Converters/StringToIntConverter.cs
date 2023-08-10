@@ -28,6 +28,9 @@ namespace UIWPF.Controls.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+                return null;
+
             var strVal = value.ToString();
 
             var isInt = int.TryParse(strVal, out int result);
@@ -36,6 +39,30 @@ namespace UIWPF.Controls.Converters
             {
                 return value;
             }
+
+            
+
+            return GetNumber(strVal);
+        }
+
+        private int? GetNumber(string str)
+        {
+            string resultStr = null;
+
+            foreach (var charC in str)
+            {
+                if(int.TryParse(charC.ToString(),out int intVal))
+                {
+                    resultStr = resultStr + intVal.ToString();
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (resultStr != null)
+                return int.Parse(resultStr);
 
             return null;
         }
