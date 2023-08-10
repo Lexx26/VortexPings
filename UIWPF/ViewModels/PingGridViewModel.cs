@@ -54,6 +54,8 @@ namespace UIWPF.ViewModels
         public NodeViewModel ClikedNode { get; set; }
 
         #region Commands
+
+
         private DelegateCommand _AddGroupCommand;
         public DelegateCommand AddGroupCommand =>
             _AddGroupCommand ?? (_AddGroupCommand = new DelegateCommand(AddGroupCommandExecute, CanExecuteAddGroupCommand));
@@ -91,43 +93,6 @@ namespace UIWPF.ViewModels
         {
             return true;
         }
-
-
-        private DelegateCommand _DeleteGroupCommand;
-        public DelegateCommand DeleteGroupCommand =>
-            _DeleteGroupCommand ?? (_DeleteGroupCommand = new DelegateCommand(DeleteGroupCommandExecute, CanExecuteDeleteGroupCommand));
-
-        void DeleteGroupCommandExecute()
-        {
-            NodeGroups.Remove(ClikedNodeGroup);
-        }
-
-        bool CanExecuteDeleteGroupCommand()
-        {
-            return true;
-        }
-
-
-        private DelegateCommand _EditGroupCommand;
-        public DelegateCommand EditGroupCommand =>
-            _EditGroupCommand ?? (_EditGroupCommand = new DelegateCommand(EditGroupCommandExecute, CanExecuteEditGroupCommand));
-
-        void EditGroupCommandExecute()
-        {
-
-            var node = _nodeFactory.CreateNodeWithDefaultValue("SuperNew", "localhost");
-            var nodeViewModel = new NodeViewModel(node);
-            if (ClikedNodeGroup.Nodes == null)
-                ClikedNodeGroup.Nodes = new ObservableCollection<NodeViewModel>();
-            ClikedNodeGroup.Nodes.Add(nodeViewModel);
-
-        }
-
-        bool CanExecuteEditGroupCommand()
-        {
-            return true;
-        }
-
 
         private DelegateCommand _GroupCommand;
         public DelegateCommand GroupCommand =>

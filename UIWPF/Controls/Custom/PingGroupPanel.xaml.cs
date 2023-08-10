@@ -76,33 +76,27 @@ namespace UIWPF.Controls.Custom
         }
 
 
-       public static readonly DependencyProperty DeleteGroupCommandProperty =
-       DependencyProperty.Register("DeleteGroupCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
+       public static readonly DependencyProperty ButtonLeftCommandProperty =
+       DependencyProperty.Register("ButtonLeftCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public ICommand DeleteGroupCommand
+        public ICommand ButtonLeftCommand
         {
-            get { return (ICommand)GetValue(DeleteGroupCommandProperty); }
-            set { SetValue(DeleteGroupCommandProperty, value); }
+            get { return (ICommand)GetValue(ButtonLeftCommandProperty); }
+            set { SetValue(ButtonLeftCommandProperty, value); }
         }
 
-        private void ExecuteDeleteGroupCommand(object parameter)
+   
+
+      public static readonly DependencyProperty ButtonRightCommandProperty =
+      DependencyProperty.Register("ButtonRightCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
+
+        public ICommand ButtonRightCommand
         {
-            
+            get { return (ICommand)GetValue(ButtonRightCommandProperty); }
+            set { SetValue(ButtonRightCommandProperty, value); }
         }
 
-      public static readonly DependencyProperty EditGroupCommandProperty =
-      DependencyProperty.Register("EditGroupCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
 
-        public ICommand EditGroupCommand
-        {
-            get { return (ICommand)GetValue(EditGroupCommandProperty); }
-            set { SetValue(EditGroupCommandProperty, value); }
-        }
-
-        private void ExecuteEditGroupCommand(object parameter)
-        {
-
-        }
 
         public static readonly DependencyProperty GroupCommandProperty =
         DependencyProperty.Register("GroupCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
@@ -118,6 +112,7 @@ namespace UIWPF.Controls.Custom
 
         }
         #endregion
+
         public PingGroupPanel()
         {
             InitializeComponent();

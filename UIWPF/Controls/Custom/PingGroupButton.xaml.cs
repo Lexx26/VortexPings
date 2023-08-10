@@ -57,18 +57,18 @@ namespace UIWPF.Controls.Custom
             InitializeComponent();
         }
 
-        private void DeleteGroupButton_Click(object sender, RoutedEventArgs e)
+        private void LeftButton_Click(object sender, RoutedEventArgs e)
         {
             ParentPingGroupPanel.ClickedGroupNode = NodeGroupItem;
-            if(ParentPingGroupPanel.DeleteGroupCommand!=null)
-            ParentPingGroupPanel.DeleteGroupCommand.Execute(null);
+            if(ParentPingGroupPanel.ButtonLeftCommand!=null)
+            ParentPingGroupPanel.ButtonLeftCommand.Execute(null);
         }
 
-        private void EditGroupButton_Click(object sender, RoutedEventArgs e)
+        private void RightButton_Click(object sender, RoutedEventArgs e)
         {
             ParentPingGroupPanel.ClickedGroupNode = NodeGroupItem;
-            if(ParentPingGroupPanel.EditGroupCommand!=null)
-            ParentPingGroupPanel.EditGroupCommand.Execute(null);
+            if(ParentPingGroupPanel.ButtonRightCommand!=null)
+            ParentPingGroupPanel.ButtonRightCommand.Execute(null);
             
         }
 

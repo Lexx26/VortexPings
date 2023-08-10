@@ -11,7 +11,7 @@
         <Grid DockPanel.Dock="Top" Margin="3">
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="20"></RowDefinition>
+                <RowDefinition Height="24"></RowDefinition>
             </Grid.RowDefinitions>
                 <Button Grid.Row="0" Style="{StaticResource NodeGroup}" x:Name="GroupButton" Click="GroupButton_Click">
                 <Grid>
@@ -31,8 +31,8 @@
                     <ColumnDefinition></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource SecondButton}" Name="DeleteGroupButton"  Content="Delete" Click="DeleteGroupButton_Click"  />
-                <Button Grid.Column="1" Name="EditGroupButton" Style="{StaticResource SecondButton}"    Content="Edit" Click="EditGroupButton_Click"   />
+                <Button Grid.Column="0" Style="{StaticResource SecondButton}" Name="LeftButton"  Content ="StartAllPing" Click="LeftButton_Click"  />
+                <Button Grid.Column="1" Name="EditGroupButton" Style="{StaticResource SecondButton}"    Content="StopAllPing" Click="RightButton_Click"   />
             </Grid>
             </Grid>
         </Border>
