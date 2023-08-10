@@ -10,6 +10,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Xml.Linq;
 using VortexPings.Factories;
 using VortexPings.Models;
 
@@ -150,15 +151,16 @@ namespace UIWPF.ViewModels
 
         private DelegateCommand _NodeCommand;
         public DelegateCommand NodeCommand =>
-            _NodeCommand ?? (_NodeCommand = new DelegateCommand(ExecuteCommandName));
+            _NodeCommand ?? (_NodeCommand = new DelegateCommand(ExecuteNodeCommand));
 
-        void ExecuteCommandName()
+        void ExecuteNodeCommand()
         {
             var dialogParameters = new DialogParameters();
             dialogParameters.Add("Node", ClikedNode);
 
             var nodeGroup = NodeGroups.Where(t => t.Nodes.Contains(ClikedNode)).FirstOrDefault();
             dialogParameters.Add("NodeGroup", nodeGroup);
+            dialogParameters.Add("NodeGroups", NodeGroups);
 
             _dialogService.ShowDialog("NodeDetailView", dialogParameters, null
             , "FixedDialogWindow");

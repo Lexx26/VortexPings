@@ -14,7 +14,7 @@ namespace UIWPF.ViewModels
         public NodeDataViewModel? NodeDataViewModel
         { 
             get { return _nodeDataViewModel;} 
-            private set { SetProperty(ref _nodeDataViewModel, value); } }
+            set { SetProperty(ref _nodeDataViewModel, value); } }
 
         private PingResultDataViewModel _pingResultData;
         public PingResultDataViewModel? PingResultData

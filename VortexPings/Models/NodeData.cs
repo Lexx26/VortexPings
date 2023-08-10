@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace VortexPings.Models
 {
-    public class NodeData
+    public class NodeData:ICloneable
     {
         public string? NodeName { get; set; }
         public int NodeId { get; set; }
@@ -74,6 +74,11 @@ namespace VortexPings.Models
 
             _PingOptions.DontFragment = DontFragment;
             _PingOptions.Ttl = (int)_TTL;
+        }
+
+        public object Clone()
+        {
+            return MemberwiseClone();
         }
 
         public int? TimeOut { get; set; }
