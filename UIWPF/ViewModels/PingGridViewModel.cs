@@ -33,9 +33,9 @@ namespace UIWPF.ViewModels
 
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
-            for (int i = 0; i < 200; i++)
+            for (int i = 0; i < 30; i++)
             {
-                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
+                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "rrr");
 
                
                 nodeGroup.Nodes.Add(node);

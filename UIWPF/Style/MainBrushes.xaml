@@ -23,6 +23,8 @@
     </LinearGradientBrush>
 
     <SolidColorBrush x:Key="RedBrush" Color="{StaticResource RedColor}"></SolidColorBrush>
+    <SolidColorBrush x:Key="WhiteBrush" Color="White"></SolidColorBrush>
+    <SolidColorBrush x:Key="YellowBrush" Color="{StaticResource YellowColor.Foreground}"></SolidColorBrush>
 
     <DrawingBrush x:Key="GridBrush" Stretch="None" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute">
         <DrawingBrush.Drawing>

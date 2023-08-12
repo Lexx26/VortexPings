@@ -163,17 +163,28 @@ namespace VortexPings.Models
             }
         }
 
-        protected virtual void Dispose(bool disposing)
+        protected async virtual void Dispose(bool disposing)
         {
             if (!disposedValue)
             {
                 if (disposing)
                 {
                     // TODO: dispose managed state (managed objects)
+
+                    CancellationTokenSource.Cancel();
+
+                    if (pingTaskCompletionSource != null)
+                    {
+                        var task = pingTaskCompletionSource.Task;
+                        while (task.IsCompleted == false || IsInPingerQueue == true)
+                        {
+                            await Task.Delay(100);
+                        }
+                    }
                 }
 
-
-
+               
+               
                 NodePing.PingCompleted -= OnPingCompleted;
                 NodePing.Dispose();
                 CancellationTokenSource?.Dispose();

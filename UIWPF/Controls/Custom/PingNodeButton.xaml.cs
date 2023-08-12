@@ -34,13 +34,16 @@ namespace UIWPF.Controls.Custom
 
         private Style _ButtonStylePing;
         private Style _ButtonStyleNotPing;
-
+        private Style _ButtonStylePingRed;
+        private Style _ButtonStylePingYellow;
         public PingNodeButton(NodeViewModel nodeViewModel, PingGroupPanel _parentPingGroupPanel)
         {
             NodeViewModel = nodeViewModel;
             ParentPingGroupPanel = _parentPingGroupPanel;
             _ButtonStylePing = (Style)FindResource("NodePingNormal");
             _ButtonStyleNotPing = (Style)FindResource("NodeNotPing");
+            _ButtonStylePingRed = (Style)FindResource("NodePingRed");
+            _ButtonStylePingYellow = (Style)FindResource("NodePingYellow");
             InitializeComponent();
             BindData();
 
@@ -77,11 +80,49 @@ namespace UIWPF.Controls.Custom
                 {
                     Dispatcher.Invoke(()=>
                     PingNodeButtonMain.Style = _ButtonStylePing);
+
                 }
                 else
                 {
                     Dispatcher.Invoke(() =>
                    PingNodeButtonMain.Style = _ButtonStyleNotPing);
+                }
+
+                return;
+            }
+
+            if (e.PropertyName == "PingResultData")
+            {
+                if (NodeViewModel.PingResultData.PingStatus == PingStatus.Red)
+                {
+                    if (PingNodeButtonMain.Style != _ButtonStylePingRed)
+                    {
+                        Dispatcher.Invoke(() =>
+                    PingNodeButtonMain.Style = _ButtonStylePingRed);
+                    }
+                    return;
+                }
+
+                if (NodeViewModel.PingResultData.PingStatus == PingStatus.Yellow)
+                {
+
+                    if (PingNodeButtonMain.Style != _ButtonStylePingYellow)
+                    {
+                        Dispatcher.Invoke(() =>
+                    PingNodeButtonMain.Style = _ButtonStylePingYellow);
+                    }
+
+                    return;
+                }
+
+                if (NodeViewModel.PingResultData.PingStatus == PingStatus.Green)
+                {
+                    if (PingNodeButtonMain.Style != _ButtonStylePing)
+                    {
+                        Dispatcher.Invoke(() =>
+                    PingNodeButtonMain.Style = _ButtonStylePing);
+                    }
+                    return; 
                 }
             }
         }
@@ -101,6 +142,8 @@ namespace UIWPF.Controls.Custom
             ParentPingGroupPanel = null;
             _ButtonStylePing = null;
             _ButtonStyleNotPing = null;
+            _ButtonStylePingRed = null;
+            _ButtonStylePingYellow = null;
         }
 
         private void PingNodeButtonMain_Click(object sender, RoutedEventArgs e)

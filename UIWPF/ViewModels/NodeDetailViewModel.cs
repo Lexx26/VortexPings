@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using VortexPings.Factories;
 using VortexPings.Models;
@@ -83,8 +84,9 @@ namespace UIWPF.ViewModels
         public DelegateCommand DeleteNodeCommand =>
             _DeleteNodeCommand ?? (_DeleteNodeCommand = new DelegateCommand(ExecuteDeleteNodeCommand, CanExecuteDeleteNodeCommand));
 
-        void ExecuteDeleteNodeCommand()
+         void ExecuteDeleteNodeCommand()
         {
+           
             NodeGroup.DeleteNode(Node);
             CloseDialogCommand.Execute("true");
         }

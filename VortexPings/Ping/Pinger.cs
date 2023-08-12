@@ -50,7 +50,7 @@ namespace VortexPings.Ping
                     
                     var completedTask = await Task.WhenAny(_PingTasks);
 
-                    var nodeTaskToRestart = completedTask.Result;
+                    var nodeTaskToRestart = await completedTask;
 
                     _PingTasks.Remove(completedTask);
 

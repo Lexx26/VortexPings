@@ -14,6 +14,7 @@
     <Color x:Key="DisabledColor.Foreground">#FF555555</Color>
 
     <Color x:Key="RedColor">#FFAA3B3B</Color>
+    <Color x:Key="YellowColor.Foreground">#FFB6C332</Color>
     
     <!--SecondColors-->
     <Color x:Key="Second.BackgroundColor.ColorFill">#FF054764</Color>

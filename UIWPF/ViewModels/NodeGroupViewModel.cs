@@ -59,12 +59,12 @@ namespace UIWPF.ViewModels
 
         }
 
-        public void DeleteNode(NodeViewModel nodeViewModel)
+        public async Task DeleteNode(NodeViewModel nodeViewModel)
         {
             var isContain = Nodes.Contains(nodeViewModel);
 
             if(isContain==true)
-            {
+            {  
                 nodeViewModel.Dispose();
                 Nodes.Remove(nodeViewModel);
             }
