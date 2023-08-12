@@ -23,7 +23,6 @@ namespace VortexPings.Ping
         public void StartPing(Node node)
         {
 
-
             if (_Nodes.Contains(node))
                 return;
 
@@ -53,7 +52,6 @@ namespace VortexPings.Ping
 
                     var nodeTaskToRestart = completedTask.Result;
 
-                  
                     _PingTasks.Remove(completedTask);
 
                     if (completedTask.IsCanceled == false && nodeTaskToRestart.CancellationTokenSource.IsCancellationRequested == false)
@@ -63,7 +61,6 @@ namespace VortexPings.Ping
                     }
                     else
                     {
-                        
                         _Nodes.Remove(nodeTaskToRestart);
                         nodeTaskToRestart.IsInPingerQueue = false;
                     }
@@ -83,11 +80,7 @@ namespace VortexPings.Ping
                 _Nodes.Clear();
                 
                 IsPinging = false;
-
-               
-
             }
-               
 
             IsPinging = false;
         }
@@ -95,7 +88,6 @@ namespace VortexPings.Ping
         public void StopPing(Node node)
         { 
             node.CancellationTokenSource.Cancel();
-          
 
         }
 
