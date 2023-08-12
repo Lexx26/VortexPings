@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,61 +12,90 @@ namespace VortexPings.Ping
     public class Pinger
     {
         private List<Node> _Nodes = new List<Node>();
-        private List<Task> _PingTasks = new List<Task>();
+        private List<Task<Node>> _PingTasks = new List<Task<Node>>();
+
         public bool IsPinging { get; private set; }
 
         public int MinPingTime { get; set; } = 1000;
 
-        public async Task StartPing(Node node)
+        private object _PingTasksLock = new object();
+
+        public void StartPing(Node node)
         {
+
+
             if (_Nodes.Contains(node))
                 return;
 
             _Nodes.Add(node);
-
+            node.IsInPingerQueue = true;
+            lock (_PingTasksLock)
+            {
+                _PingTasks.Add(node.PingAsync(MinPingTime));
+            }
             if (IsPinging == false)
             {
-                PingCycles();
+                IsPinging = true;
+                Task.Run(() => PingCycles());
             }
 
         }
 
-        public async Task PingCycles()
+        private async Task PingCycles()
         {
-            IsPinging = true;
+            try
+            {
 
-            while (_Nodes.Count > 0)
+                while (_PingTasks.Count > 0)
+                {
+                    
+                    var completedTask = await Task.WhenAny(_PingTasks);
+
+                    var nodeTaskToRestart = completedTask.Result;
+
+                  
+                    _PingTasks.Remove(completedTask);
+
+                    if (completedTask.IsCanceled == false && nodeTaskToRestart.CancellationTokenSource.IsCancellationRequested == false)
+                    {
+                     
+                        _PingTasks.Add(nodeTaskToRestart.PingAsync(MinPingTime));
+                    }
+                    else
+                    {
+                        
+                        _Nodes.Remove(nodeTaskToRestart);
+                        nodeTaskToRestart.IsInPingerQueue = false;
+                    }
+
+                } 
+
+            }
+            catch (Exception ex)
             {
                 for (int i = 0; i < _Nodes.Count; i++)
                 {
                     Node? node = _Nodes[i];
-                    if (node.CancellationTokenSource == null || !node.CancellationTokenSource.IsCancellationRequested)
-                    {
-                        _PingTasks.Add(node.PingAsync(MinPingTime));
-                    }
-
-                    if (node.CancellationTokenSource != null && node.CancellationTokenSource.IsCancellationRequested)
-                    {
-                        _Nodes.Remove(node);
-                    }
-
+                    node.IsInPingerQueue = false;
+                    
                 }
+                _PingTasks.Clear();
+                _Nodes.Clear();
+                
+                IsPinging = false;
 
-                while (_PingTasks.Count > 0)
-                {
-                    var compledTask = await Task.WhenAny(_PingTasks);
-                    _PingTasks.Remove(compledTask);
+               
 
-                }
             }
+               
 
             IsPinging = false;
         }
 
         public void StopPing(Node node)
-        {
-            _Nodes.Remove(node);
+        { 
             node.CancellationTokenSource.Cancel();
+          
 
         }
 

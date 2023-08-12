@@ -4,17 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using VortexPings.Models;
 
 namespace UIWPF.ViewModels
 {
-    public class NodeViewModel:BindableBase,IDisposable
+    public class NodeViewModel : BindableBase, IDisposable
     {
         private NodeDataViewModel _nodeDataViewModel;
         public NodeDataViewModel? NodeDataViewModel
-        { 
-            get { return _nodeDataViewModel;}
-            set { SetProperty(ref _nodeDataViewModel, value); NodeModel.NodeData = _nodeDataViewModel.NodeDataModel; } }
+        {
+            get { return _nodeDataViewModel; }
+            set { SetProperty(ref _nodeDataViewModel, value); NodeModel.NodeData = _nodeDataViewModel.NodeDataModel; }
+        }
 
         private PingResultDataViewModel _pingResultData;
         public PingResultDataViewModel? PingResultData
@@ -27,7 +29,12 @@ namespace UIWPF.ViewModels
         public int Order
         {
             get { return _order; }
-            set { SetProperty(ref _order, value);}
+            set { SetProperty(ref _order, value); }
+        }
+
+        public bool IsInPingerQueue
+        {
+            get { return NodeModel.IsInPingerQueue; }
         }
 
         public Node NodeModel { get; private set; }
@@ -38,11 +45,20 @@ namespace UIWPF.ViewModels
             NodeDataViewModel = new NodeDataViewModel(node.NodeData);
             PingResultData = new PingResultDataViewModel(node.PingResultData);
             NodeModel.PingResultDataUpdated += _Node_PingResultDataUpdated;
+            NodeModel.IsInPingerQueueChanged += NodeModel_IsInPingerQueueChanged;
         }
 
+        private void NodeModel_IsInPingerQueueChanged()
+        {
+            RaisePropertyChanged(nameof(IsInPingerQueue));
+        }
+
+        private readonly object pingResultLock = new object();
         private void _Node_PingResultDataUpdated()
         {
+
             RaisePropertyChanged(nameof(PingResultData));
+
         }
 
         public void Dispose()
@@ -50,9 +66,10 @@ namespace UIWPF.ViewModels
             if (NodeModel != null)
             {
                 NodeModel.PingResultDataUpdated -= _Node_PingResultDataUpdated;
+                NodeModel.IsInPingerQueueChanged -= NodeModel_IsInPingerQueueChanged;
                 NodeModel.Dispose();
             }
-              
+
         }
     }
 }

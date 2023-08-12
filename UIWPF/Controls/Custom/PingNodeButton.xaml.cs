@@ -32,12 +32,18 @@ namespace UIWPF.Controls.Custom
 
         public PingGroupPanel ParentPingGroupPanel { get; private set; }
 
+        private Style _ButtonStylePing;
+        private Style _ButtonStyleNotPing;
+
         public PingNodeButton(NodeViewModel nodeViewModel, PingGroupPanel _parentPingGroupPanel)
         {
             NodeViewModel = nodeViewModel;
             ParentPingGroupPanel = _parentPingGroupPanel;
+            _ButtonStylePing = (Style)FindResource("NodePingNormal");
+            _ButtonStyleNotPing = (Style)FindResource("NodeNotPing");
             InitializeComponent();
             BindData();
+
         }
 
         private void BindData()
@@ -60,11 +66,30 @@ namespace UIWPF.Controls.Custom
 
             this.PingResult.SetBinding(TextBlock.TextProperty, pingResultBinding);
 
+            NodeViewModel.PropertyChanged += NodeViewModel_PropertyChanged;
+        }
+
+        private void NodeViewModel_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName=="IsInPingerQueue")
+            {
+                if(NodeViewModel.IsInPingerQueue==true)
+                {
+                    Dispatcher.Invoke(()=>
+                    PingNodeButtonMain.Style = _ButtonStylePing);
+                }
+                else
+                {
+                    Dispatcher.Invoke(() =>
+                   PingNodeButtonMain.Style = _ButtonStyleNotPing);
+                }
+            }
         }
 
         private void Unbind()
         {
             BindingOperations.ClearAllBindings(this);
+            NodeViewModel.PropertyChanged -= NodeViewModel_PropertyChanged;
         }
 
        public void DestroyControl()
@@ -74,6 +99,8 @@ namespace UIWPF.Controls.Custom
             _nodeViewModel = null;
             NodeViewModel = null;
             ParentPingGroupPanel = null;
+            _ButtonStylePing = null;
+            _ButtonStyleNotPing = null;
         }
 
         private void PingNodeButtonMain_Click(object sender, RoutedEventArgs e)

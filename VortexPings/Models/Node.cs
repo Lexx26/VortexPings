@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.NetworkInformation;
+﻿using System.Net.NetworkInformation;
 using System.Net.Sockets;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VortexPings.Models
 {
@@ -13,6 +8,21 @@ namespace VortexPings.Models
     {
         private bool disposedValue;
 
+        private bool _IsInPingerQueue;
+        public bool IsInPingerQueue { get { return _IsInPingerQueue; }
+            set 
+            { 
+                _IsInPingerQueue = value; 
+                IsInPingerQueueChanged?.Invoke();
+                if (CancellationTokenSource != null)
+                {
+                    CancellationTokenSource.Cancel();
+                    CancellationTokenSource.Dispose();
+                }
+                   
+                CancellationTokenSource = new CancellationTokenSource(); 
+            } 
+        }
         public NodeData? NodeData { get;  set; }
 
         public PingResultData? PingResultData { get; private set; }
@@ -20,8 +30,9 @@ namespace VortexPings.Models
         public int Order { get; set; }
 
         public event Action PingResultDataUpdated;
+        public event Action IsInPingerQueueChanged;
 
-        private System.Net.NetworkInformation.Ping Pinger { get; } = new System.Net.NetworkInformation.Ping();
+        private System.Net.NetworkInformation.Ping NodePing { get; } = new System.Net.NetworkInformation.Ping();
 
         public CancellationTokenSource? CancellationTokenSource { get; private set; } = new CancellationTokenSource();
         private TaskCompletionSource<PingReply> pingTaskCompletionSource = null;
@@ -30,38 +41,42 @@ namespace VortexPings.Models
         {
             NodeData = new NodeData();
             PingResultData = new PingResultData();
+            NodePing.PingCompleted += OnPingCompleted;
         }
-        public async Task PingAsync(int minPingTime)
+        public async Task<Node> PingAsync(int minPingTime)
         {
 
-            var cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(CancellationTokenSource.Token);
             try
             {
                 pingTaskCompletionSource = new TaskCompletionSource<PingReply>();
-                Pinger.PingCompleted += OnPingCompleted;
 
-                using (cancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
+                using (CancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
                 {
 
-                    Pinger.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
+                    NodePing.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
 
                     var pingReply = await pingTaskCompletionSource.Task;
 
-                    int remainingTime = minPingTime - (int)pingReply.RoundtripTime;
-                    if (remainingTime > 0)
-                    {
-                        await Task.Delay(remainingTime, cancellationTokenSource.Token);
-                    }
+                 
 
                     var pingReplayResult = new PingReplyResult(pingReply);
+
+                    if (PingResultData?.LastRoundTripTime != null)
+                    {
+                        int remainingTime = minPingTime - (int)PingResultData.LastRoundTripTime;
+                        if (remainingTime > 0)
+                        {
+                            await Task.Delay(remainingTime, CancellationTokenSource.Token);
+                        }
+                    }
                     СreatePingResultData(pingReplayResult);
+
                    
                 }
             }
             catch (OperationCanceledException)
             {
-                CancellationTokenSource.Dispose();
-                CancellationTokenSource = new CancellationTokenSource();
+              
 
             }
             catch (PingException ex)
@@ -89,8 +104,10 @@ namespace VortexPings.Models
             finally
             {
                 PingResultDataUpdated?.Invoke();
+               
             }
 
+            return this;
         }
 
         private void OnPingCompleted(object sender, PingCompletedEventArgs e)
@@ -157,8 +174,8 @@ namespace VortexPings.Models
 
 
 
-                Pinger.PingCompleted -= OnPingCompleted;
-                Pinger.Dispose();
+                NodePing.PingCompleted -= OnPingCompleted;
+                NodePing.Dispose();
                 CancellationTokenSource?.Dispose();
 
                 disposedValue = true;

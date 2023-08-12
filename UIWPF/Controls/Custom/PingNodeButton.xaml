@@ -11,7 +11,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition ></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Name="PingNodeButtonMain" Grid.Row="0" Style="{StaticResource Node}" Margin="4,4,0,4" Click="PingNodeButtonMain_Click">
+            <Button Name="PingNodeButtonMain" Grid.Row="0" Style="{StaticResource NodeNotPing}" Margin="4,4,0,4" Click="PingNodeButtonMain_Click">
                 <Grid Margin="-1" Height="{Binding ElementName=PingNodeButtonMain, Path=ActualHeight}" Width="auto">
                     <Grid.RowDefinitions>
                         <RowDefinition></RowDefinition>

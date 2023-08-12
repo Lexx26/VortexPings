@@ -32,19 +32,24 @@ namespace UIWPF.ViewModels
             _pinger = pinger;
 
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
-            var node = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
-
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
-            nodeGroup.Nodes.Add(node);
+            for (int i = 0; i < 200; i++)
+            {
+                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
 
-            var node1 = _nodeFactory.CreateNodeWithDefaultValue("test", "localhost");
+               
+                nodeGroup.Nodes.Add(node);
 
-            nodeGroup.Nodes.Add(node1);
+                var node1 = _nodeFactory.CreateNodeWithDefaultValue("yandex.ru", "yandex.ru");
+
+                nodeGroup.Nodes.Add(node1);
+
+               
+            }
 
             var groupViewModel = new NodeGroupViewModel(nodeGroup);
 
             NodeGroups.Add(groupViewModel);
-           
         }
 
 
@@ -68,13 +73,32 @@ namespace UIWPF.ViewModels
             if (ClikedNodeGroup == null||ClikedNodeGroup.Nodes==null|| ClikedNodeGroup.Nodes.Count==0)
                 return;
 
-            foreach (var node in ClikedNodeGroup.Nodes)
-            {
-               await _pinger.StartPing(node.NodeModel);
-            }
+                var nodesToStartPing = ClikedNodeGroup.Nodes.Select(t => t.NodeModel).ToList();
+                for (int i = 0; i < nodesToStartPing.Count; i++)
+                {
+                    var node = nodesToStartPing[i];
+                    _pinger.StartPing(node);
+                }
+  
         }
 
-      
+        private DelegateCommand _stopGroupPingCommand;
+        public DelegateCommand StopGroupPingCommand =>
+            _stopGroupPingCommand ?? (_stopGroupPingCommand = new DelegateCommand(ExecuteStopGroupPingCommand));
+
+        async void ExecuteStopGroupPingCommand()
+        {
+            
+                for (int i = 0; i < ClikedNodeGroup.Nodes.Count; i++)
+                {
+                    NodeViewModel? node = ClikedNodeGroup.Nodes[i];
+                    _pinger.StopPing(node.NodeModel);
+                  
+                };
+          
+        }
+
+       
 
         private DelegateCommand _AddGroupCommand;
         public DelegateCommand AddGroupCommand =>
