@@ -11,6 +11,7 @@ namespace VortexPings.Models
     {
         public string? NodeName { get; set; }
         public int NodeId { get; set; }
+        public int? PingRepeatTime { get; set; }
         public string? HostOrIPadress { get; set; }
         public int GroupID { get; set; }
 

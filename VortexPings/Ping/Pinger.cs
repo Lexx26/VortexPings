@@ -10,19 +10,17 @@ using VortexPings.Models;
 
 namespace VortexPings.Ping
 {
-    public class Pinger
+    public class Pinger : IPinger
     {
         private ConcurrentBag<Node> _newNodes = new();
 
-        private ConcurrentDictionary<Node,Task<Node>> _pingTasks = new();
+        private ConcurrentDictionary<Node, Task<Node>> _pingTasks = new();
         public bool IsPinging { get; private set; }
-
-        public int MinPingTime { get; set; } = 1000;
 
         public void StartPing(Node node)
         {
 
-            if (node.IsInPingerQueue==true||_newNodes.Contains(node))
+            if (node.IsInPingerQueue == true || _newNodes.Contains(node))
                 return;
 
             _newNodes.Add(node);
@@ -42,11 +40,10 @@ namespace VortexPings.Ping
                 var isNodePeek = _newNodes.TryTake(out Node node);
                 if (isNodePeek)
                 {
-                    _pingTasks.TryAdd(node, node.PingAsync(MinPingTime));
+                    _pingTasks.TryAdd(node, node.PingAsync());
                     node.IsInPingerQueue = true;
                 }
-                   
-                
+
             }
         }
 
@@ -62,7 +59,7 @@ namespace VortexPings.Ping
                     while (_pingTasks.Count > 0)
                     {
 
-                        var completedTask = await Task.WhenAny(_pingTasks.Select(t=>t.Value));
+                        var completedTask = await Task.WhenAny(_pingTasks.Select(t => t.Value));
 
                         var nodeTaskToRestart = await completedTask;
 
@@ -71,7 +68,7 @@ namespace VortexPings.Ping
                         CreateNewPingTasksFromNewNodes();
                         if (completedTask.IsCanceled == false && nodeTaskToRestart.CancellationTokenSource.IsCancellationRequested == false)
                         {
-                            _pingTasks.TryAdd(nodeTaskToRestart, nodeTaskToRestart.PingAsync(MinPingTime));
+                            _pingTasks.TryAdd(nodeTaskToRestart, nodeTaskToRestart.PingAsync());
                         }
                         else
                         {
@@ -83,11 +80,11 @@ namespace VortexPings.Ping
                 }
                 catch (OperationCanceledException ex)
                 {
-                   
+
                 }
                 catch (Exception ex)
                 {
-                  
+
                 }
 
                 if (_pingTasks.Count == 0)
@@ -98,7 +95,7 @@ namespace VortexPings.Ping
         private void RemoveCanceledTasks()
         {
             var canceledTask = _pingTasks.FirstOrDefault(t => t.Value.IsCanceled == true);
-            if(canceledTask.Value!=null)
+            if (canceledTask.Value != null)
             {
                 _pingTasks.TryRemove(canceledTask);
                 canceledTask.Key.IsInPingerQueue = false;

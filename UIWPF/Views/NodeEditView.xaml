@@ -10,7 +10,7 @@
              xmlns:vm="clr-namespace:UIWPF.ViewModels"
              xmlns:converter ="clr-namespace:UIWPF.Controls.Converters"
              d:DataContext="{d:DesignInstance vm:NodeEditViewModel, IsDesignTimeCreatable=True}"
-             Width="370" Height="290">
+             Width="370" Height="340">
     <UserControl.Resources>
         <converter:StringToIntConverter x:Key="ConverterStringToInt"/>
     </UserControl.Resources>
@@ -28,11 +28,13 @@
                 <Grid.RowDefinitions>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Grid.Column="0">
                     <Label Margin="-8,0,0,0" Foreground="{StaticResource Second.Foreground}"  Width="130"   Content="Packet size (bytes) "></Label>
                     <TextBox HorizontalAlignment="Left" Width="100" MaxLength="5" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.PackageSize, Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  ></TextBox>
                 </StackPanel>
+               
                 <StackPanel Grid.Row="0" Grid.Column="1">
                     <Label Margin="40,0,0,0" Foreground="{StaticResource Second.Foreground}" Width="100" Content="TTL"></Label>
                     <TextBox Margin="40,0,0,0" Width="100" MaxLength="3"  Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.TTL,  Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
@@ -50,7 +52,10 @@
                         <Label Margin="-5,0,0,0" Foreground="{StaticResource Second.Foreground}" Width="90" Content="Don't fragment"></Label>
                         <CheckBox  HorizontalAlignment="Center"  IsChecked="{Binding NodeDataViewModel.DontFragment}" ></CheckBox>
                     </StackPanel>
-                    
+                </StackPanel>
+                <StackPanel Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left">
+                    <Label Foreground="{StaticResource Second.Foreground}" Margin="0" Width="125" Content="Ping repeat time (ms)"></Label>
+                    <TextBox HorizontalAlignment="Left" Margin="0" Width="50"  MaxLength="8" Validation.ErrorTemplate="{StaticResource ErrorTemplate}" Text="{Binding NodeDataViewModel.PingRepeatTime, Converter={StaticResource ConverterStringToInt}, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </StackPanel>
             </Grid>
             <StackPanel Grid.Row="1" Margin="0,40,0,0" HorizontalAlignment="Center" Orientation="Horizontal">

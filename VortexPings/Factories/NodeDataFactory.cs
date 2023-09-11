@@ -32,6 +32,7 @@ namespace VortexPings.Factories
             var nodeData = new NodeData
             {
                 NodeName = nodeName,
+                PingRepeatTime = 1000,
                 HostOrIPadress = hostOrIPAddress,
                 PackageSize = 32,
                 TTL = 54,

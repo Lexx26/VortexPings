@@ -30,6 +30,7 @@
                             <Button Content="Delete" Command="{Binding DeleteNodeCommand}" Style="{StaticResource SecondButton}"  Width="100" Height="25" />
                         </StackPanel>
                     </Border>
+                    <Button Style="{StaticResource SecondButton}" Content="{Binding PingStateCaption}" Command="{Binding PingNodeCommand}" Height="25" Margin="10,10,15,10"  ></Button>
                 </StackPanel>
                 <StackPanel   Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                     <TextBlock Margin="15,1,15,1" Width="100" HorizontalAlignment="Left"  Text="Node name:" Foreground="White" FontSize="12"></TextBlock>
@@ -48,6 +49,7 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
+                        <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
                         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal"  >
                             <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}"  Text="IP address\Host name: " ></TextBlock>
                             <TextBlock  TextWrapping="Wrap" Foreground="{StaticResource Second.Foreground}" 
@@ -55,17 +57,23 @@
                                            Text="{Binding  Node.NodeDataViewModel.HostOrIPaddress}" 
                                            Margin="1"/>
                         </StackPanel>
-
+                            <Separator Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Height="2" Background="{StaticResource Second.Foreground}" ></Separator>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.ColumnSpan="3">
                         <StackPanel  Grid.Column="0"  Grid.Row="1" Margin="0,0,0,0" Orientation="Horizontal">
                             <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}" Text="Package size (bytes): " ></TextBlock>
                             <TextBlock Foreground="{StaticResource Second.Foreground}" Text="{Binding Node.NodeDataViewModel.PackageSize}" ></TextBlock>
                         </StackPanel>
+                            <Separator  Height="4" Background="{StaticResource Second.Foreground}" ></Separator>
+                        </StackPanel>
 
+                        <StackPanel  Grid.Row="2" Grid.ColumnSpan="3">
                         <StackPanel Grid.Column="0" Grid.Row="2" Margin="0,0,0,0" Orientation="Horizontal">
                             <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}" Text="Warning time (ms): " ></TextBlock>
                             <TextBlock Foreground="{StaticResource Second.Foreground}" Text="{Binding Node.NodeDataViewModel.WarningTime}"  ></TextBlock>
                         </StackPanel>
-
+                            <Separator  Height="4" Background="{StaticResource Second.Foreground}" ></Separator>
+                        </StackPanel>
                         <StackPanel  Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
                             <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}" Text="TTL: " ></TextBlock>
                             <TextBlock Foreground="{StaticResource Second.Foreground}"

@@ -26,7 +26,7 @@ namespace UIWPF
         {
             containerRegistry.RegisterSingleton<NodeDataFactory, NodeDataFactory>();
             containerRegistry.RegisterSingleton<NodeFactory, NodeFactory>();
-            containerRegistry.RegisterSingleton<Pinger, Pinger>();
+            containerRegistry.RegisterSingleton<IPinger, Pinger>();
 
             //ValidationRules
             containerRegistry.RegisterSingleton<UniqueNameValidationRule, UniqueNameValidationRule>();
@@ -35,6 +35,7 @@ namespace UIWPF
             containerRegistry.RegisterSingleton<TTLValidationRule, TTLValidationRule>();
             containerRegistry.RegisterSingleton<WarningTimeValidatonRule, WarningTimeValidatonRule>();
             containerRegistry.RegisterSingleton<TimeOutValidationRule, TimeOutValidationRule>();
+            containerRegistry.RegisterSingleton<PingRepeatTimeValidationRule, PingRepeatTimeValidationRule>();
 
             //Navigation
             containerRegistry.RegisterForNavigation<PingGridView>();

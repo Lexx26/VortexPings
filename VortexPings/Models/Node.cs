@@ -44,7 +44,7 @@ namespace VortexPings.Models
             PingResultData = new PingResultData();
             NodePing.PingCompleted += new PingCompletedEventHandler(OnPingCompleted);
         }
-        public async Task<Node> PingAsync(int minPingTime)
+        public async Task<Node> PingAsync()
         {
             try
             {
@@ -97,7 +97,7 @@ namespace VortexPings.Models
             {
                 if (PingResultData?.LastRoundTripTime != null)
                 {
-                    int remainingTime = minPingTime - (int)PingResultData.LastRoundTripTime;
+                    int remainingTime = (int)NodeData.PingRepeatTime - (int)PingResultData.LastRoundTripTime;
                     if (remainingTime > 0)
                     {
                         await Task.Delay(remainingTime, CancellationTokenSource.Token);
@@ -107,7 +107,7 @@ namespace VortexPings.Models
 
                 if(isContainError)
                 {
-                    await Task.Delay(50000, CancellationTokenSource.Token);
+                    await Task.Delay(1000, CancellationTokenSource.Token);
                 }
             }
 

@@ -16,9 +16,9 @@ namespace UIWPF.ViewModels
         private readonly IEventAggregator _eventAggregator;
         private readonly IDialogService _dialogService;
         private NodeFactory _nodeFactory;
-        private readonly Pinger _pinger;
+        private readonly IPinger _pinger;
 
-        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService, IEventAggregator eventAggregator, Pinger pinger)
+        public PingGridViewModel(NodeFactory nodeFactory, IDialogService dialogService, IEventAggregator eventAggregator, IPinger pinger)
         {
             _eventAggregator = eventAggregator;
             _dialogService = dialogService;
@@ -27,7 +27,7 @@ namespace UIWPF.ViewModels
 
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
-            for (int i = 0; i < 100; i++)
+            for (int i = 0; i < 5; i++)
             {
                 var node = _nodeFactory.CreateNodeWithDefaultValue("test", "yahoo222.ru");
 
@@ -42,8 +42,6 @@ namespace UIWPF.ViewModels
 
             NodeGroups.Add(groupViewModel);
         }
-
-
 
         private ObservableCollection<NodeGroupViewModel> _NodeGroups;
         public ObservableCollection<NodeGroupViewModel> NodeGroups { get { return _NodeGroups; } set { _NodeGroups = value; RaisePropertyChanged(nameof(NodeGroups)); } }
@@ -90,8 +88,6 @@ namespace UIWPF.ViewModels
                 };
           
         }
-
-       
 
         private DelegateCommand _AddGroupCommand;
         public DelegateCommand AddGroupCommand =>

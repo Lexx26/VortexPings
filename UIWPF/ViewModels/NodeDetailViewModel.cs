@@ -9,16 +9,19 @@ using System.Threading;
 using System.Threading.Tasks;
 using VortexPings.Factories;
 using VortexPings.Models;
+using VortexPings.Ping;
 
 namespace UIWPF.ViewModels
 {
     class NodeDetailViewModel:FixedDialogBaseViewModel
     {
         private readonly IDialogService _dialogService;
+        private readonly IPinger _pinger;
 
-        public NodeDetailViewModel(IDialogService dialogService)
+        public NodeDetailViewModel(IDialogService dialogService, IPinger pinger)
         {
             _dialogService = dialogService;
+            _pinger = pinger;
         }
 
         private NodeViewModel _node;
@@ -28,12 +31,24 @@ namespace UIWPF.ViewModels
             set { SetProperty(ref _node, value); }
         }
 
-
         private NodeGroupViewModel _nodeGroup;
         public NodeGroupViewModel NodeGroup
         {
             get { return _nodeGroup; }
             set { SetProperty(ref _nodeGroup, value); }
+        }
+
+        public string PingStateCaption
+        {
+            get {
+                if(Node!=null&&Node.IsInPingerQueue==true)
+                {
+                    return "Stop ping";
+                }
+                
+                return "Start ping"; 
+            }
+          
         }
 
         private ObservableCollection<NodeGroupViewModel> _NodeGroups;
@@ -44,9 +59,46 @@ namespace UIWPF.ViewModels
             Node = parameters.GetValue<NodeViewModel>("Node");
             _NodeGroups = parameters.GetValue<ObservableCollection<NodeGroupViewModel>>("NodeGroups");
             base.OnDialogOpened(parameters);
+            Node.PropertyChanged += Node_PropertyChanged;
+            RaisePropertyChanged(nameof(PingStateCaption));
+        }
+
+        private void Node_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var propertyName = e.PropertyName;
+
+            switch (propertyName)
+            {
+                case "IsInPingerQueue":
+                    RaisePropertyChanged(nameof(PingStateCaption));
+                    break;
+            }
         }
 
         #region Commands
+        private DelegateCommand _pingNodeCommand;
+        public DelegateCommand PingNodeCommand =>
+            _pingNodeCommand ?? (_pingNodeCommand = new DelegateCommand(ExecutePingNodeCommand, CanExecutePingNodeCommand));
+
+        void ExecutePingNodeCommand()
+        {
+            if(Node.IsInPingerQueue==true)
+            {
+                _pinger.StopPing(Node.NodeModel);
+            }
+            else
+            {
+                _pinger.StartPing(Node.NodeModel);
+            }
+           
+        }
+
+        bool CanExecutePingNodeCommand()
+        {
+            return true;
+        }
+
+
         private DelegateCommand _EditNodeCommand;
         public DelegateCommand EditNodeCommand =>
             _EditNodeCommand ?? (_EditNodeCommand = new DelegateCommand(ExecuteEditNodeCommand, CanExecuteEditNodeCommand));
@@ -97,5 +149,12 @@ namespace UIWPF.ViewModels
         }
 
         #endregion
+
+        public override void OnDialogClosed()
+        {
+            base.OnDialogClosed();
+            Node.PropertyChanged -= Node_PropertyChanged;
+
+        }
     }
 }

@@ -56,9 +56,7 @@ namespace UIWPF.ViewModels
         private readonly object pingResultLock = new object();
         private void _Node_PingResultDataUpdated()
         {
-
             RaisePropertyChanged(nameof(PingResultData));
-
         }
 
         public void Dispose()

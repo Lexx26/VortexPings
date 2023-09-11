@@ -17,6 +17,7 @@ namespace UIWPF.ViewModels
         private readonly TTLValidationRule _tTLValidationRule;
         private readonly TimeOutValidationRule _timeOutValidationRule;
         private readonly WarningTimeValidatonRule _warningTimeValidatonRule;
+        private readonly PingRepeatTimeValidationRule _pingRepeatValidationRule;
         private List<string> _nodeNames;
 
         public NodeDataViewModel NodeDataViewModel { get; private set; }
@@ -24,7 +25,7 @@ namespace UIWPF.ViewModels
         public NodeEditViewModel(UniqueNameValidationRule uniqueNameValidationRule, 
             IPaddressHostValidationRule ipaddressHostValidationRule, 
             PacketSizeValidationRule packetSizeValidationRule, TTLValidationRule tTLValidationRule, 
-            TimeOutValidationRule timeOutValidationRule, WarningTimeValidatonRule warningTimeValidatonRule)
+            TimeOutValidationRule timeOutValidationRule, WarningTimeValidatonRule warningTimeValidatonRule, PingRepeatTimeValidationRule pingRepeatTimeValidationRule)
         {
             _uniqueNameValidationRule = uniqueNameValidationRule;
             _IPaddressHostValidationRule = ipaddressHostValidationRule;
@@ -32,6 +33,7 @@ namespace UIWPF.ViewModels
             _tTLValidationRule = tTLValidationRule;
             _timeOutValidationRule = timeOutValidationRule;
             _warningTimeValidatonRule = warningTimeValidatonRule;
+            _pingRepeatValidationRule = pingRepeatTimeValidationRule;
         }
 
         public override void OnDialogOpened(IDialogParameters parameters)
@@ -49,11 +51,13 @@ namespace UIWPF.ViewModels
             ValidateTTL();
             ValidateTimeOut();
             ValidateWarningTime();
+            ValidatePingRepeatTime();
+
         }
 
         #region Validation
         private void NodeDataViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
+       {
             var propertyName = e.PropertyName;
 
             switch (propertyName)
@@ -76,8 +80,19 @@ namespace UIWPF.ViewModels
                 case "WarningTime":
                     ValidateWarningTime();
                     break;
+                case "PingRepeatTime":
+                    ValidatePingRepeatTime();
+                    break;
             }
 
+        }
+
+        private void ValidatePingRepeatTime()
+        {
+            var value = NodeDataViewModel.PingRepeatTime;
+            var propertyName = "PingRepeatTime";
+            var validationResult = _pingRepeatValidationRule.Validate(value, propertyName);
+            UpdateErrorList(propertyName, validationResult);
         }
 
         private void ValidateWarningTime()

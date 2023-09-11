@@ -49,6 +49,20 @@ namespace UIWPF.ViewModels
             }
         }
 
+        public int? PingRepeatTime 
+        {
+            get { return NodeDataModel.PingRepeatTime; }
+            set
+            {
+                if(NodeDataModel.PingRepeatTime != value)
+                {
+                    NodeDataModel.PingRepeatTime = value;
+                    RaisePropertyChanged(nameof(PingRepeatTime));
+                }
+            }
+        
+        }
+
         public string? HostOrIPaddress
         {
             get { return NodeDataModel.HostOrIPadress; }
