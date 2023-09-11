@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,27 +12,21 @@ namespace VortexPings.Ping
 {
     public class Pinger
     {
-        private List<Node> _Nodes = new List<Node>();
-        private List<Task<Node>> _PingTasks = new List<Task<Node>>();
+        private ConcurrentBag<Node> _newNodes = new();
 
+        private ConcurrentDictionary<Node,Task<Node>> _pingTasks = new();
         public bool IsPinging { get; private set; }
 
         public int MinPingTime { get; set; } = 1000;
 
-        private object _PingTasksLock = new object();
-
         public void StartPing(Node node)
         {
 
-            if (_Nodes.Contains(node))
+            if (node.IsInPingerQueue==true||_newNodes.Contains(node))
                 return;
 
-            _Nodes.Add(node);
-            node.IsInPingerQueue = true;
-            lock (_PingTasksLock)
-            {
-                _PingTasks.Add(node.PingAsync(MinPingTime));
-            }
+            _newNodes.Add(node);
+
             if (IsPinging == false)
             {
                 IsPinging = true;
@@ -40,53 +35,82 @@ namespace VortexPings.Ping
 
         }
 
+        private void CreateNewPingTasksFromNewNodes()
+        {
+            while (_newNodes.Count > 0)
+            {
+                var isNodePeek = _newNodes.TryTake(out Node node);
+                if (isNodePeek)
+                {
+                    _pingTasks.TryAdd(node, node.PingAsync(MinPingTime));
+                    node.IsInPingerQueue = true;
+                }
+                   
+                
+            }
+        }
+
         private async Task PingCycles()
         {
-            try
+            while (IsPinging == true)
             {
-
-                while (_PingTasks.Count > 0)
+                try
                 {
-                    
-                    var completedTask = await Task.WhenAny(_PingTasks);
+                    CreateNewPingTasksFromNewNodes();
+                    RemoveCanceledTasks();
 
-                    var nodeTaskToRestart = await completedTask;
-
-                    _PingTasks.Remove(completedTask);
-
-                    if (completedTask.IsCanceled == false && nodeTaskToRestart.CancellationTokenSource.IsCancellationRequested == false)
+                    while (_pingTasks.Count > 0)
                     {
-                     
-                        _PingTasks.Add(nodeTaskToRestart.PingAsync(MinPingTime));
-                    }
-                    else
-                    {
-                        _Nodes.Remove(nodeTaskToRestart);
-                        nodeTaskToRestart.IsInPingerQueue = false;
+
+                        var completedTask = await Task.WhenAny(_pingTasks.Select(t=>t.Value));
+
+                        var nodeTaskToRestart = await completedTask;
+
+                        _pingTasks.TryRemove(nodeTaskToRestart, out Task<Node> pingTask);
+
+                        CreateNewPingTasksFromNewNodes();
+                        if (completedTask.IsCanceled == false && nodeTaskToRestart.CancellationTokenSource.IsCancellationRequested == false)
+                        {
+                            _pingTasks.TryAdd(nodeTaskToRestart, nodeTaskToRestart.PingAsync(MinPingTime));
+                        }
+                        else
+                        {
+                            nodeTaskToRestart.IsInPingerQueue = false;
+                        }
+                        RemoveCanceledTasks();
                     }
 
-                } 
-
-            }
-            catch (Exception ex)
-            {
-                for (int i = 0; i < _Nodes.Count; i++)
-                {
-                    Node? node = _Nodes[i];
-                    node.IsInPingerQueue = false;
-                    
                 }
-                _PingTasks.Clear();
-                _Nodes.Clear();
-                
-                IsPinging = false;
+                catch (OperationCanceledException ex)
+                {
+                   
+                }
+                catch (Exception ex)
+                {
+                  
+                }
+
+                if (_pingTasks.Count == 0)
+                    IsPinging = false;
+            }
+        }
+
+        private void RemoveCanceledTasks()
+        {
+            var canceledTask = _pingTasks.FirstOrDefault(t => t.Value.IsCanceled == true);
+            if(canceledTask.Value!=null)
+            {
+                _pingTasks.TryRemove(canceledTask);
+                canceledTask.Key.IsInPingerQueue = false;
             }
 
-            IsPinging = false;
+            if (_pingTasks.Count == 0)
+                IsPinging = false;
+
         }
 
         public void StopPing(Node node)
-        { 
+        {
             node.CancellationTokenSource.Cancel();
 
         }

@@ -2,15 +2,9 @@
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Services.Dialogs;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security.Policy;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Xml.Linq;
 using VortexPings.Factories;
 using VortexPings.Models;
 using VortexPings.Ping;
@@ -33,18 +27,15 @@ namespace UIWPF.ViewModels
 
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
-            for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 100; i++)
             {
-                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "rrr");
+                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "yahoo222.ru");
 
-               
                 nodeGroup.Nodes.Add(node);
 
                 var node1 = _nodeFactory.CreateNodeWithDefaultValue("yandex.ru", "yandex.ru");
 
                 nodeGroup.Nodes.Add(node1);
-
-               
             }
 
             var groupViewModel = new NodeGroupViewModel(nodeGroup);
@@ -73,13 +64,15 @@ namespace UIWPF.ViewModels
             if (ClikedNodeGroup == null||ClikedNodeGroup.Nodes==null|| ClikedNodeGroup.Nodes.Count==0)
                 return;
 
+            await Task.Run(async () => { 
                 var nodesToStartPing = ClikedNodeGroup.Nodes.Select(t => t.NodeModel).ToList();
                 for (int i = 0; i < nodesToStartPing.Count; i++)
                 {
                     var node = nodesToStartPing[i];
-                    _pinger.StartPing(node);
+                   _pinger.StartPing(node);
+                    //await Task.Delay(100);
                 }
-  
+            });
         }
 
         private DelegateCommand _stopGroupPingCommand;

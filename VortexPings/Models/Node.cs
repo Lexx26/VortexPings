@@ -12,15 +12,14 @@ namespace VortexPings.Models
         public bool IsInPingerQueue { get { return _IsInPingerQueue; }
             set 
             { 
-                _IsInPingerQueue = value; 
-                IsInPingerQueueChanged?.Invoke();
-                if (CancellationTokenSource != null)
+
+                if (CancellationTokenSource != null&& CancellationTokenSource.IsCancellationRequested)
                 {
-                    CancellationTokenSource.Cancel();
                     CancellationTokenSource.Dispose();
+                    CancellationTokenSource = new CancellationTokenSource();
                 }
-                   
-                CancellationTokenSource = new CancellationTokenSource(); 
+                _IsInPingerQueue = value;
+                IsInPingerQueueChanged?.Invoke();
             } 
         }
         public NodeData? NodeData { get;  set; }
@@ -32,6 +31,8 @@ namespace VortexPings.Models
         public event Action PingResultDataUpdated;
         public event Action IsInPingerQueueChanged;
 
+        private bool isContainError;
+
         private System.Net.NetworkInformation.Ping NodePing { get; } = new System.Net.NetworkInformation.Ping();
 
         public CancellationTokenSource? CancellationTokenSource { get; private set; } = new CancellationTokenSource();
@@ -41,42 +42,33 @@ namespace VortexPings.Models
         {
             NodeData = new NodeData();
             PingResultData = new PingResultData();
-            NodePing.PingCompleted += OnPingCompleted;
+            NodePing.PingCompleted += new PingCompletedEventHandler(OnPingCompleted);
         }
         public async Task<Node> PingAsync(int minPingTime)
         {
-
             try
             {
                 pingTaskCompletionSource = new TaskCompletionSource<PingReply>();
+               
 
                 using (CancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
                 {
 
-                    NodePing.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions);
+                    NodePing.SendAsync(NodeData.HostOrIPadress, (int)NodeData.TimeOut, NodeData.Buffer, NodeData.PingOptions, CancellationTokenSource.Token);
 
                     var pingReply = await pingTaskCompletionSource.Task;
 
-                 
-
                     var pingReplayResult = new PingReplyResult(pingReply);
-
-                    if (PingResultData?.LastRoundTripTime != null)
-                    {
-                        int remainingTime = minPingTime - (int)PingResultData.LastRoundTripTime;
-                        if (remainingTime > 0)
-                        {
-                            await Task.Delay(remainingTime, CancellationTokenSource.Token);
-                        }
-                    }
-                    СreatePingResultData(pingReplayResult);
-
-                   
+                    СreatePingResultData(pingReplayResult);              
                 }
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException ex)
             {
-              
+
+
+            }
+            catch (SocketException ex)
+            {
 
             }
             catch (PingException ex)
@@ -88,9 +80,9 @@ namespace VortexPings.Models
                if(ex.InnerException!=null&&ex.InnerException.InnerException!=null)
                 {
                     var socketException = ex.InnerException.InnerException as SocketException;
-                    if(socketException != null)
+                    if (socketException != null)
                     {
-                        var pingReplayResult = new PingReplyResult(socketException.SocketErrorCode.ToString(),null,0);
+                        var pingReplayResult = new PingReplyResult(socketException.SocketErrorCode.ToString(), null, 0);
                         СreatePingResultData(pingReplayResult);
                     }
                     else
@@ -103,14 +95,26 @@ namespace VortexPings.Models
             }
             finally
             {
+                if (PingResultData?.LastRoundTripTime != null)
+                {
+                    int remainingTime = minPingTime - (int)PingResultData.LastRoundTripTime;
+                    if (remainingTime > 0)
+                    {
+                        await Task.Delay(remainingTime, CancellationTokenSource.Token);
+                    }
+                }
                 PingResultDataUpdated?.Invoke();
-               
+
+                if(isContainError)
+                {
+                    await Task.Delay(50000, CancellationTokenSource.Token);
+                }
             }
 
             return this;
         }
 
-        private void OnPingCompleted(object sender, PingCompletedEventArgs e)
+        private  void OnPingCompleted(object sender, PingCompletedEventArgs e)
         {
             if (e.Cancelled)
             {
@@ -119,10 +123,13 @@ namespace VortexPings.Models
             else if (e.Error != null)
             {
                 pingTaskCompletionSource.TrySetException(e.Error);
+                isContainError = true;
             }
             else
             {
                 pingTaskCompletionSource.TrySetResult(e.Reply);
+                isContainError = false;
+
             }
         }
 
@@ -130,7 +137,6 @@ namespace VortexPings.Models
         {
             PingResultData.LastRoundTripTime = pingReply.RoundtripTime;
             PingResultData.PingResult = pingReply.Status;
-     
 
             if (pingReply.Address != null)
             {
@@ -183,8 +189,6 @@ namespace VortexPings.Models
                     }
                 }
 
-               
-               
                 NodePing.PingCompleted -= OnPingCompleted;
                 NodePing.Dispose();
                 CancellationTokenSource?.Dispose();
