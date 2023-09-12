@@ -50,7 +50,6 @@ namespace VortexPings.Models
             {
                 pingTaskCompletionSource = new TaskCompletionSource<PingReply>();
                
-
                 using (CancellationTokenSource.Token.Register(() => { pingTaskCompletionSource.TrySetCanceled(); }))
                 {
 

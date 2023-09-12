@@ -40,8 +40,8 @@ namespace VortexPings.Ping
                 var isNodePeek = _newNodes.TryTake(out Node node);
                 if (isNodePeek)
                 {
-                    _pingTasks.TryAdd(node, node.PingAsync());
                     node.IsInPingerQueue = true;
+                    _pingTasks.TryAdd(node, node.PingAsync());
                 }
 
             }

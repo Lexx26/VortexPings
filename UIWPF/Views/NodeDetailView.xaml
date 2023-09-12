@@ -87,6 +87,11 @@
                             <TextBlock Foreground="{StaticResource Second.Foreground}" Text="{Binding Node.NodeDataViewModel.DontFragment}"  Margin="1"></TextBlock>
                         </StackPanel>
 
+                        <StackPanel  Grid.Column="2" Grid.Row="2" Margin="0,0,0,0" Orientation="Horizontal">
+                            <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}" Text="Ping repeat time (ms): " Margin="1"></TextBlock>
+                            <TextBlock Foreground="{StaticResource Second.Foreground}" Text="{Binding Node.NodeDataViewModel.PingRepeatTime}"  Margin="1"></TextBlock>
+                        </StackPanel>
+
 
                         <StackPanel Grid.Column="2" Grid.Row="1" Margin="0,0,0,0" Orientation="Horizontal">
                             <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}" Text="Time out (ms): " Margin="1"></TextBlock>
