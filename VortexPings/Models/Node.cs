@@ -35,7 +35,7 @@ namespace VortexPings.Models
 
         private System.Net.NetworkInformation.Ping NodePing { get; } = new System.Net.NetworkInformation.Ping();
 
-        public CancellationTokenSource? CancellationTokenSource { get; private set; } = new CancellationTokenSource();
+        internal CancellationTokenSource? CancellationTokenSource { get; private set; } = new CancellationTokenSource();
         private TaskCompletionSource<PingReply> pingTaskCompletionSource = null;
 
         public Node()
@@ -146,6 +146,7 @@ namespace VortexPings.Models
                 PingResultData.ResponseAdress = "None";
             }
 
+            PingResultData.DateTime = DateTime.Now;
             StatusSelector(pingReply);
 
         }

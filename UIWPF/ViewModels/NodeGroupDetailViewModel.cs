@@ -1,4 +1,7 @@
-﻿using Prism.Commands;
+﻿using LiveCharts;
+using LiveCharts.Defaults;
+using LiveCharts.Wpf;
+using Prism.Commands;
 using Prism.Events;
 using Prism.Services.Dialogs;
 using System;
@@ -6,8 +9,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics.Metrics;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Threading;
 using VortexPings.Factories;
 using VortexPings.Models;
 
@@ -40,7 +47,270 @@ namespace UIWPF.ViewModels
             base.OnDialogOpened(parameters);
             NodeGroup = parameters.GetValue<NodeGroupViewModel>("NodeGroup");
             _NodeGroups = parameters.GetValue<ObservableCollection<NodeGroupViewModel>>("NodeGroups");
+            StackedSeriesSetValue();
+            PieChartSetValues();
+            InitTimer();
         }
+
+        public override void OnDialogClosed()
+        {
+            base.OnDialogClosed();
+            _timer.Stop();
+            _timer.Tick -= TimerTick;
+        }
+
+        private DispatcherTimer _timer = new DispatcherTimer();
+        private void InitTimer()
+        {
+            _timer.Interval = TimeSpan.FromSeconds(0.5);
+            _timer.Tick += TimerTick;
+            _timer.Start();
+                
+        }
+
+        private void TimerTick(object? sender, EventArgs e)
+        {
+            _timer.Stop();
+            StackedSeriesUpdate();
+            PieChartSeriesUpdate();
+            _timer.Start();
+        }
+
+       
+
+        #region Charts
+        public SeriesCollection StackedSeries { get; set; } = new SeriesCollection();
+
+        private void StackedSeriesSetValue()
+        {
+            var nodesInPingerQueueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true).Count();
+            var nodesIdleCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == false).Count();
+
+            if(nodesInPingerQueueCount==0&&nodesIdleCount==0)
+            {
+                return;
+            }
+
+            var stackedColumnSeriesNodesPinging = new StackedColumnSeries
+            {
+                Values = new ChartValues<int> { nodesInPingerQueueCount },
+                StackMode = StackMode.Values,
+                Title = "Nodes pinging",
+                DataLabels = true,
+                Name = "NodesPingin"
+            };
+
+            var stackedColumnSeries2NodesIdle = new StackedColumnSeries
+            {
+                Values = new ChartValues<int> {nodesIdleCount },
+                StackMode = StackMode.Values,
+                Title = "Nodes idle",
+                DataLabels = true,
+                Name ="NodesIdle"
+            };
+
+            StackedSeries.Add(stackedColumnSeriesNodesPinging);
+            StackedSeries.Add(stackedColumnSeries2NodesIdle);
+        }
+
+        private void StackedSeriesUpdate()
+        {
+            var nodesPinging = (int)StackedSeries[0].Values[0];
+            var nodesIdle = (int)StackedSeries[1].Values[0];
+
+            var nodesInPingerQueueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true).Count();
+            var nodesIdleCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == false).Count();
+
+            if(nodesPinging!= nodesInPingerQueueCount||nodesIdle!=nodesIdleCount)
+            {
+                StackedSeries[0].Values[0] = nodesInPingerQueueCount;
+                StackedSeries[1].Values[0] = nodesIdleCount;
+            }
+        }
+
+        public SeriesCollection PieChartSeries { get; set; } = new SeriesCollection();
+
+        private Color _successColorPieChartFill = (Color)Application.Current.Resources["ForegroundColor"];
+        private Color _warningColorPieChartFill = (Color)Application.Current.Resources["YellowColor.Foreground"];
+        private Color _alertColorPieChartFill = (Color)Application.Current.Resources["RedColor"];
+
+        private ObservableValue? _pieChartNoDataValue = null;
+        private ObservableValue? _pieChartSuccessValue = null;
+        private ObservableValue? _pieChartWarningValue = null;
+        private ObservableValue? _pieChartAlertValue = null;
+
+        private PieSeries? _pieSeriesNoDataValue;
+        private PieSeries? _pieSeriesSuccess;
+        private PieSeries? _pieSeriesWarning;
+        private PieSeries? _pieSeriesAlert;
+
+        private void PieChartSeriesUpdate()
+        {
+            var successValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Green).Count();
+            var warningValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Yellow).Count();
+            var alertValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Red).Count();
+
+            if(successValueCount==0&& warningValueCount==0&&alertValueCount==0&& _pieChartNoDataValue==null)
+            {
+                PieChartSeries.Clear();
+                CreatePieSeriesNoData(1);
+               return;
+            }
+
+            if(successValueCount != 0 || warningValueCount != 0 || alertValueCount != 0)
+            {
+                if(_pieChartNoDataValue != null)
+                {
+                    PieChartSeries.Clear();
+                    _pieChartNoDataValue = null;
+                }
+               
+            }
+
+            if (successValueCount > 0)
+            {
+                if(_pieChartSuccessValue==null)
+                {
+                    CreatePieSeriesSuccess(successValueCount);
+                }
+
+                _pieChartSuccessValue.Value = successValueCount;
+            }
+            else
+            {
+                _pieChartSuccessValue = null;
+                PieChartSeries.Remove(_pieSeriesSuccess);
+            }
+
+            if(warningValueCount>0)
+            {
+                if(_pieChartWarningValue==null)
+                {
+                    CreatePieSeriesWarning(warningValueCount);
+                }
+
+                _pieChartWarningValue.Value = warningValueCount;
+            }
+            else
+            {
+                _pieChartWarningValue = null;
+                PieChartSeries.Remove(_pieSeriesWarning);
+            }
+            
+
+            if(alertValueCount>0)
+            {
+                if(_pieChartAlertValue==null)
+                {
+                  CreratePieSeriesAlert(alertValueCount); 
+                }
+
+                _pieChartAlertValue.Value = alertValueCount;
+            }
+            else
+            {
+                _pieChartAlertValue = null;
+                PieChartSeries.Remove(_pieSeriesAlert);
+            }
+        }
+        private void PieChartSetValues()
+        {
+            var successValueCount = NodeGroup.Nodes.Where(t =>t.IsInPingerQueue==true&&t.PingResultData.PingStatus == PingStatus.Green).Count();
+            var warningValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Yellow).Count();
+            var alertValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Red).Count();
+
+            if(successValueCount==0&& warningValueCount==0&& alertValueCount==0)
+            {
+                PieChartSeries.Clear();
+                CreatePieSeriesNoData(1);
+            }
+            else
+            {
+                PieChartSeries.Clear();
+                if(successValueCount!=0)
+                {
+                  CreatePieSeriesSuccess(successValueCount);
+                }
+
+                if (warningValueCount != 0)
+                {
+                  CreatePieSeriesWarning(warningValueCount);
+                }
+
+                if (alertValueCount != 0)
+                {
+                   CreratePieSeriesAlert(alertValueCount);
+                }
+            }  
+        }
+
+        private void CreatePieSeriesNoData(int value)
+        {
+            _pieChartNoDataValue = new ObservableValue(value);
+
+            _pieSeriesNoDataValue = new PieSeries()
+            {
+                Title = "No data",
+                Values = new ChartValues<ObservableValue> {_pieChartNoDataValue},
+                DataLabels = false,
+                Fill = new SolidColorBrush(_successColorPieChartFill),
+                Stroke = new SolidColorBrush(_successColorPieChartFill),
+                Name = "NoDataSeries"
+            };
+
+            PieChartSeries.Add(_pieSeriesNoDataValue);
+        }
+
+        private void CreratePieSeriesAlert(int value)
+        {
+            _pieChartAlertValue = new ObservableValue(value);
+
+            _pieSeriesAlert = new PieSeries()
+            {
+                Title = "Alert status nodes",
+                Values = new ChartValues<ObservableValue> {_pieChartAlertValue},
+                DataLabels = true,
+                Fill = new SolidColorBrush(_alertColorPieChartFill),
+                Stroke = new SolidColorBrush(_alertColorPieChartFill),
+                PushOut = 5,
+                Name = "AlertSeries"
+            };
+
+            PieChartSeries.Add(_pieSeriesAlert);
+        }
+
+        private void CreatePieSeriesWarning(int value)
+        {
+            _pieChartWarningValue = new ObservableValue(value);
+            _pieSeriesWarning = new PieSeries()
+            {
+                Title = "Warning status nodes",
+                Values = new ChartValues<ObservableValue> {_pieChartWarningValue},
+                DataLabels = true,
+                Fill = new SolidColorBrush(_warningColorPieChartFill),
+                Stroke = new SolidColorBrush(_warningColorPieChartFill),
+                PushOut = 10,
+                Name = "WarningSeries"
+            };
+            PieChartSeries.Add(_pieSeriesWarning);
+        }
+
+        private void CreatePieSeriesSuccess(int value)
+        {
+            _pieChartSuccessValue = new ObservableValue(value);
+
+            _pieSeriesSuccess = new PieSeries()
+            {
+                Title = "Success status nodes",
+                Values = new ChartValues<ObservableValue> {_pieChartSuccessValue},
+                DataLabels = true,
+                Fill = new SolidColorBrush(_successColorPieChartFill),
+                Stroke = new SolidColorBrush(_successColorPieChartFill),
+                Name = "SuccessSeries"
+            };
+            PieChartSeries.Add(_pieSeriesSuccess);
+        }
+        #endregion
 
         #region Commands
         private DelegateCommand _renameGroupCommand;

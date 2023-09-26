@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
              xmlns:local="clr-namespace:UIWPF.Views"
              xmlns:prism="http://prismlibrary.com/"
              prism:ViewModelLocator.AutoWireViewModel="True"
@@ -15,6 +16,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition></RowDefinition>
+                
             </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -39,10 +41,26 @@
             </Border>
         </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                <TextBlock Margin="15,1,15,1" Text="Group name:" Foreground="{StaticResource Second.Foreground}" FontSize="12"></TextBlock>
-                <TextBlock Margin="45,1,25,1" Text="{Binding NodeGroup.Name}" Foreground="{StaticResource Second.Foreground}" FontSize="18"></TextBlock>
+                <TextBlock Margin="15,1,15,1" Text="Group name:" Foreground="{StaticResource WhiteBrush}" FontSize="12"></TextBlock>
+                <TextBlock Margin="45,1,25,1" Text="{Binding NodeGroup.Name}" Foreground="{StaticResource WhiteBrush}" FontSize="18"></TextBlock>
                 <Separator Margin="15,0,15,1" Height="1" Background="{StaticResource Second.Foreground}"/>
+                
             </StackPanel>
+            <DockPanel Grid.Row="1" Margin="10">
+                <lvc:PieChart DockPanel.Dock="Left" LegendLocation="Right" Series="{Binding PieChartSeries}" 
+                              Foreground="{StaticResource Second.Foreground}" 
+                              Width="350" Hoverable="False" DataTooltip="{x:Null}">
+                    
+                </lvc:PieChart>
+                <lvc:CartesianChart DockPanel.Dock="Right" LegendLocation="Right" Series="{Binding StackedSeries}"
+                                    Hoverable="False" Foreground="{StaticResource Second.Foreground}" DataTooltip="{x:Null}">
+                    
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Nodes count" ></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                </lvc:CartesianChart>
+                
+            </DockPanel>
         </Grid>
         <StackPanel DockPanel.Dock="Bottom" Grid.RowSpan="2" HorizontalAlignment="Stretch">
             <Button   Width="100" Height="25" Content="Close" Style="{StaticResource SecondButton}" Command="{Binding CloseDialogCommand}" CommandParameter="false" IsDefault="True" />

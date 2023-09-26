@@ -27,9 +27,9 @@ namespace UIWPF.ViewModels
 
             NodeGroups = new ObservableCollection<NodeGroupViewModel>();
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i <100; i++)
             {
-                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "yahoo222.ru");
+                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "yahoo.com");
 
                 nodeGroup.Nodes.Add(node);
 
@@ -79,8 +79,10 @@ namespace UIWPF.ViewModels
 
         async void ExecuteStopGroupPingCommand()
         {
-            
-                for (int i = 0; i < ClikedNodeGroup.Nodes.Count; i++)
+            if (ClikedNodeGroup == null || ClikedNodeGroup.Nodes == null || ClikedNodeGroup.Nodes.Count == 0)
+                return;
+
+            for (int i = 0; i < ClikedNodeGroup.Nodes.Count; i++)
                 {
                     NodeViewModel? node = ClikedNodeGroup.Nodes[i];
                     _pinger.StopPing(node.NodeModel);
@@ -117,8 +119,6 @@ namespace UIWPF.ViewModels
                     }
                 }
             },"FixedDialogWindow");
-           
-
 
         }
 

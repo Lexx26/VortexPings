@@ -13,5 +13,6 @@ namespace VortexPings.Models
         public long? LastRoundTripTime { get; set; }
         public PingStatus PingStatus { get; set; }
         public string? PingResult { get; set; }
+        public DateTime? DateTime { get; set; }
     }
 }

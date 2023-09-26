@@ -1,13 +1,11 @@
-﻿using Prism.Commands;
+﻿using LiveCharts;
+using LiveCharts.Configurations;
+using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using VortexPings.Factories;
+using UIWPF.Models;
 using VortexPings.Models;
 using VortexPings.Ping;
 
@@ -61,6 +59,7 @@ namespace UIWPF.ViewModels
             base.OnDialogOpened(parameters);
             Node.PropertyChanged += Node_PropertyChanged;
             RaisePropertyChanged(nameof(PingStateCaption));
+            SetupChart();
         }
 
         private void Node_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -71,9 +70,114 @@ namespace UIWPF.ViewModels
             {
                 case "IsInPingerQueue":
                     RaisePropertyChanged(nameof(PingStateCaption));
+                    AddChatrtEmptyValue();
+                    break;
+                case "NodeDataViewModel":
+                    SetupChart();
+                    break;
+                case "PingResultData":
+                    AddChartValue();
+                    ChangeGaugesValue();
                     break;
             }
         }
+
+        private void ChangeGaugesValue()
+        {
+            if(Node!=null&&Node.PingResultData!=null&&Node.PingResultData.LastRoundTripTime!=null)
+            GaugesValue = (Double)Node.PingResultData.LastRoundTripTime;
+        }
+
+        private double _gaugesValue;
+        public double GaugesValue
+        {
+            get { return _gaugesValue; }
+            set { SetProperty(ref _gaugesValue, value); }
+        }
+
+        #region Chart
+        public ChartValues<PingMeasureModel?> ChartValues { get; set; } = new ChartValues<PingMeasureModel>();
+        public Func<double, string> DateTimeFormatter { get; set; }
+        public double XAxisStep { get; set; }
+       
+
+        private double _xAxisMax;
+        public double XAxisMax
+        {
+            get { return _xAxisMax; }
+            set { SetProperty(ref _xAxisMax, value); }
+        }
+
+        private double _xAxisMin;
+        public double XAxisMin
+        {
+            get { return _xAxisMin; }
+            set { SetProperty(ref _xAxisMin, value); }
+        }
+
+        private void SetupChart()
+        {
+            var mapper = Mappers.Xy<PingMeasureModel>()
+                .X(model => model.DateTime.Ticks)
+                .Y(model => model.LastRoundTripTime);
+            Charting.For<PingMeasureModel>(mapper);
+
+            DateTimeFormatter = value => new DateTime((long)value).ToString("HH:mm:ss");
+
+            uint calcXAxisStep;
+
+            if(Node.NodeDataViewModel.PingRepeatTime>1000)
+            {
+                calcXAxisStep = Convert.ToUInt32(Node.NodeDataViewModel.PingRepeatTime / 100) * 4;
+            }
+            else
+            {
+                calcXAxisStep = 4;
+            }
+            XAxisStep = TimeSpan.FromSeconds(calcXAxisStep).Ticks;
+            SetXAxisLimits();
+        }
+
+        private void SetXAxisLimits()
+        {
+            var dateTime = DateTime.Now;
+            uint calculateAxisMinValue;
+            if(Node.NodeDataViewModel.PingRepeatTime > 500)
+            {
+
+                calculateAxisMinValue = Convert.ToUInt32((Node.NodeDataViewModel.PingRepeatTime / 100) * 4);
+            }
+            else
+            {
+                calculateAxisMinValue = 10;
+            }
+
+            XAxisMax = dateTime.Ticks + TimeSpan.FromSeconds(0).Ticks; // lets force the axis to be 0 second ahead
+            XAxisMin = dateTime.Ticks - TimeSpan.FromSeconds(calculateAxisMinValue).Ticks; // and calcvalue seconds behind
+        }
+
+        private void AddChartValue()
+        {
+            if (Node is null || Node.PingResultData is null || Node.PingResultData.LastRoundTripTime is null || Node.PingResultData.DateTime is null)
+                return;
+
+            var pingMeasureModel = new PingMeasureModel() { DateTime = (DateTime)Node.PingResultData.DateTime, LastRoundTripTime = (long)Node.PingResultData.LastRoundTripTime };
+            ChartValues.Add(pingMeasureModel);
+            SetXAxisLimits();
+            if (ChartValues.Count > 200)
+                ChartValues.RemoveAt(0);
+            
+        }
+        //Add LastRoundTripTime NaN to brake chart line when new ping starts
+        private void AddChatrtEmptyValue()
+        {
+            if (Node.PingResultData.DateTime == null)
+                return;
+            var pingMeasureModel = new PingMeasureModel() { DateTime = (DateTime)Node.PingResultData.DateTime, LastRoundTripTime = double.NaN};
+            ChartValues.Add(pingMeasureModel);
+        }
+
+        #endregion
 
         #region Commands
         private DelegateCommand _pingNodeCommand;
@@ -85,6 +189,7 @@ namespace UIWPF.ViewModels
             if(Node.IsInPingerQueue==true)
             {
                 _pinger.StopPing(Node.NodeModel);
+                GaugesValue = 0;
             }
             else
             {
