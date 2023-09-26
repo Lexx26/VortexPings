@@ -62,13 +62,12 @@ namespace UIWPF.ViewModels
             if (ClikedNodeGroup == null||ClikedNodeGroup.Nodes==null|| ClikedNodeGroup.Nodes.Count==0)
                 return;
 
-            await Task.Run(async () => { 
+            await Task.Run(() => { 
                 var nodesToStartPing = ClikedNodeGroup.Nodes.Select(t => t.NodeModel).ToList();
                 for (int i = 0; i < nodesToStartPing.Count; i++)
                 {
                     var node = nodesToStartPing[i];
                    _pinger.StartPing(node);
-                    //await Task.Delay(100);
                 }
             });
         }
@@ -77,17 +76,20 @@ namespace UIWPF.ViewModels
         public DelegateCommand StopGroupPingCommand =>
             _stopGroupPingCommand ?? (_stopGroupPingCommand = new DelegateCommand(ExecuteStopGroupPingCommand));
 
-        async void ExecuteStopGroupPingCommand()
+       private async void ExecuteStopGroupPingCommand()
         {
             if (ClikedNodeGroup == null || ClikedNodeGroup.Nodes == null || ClikedNodeGroup.Nodes.Count == 0)
                 return;
 
-            for (int i = 0; i < ClikedNodeGroup.Nodes.Count; i++)
+            await Task.Run(async () =>
+            {
+                for (int i = 0; i < ClikedNodeGroup.Nodes.Count; i++)
                 {
                     NodeViewModel? node = ClikedNodeGroup.Nodes[i];
                     _pinger.StopPing(node.NodeModel);
-                  
+                    await Task.Delay(1);
                 };
+            });
           
         }
 
