@@ -72,9 +72,9 @@
                             <RowDefinition Height="30"></RowDefinition>
                             <RowDefinition Height="30"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <StackPanel Grid.Row="0" Grid.ColumnSpan="3">
+                        <StackPanel  Grid.Row="0" Grid.ColumnSpan="3">
                         <StackPanel Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" Orientation="Horizontal"  >
-                            <TextBlock FontWeight="Bold" Foreground="{StaticResource Second.Foreground}"  Text="IP address\Host name: " ></TextBlock>
+                            <TextBlock  FontWeight="Bold" Foreground="{StaticResource Second.Foreground}"  Text="IP address\Host name: " ></TextBlock>
                             <TextBlock  TextWrapping="Wrap" Foreground="{StaticResource Second.Foreground}" 
                                            MaxWidth="150"
                                            Text="{Binding  Node.NodeDataViewModel.HostOrIPaddress}" 

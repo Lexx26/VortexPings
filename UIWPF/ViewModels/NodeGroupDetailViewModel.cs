@@ -65,6 +65,7 @@ namespace UIWPF.ViewModels
             _timer.Interval = TimeSpan.FromSeconds(0.5);
             _timer.Tick += TimerTick;
             _timer.Start();
+                
         }
 
         private void TimerTick(object? sender, EventArgs e)
@@ -75,12 +76,13 @@ namespace UIWPF.ViewModels
             _timer.Start();
         }
 
+       
+
         #region Charts
         public SeriesCollection StackedSeries { get; set; } = new SeriesCollection();
+
         private void StackedSeriesSetValue()
         {
-            if (NodeGroup.Nodes == null || NodeGroup.Nodes.Count == 0)
-                return;
             var nodesInPingerQueueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true).Count();
             var nodesIdleCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == false).Count();
 
@@ -96,7 +98,6 @@ namespace UIWPF.ViewModels
                 Title = "Nodes pinging",
                 DataLabels = true,
                 Name = "NodesPingin"
-               
             };
 
             var stackedColumnSeries2NodesIdle = new StackedColumnSeries
@@ -114,14 +115,6 @@ namespace UIWPF.ViewModels
 
         private void StackedSeriesUpdate()
         {
-            if (NodeGroup.Nodes==null|| NodeGroup.Nodes.Count()==0|| StackedSeries == null)
-                return;
-
-            if (StackedSeries.Count() == 0)
-            {
-                StackedSeriesSetValue();
-            }
-
             var nodesPinging = (int)StackedSeries[0].Values[0];
             var nodesIdle = (int)StackedSeries[1].Values[0];
 
@@ -146,15 +139,8 @@ namespace UIWPF.ViewModels
         private ObservableValue? _pieChartWarningValue = null;
         private ObservableValue? _pieChartAlertValue = null;
 
-        private PieSeries? _pieSeriesNoDataValue;
-        private PieSeries? _pieSeriesSuccess;
-        private PieSeries? _pieSeriesWarning;
-        private PieSeries? _pieSeriesAlert;
-
         private void PieChartSeriesUpdate()
         {
-            if (NodeGroup.Nodes == null || NodeGroup.Nodes.Count == 0)
-                return;
             var successValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Green).Count();
             var warningValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Yellow).Count();
             var alertValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Red).Count();
@@ -175,6 +161,10 @@ namespace UIWPF.ViewModels
                 }
                
             }
+            else
+            {
+               
+            }
 
             if (successValueCount > 0)
             {
@@ -187,8 +177,7 @@ namespace UIWPF.ViewModels
             }
             else
             {
-                _pieChartSuccessValue = null;
-                PieChartSeries.Remove(_pieSeriesSuccess);
+               
             }
 
             if(warningValueCount>0)
@@ -202,8 +191,7 @@ namespace UIWPF.ViewModels
             }
             else
             {
-                _pieChartWarningValue = null;
-                PieChartSeries.Remove(_pieSeriesWarning);
+                
             }
             
 
@@ -218,8 +206,7 @@ namespace UIWPF.ViewModels
             }
             else
             {
-                _pieChartAlertValue = null;
-                PieChartSeries.Remove(_pieSeriesAlert);
+                
             }
         }
         private void PieChartSetValues()
@@ -257,7 +244,7 @@ namespace UIWPF.ViewModels
         {
             _pieChartNoDataValue = new ObservableValue(value);
 
-            _pieSeriesNoDataValue = new PieSeries()
+            var pieSerie = new PieSeries()
             {
                 Title = "No data",
                 Values = new ChartValues<ObservableValue> {_pieChartNoDataValue},
@@ -267,14 +254,14 @@ namespace UIWPF.ViewModels
                 Name = "NoDataSeries"
             };
 
-            PieChartSeries.Add(_pieSeriesNoDataValue);
+            PieChartSeries.Add(pieSerie);
         }
 
         private void CreratePieSeriesAlert(int value)
         {
             _pieChartAlertValue = new ObservableValue(value);
 
-            _pieSeriesAlert = new PieSeries()
+            var pieSerie = new PieSeries()
             {
                 Title = "Alert status nodes",
                 Values = new ChartValues<ObservableValue> {_pieChartAlertValue},
@@ -285,13 +272,13 @@ namespace UIWPF.ViewModels
                 Name = "AlertSeries"
             };
 
-            PieChartSeries.Add(_pieSeriesAlert);
+            PieChartSeries.Add(pieSerie);
         }
 
         private void CreatePieSeriesWarning(int value)
         {
             _pieChartWarningValue = new ObservableValue(value);
-            _pieSeriesWarning = new PieSeries()
+            var pieSerie = new PieSeries()
             {
                 Title = "Warning status nodes",
                 Values = new ChartValues<ObservableValue> {_pieChartWarningValue},
@@ -301,14 +288,14 @@ namespace UIWPF.ViewModels
                 PushOut = 10,
                 Name = "WarningSeries"
             };
-            PieChartSeries.Add(_pieSeriesWarning);
+            PieChartSeries.Add(pieSerie);
         }
 
         private void CreatePieSeriesSuccess(int value)
         {
             _pieChartSuccessValue = new ObservableValue(value);
 
-            _pieSeriesSuccess = new PieSeries()
+            var pieSerie = new PieSeries()
             {
                 Title = "Success status nodes",
                 Values = new ChartValues<ObservableValue> {_pieChartSuccessValue},
@@ -317,7 +304,7 @@ namespace UIWPF.ViewModels
                 Stroke = new SolidColorBrush(_successColorPieChartFill),
                 Name = "SuccessSeries"
             };
-            PieChartSeries.Add(_pieSeriesSuccess);
+            PieChartSeries.Add(pieSerie);
         }
         #endregion
 

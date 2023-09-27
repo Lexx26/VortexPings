@@ -85,7 +85,7 @@
 
     <SolidColorBrush x:Key="Second.Foreground" Color="{StaticResource Second.ForegroundColor}" ></SolidColorBrush>
     <!--DialogWindowBackground-->
-    <LinearGradientBrush x:Key="DialogWindowBackground" Opacity="0.85" EndPoint="0.5,1" StartPoint="0.5,0">
+    <LinearGradientBrush x:Key="DialogWindowBackground" Opacity="0.95" EndPoint="0.5,1" StartPoint="0.5,0">
 
         <GradientStop Color="{StaticResource BackgroundColor.Black}" Offset="1.6"/>
         <GradientStop Color="{StaticResource Second.BackgroundColor.Dark}" Offset="0"/>
