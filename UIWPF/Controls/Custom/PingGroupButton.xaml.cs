@@ -38,6 +38,11 @@ namespace UIWPF.Controls.Custom
             binding.Source = this;
             binding.Mode = BindingMode.OneWay;
             this.GroupName.SetBinding(TextBlock.TextProperty, binding);
+
+            Binding binding2 = new Binding("NodeGroupItem.NodesCount");
+            binding2.Source = this;
+            binding2.Mode = BindingMode.OneWay;
+            this.NodeCount.SetBinding(TextBlock.TextProperty, binding2);
         }
 
         private void Unbind()
@@ -46,7 +51,6 @@ namespace UIWPF.Controls.Custom
                 return;
 
             BindingOperations.ClearAllBindings(this);
-
         }
 
         public PingGroupPanel ParentPingGroupPanel { get; set; }

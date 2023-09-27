@@ -25,6 +25,21 @@ namespace UIWPF.ViewModels
             set { SetProperty(ref _name, value); }
         }
 
+        public int NodesCount
+        {
+            get
+            {
+                if (Nodes != null)
+                {
+                    return Nodes.Count();
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+        }
+
         private int _order;
         public int Order
         {
@@ -36,7 +51,28 @@ namespace UIWPF.ViewModels
         public ObservableCollection<NodeViewModel> Nodes
         {
             get { return _nodes; }
-            set { SetProperty(ref _nodes, value); }
+            set { UnSubscribeNodesCollectionChange(); SetProperty(ref _nodes, value);SubScribeNodesCollectionChanged(); }
+        }
+
+        private void SubScribeNodesCollectionChanged()
+        {
+            if (Nodes != null)
+            {
+                Nodes.CollectionChanged += Nodes_CollectionChanged;
+            }
+        }
+
+        private void UnSubscribeNodesCollectionChange()
+        {
+            if(Nodes!=null)
+            {
+                Nodes.CollectionChanged -= Nodes_CollectionChanged;
+            }
+        }
+
+        private void Nodes_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(NodesCount));
         }
 
         private NodeGroup _nodeGroup;
@@ -72,7 +108,6 @@ namespace UIWPF.ViewModels
 
         public void Dispose()
         {
-          //  NodeGroupData.Dispose();
             foreach (var node in Nodes)
             {
                 node.Dispose();

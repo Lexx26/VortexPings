@@ -19,7 +19,6 @@ namespace UIWPF.Controls.Models
     {
         public NodeGroupViewModel NodeGroupViewModel { get; private set; }
 
-
         private ObservableCollection<NodeViewModel> _previosNodes;
         public PingGroupController(NodeGroupViewModel nodeGroupViewModel, PingGroupPanel parentPingGroupPanel)
         {

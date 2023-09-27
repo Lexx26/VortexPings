@@ -75,7 +75,6 @@ namespace UIWPF.Controls.Custom
            
         }
 
-
        public static readonly DependencyProperty ButtonLeftCommandProperty =
        DependencyProperty.Register("ButtonLeftCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
 
@@ -84,8 +83,6 @@ namespace UIWPF.Controls.Custom
             get { return (ICommand)GetValue(ButtonLeftCommandProperty); }
             set { SetValue(ButtonLeftCommandProperty, value); }
         }
-
-   
 
       public static readonly DependencyProperty ButtonRightCommandProperty =
       DependencyProperty.Register("ButtonRightCommand", typeof(ICommand), typeof(PingGroupPanel), new PropertyMetadata(null));
@@ -118,7 +115,6 @@ namespace UIWPF.Controls.Custom
             InitializeComponent();
             DependencyPropertyDescriptor dpd = DependencyPropertyDescriptor.FromProperty(DataItemsProperty, typeof(PingGroupPanel));
             dpd?.AddValueChanged(this, OnDataItemsChanged);
-
         }
 
         private void OnDataItemsChanged(object sender, EventArgs e)
@@ -130,7 +126,6 @@ namespace UIWPF.Controls.Custom
             
             if (DataItems != null)
             {
-                
                 DataItems.CollectionChanged += DataItems_CollectionChanged;
             }
 
@@ -161,7 +156,6 @@ namespace UIWPF.Controls.Custom
                         AddGroupNode(addedItem as NodeGroupViewModel);
                     }
                 }
-
             }
 
             if(e.Action == NotifyCollectionChangedAction.Reset)
@@ -191,7 +185,6 @@ namespace UIWPF.Controls.Custom
 
             var pingGroup = new PingGroupController(addedItem, this);
             _GroupsControls.Add(pingGroup);
-
         }
 
         /// <summary>

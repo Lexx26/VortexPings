@@ -47,17 +47,26 @@
                 
             </StackPanel>
             <DockPanel Grid.Row="1" Margin="10">
-                <lvc:PieChart DockPanel.Dock="Left" LegendLocation="Right" Series="{Binding PieChartSeries}" 
+                <lvc:PieChart Margin="5" DockPanel.Dock="Left" BorderThickness="0" BorderBrush="{StaticResource Second.Foreground}" LegendLocation="Right" Series="{Binding PieChartSeries}" 
                               Foreground="{StaticResource Second.Foreground}" 
                               Width="350" Hoverable="False" DataTooltip="{x:Null}">
                     
                 </lvc:PieChart>
-                <lvc:CartesianChart DockPanel.Dock="Right" LegendLocation="Right" Series="{Binding StackedSeries}"
+                <lvc:CartesianChart Margin="5"  BorderThickness="0" BorderBrush="{StaticResource Second.Foreground}" DockPanel.Dock="Right" LegendLocation="Right" Series="{Binding StackedSeries}"
                                     Hoverable="False" Foreground="{StaticResource Second.Foreground}" DataTooltip="{x:Null}">
                     
                     <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Nodes count" ></lvc:Axis>
+                        <lvc:Axis ShowLabels="True"  >
+                            <lvc:Axis.Separator>
+                                <lvc:Separator IsEnabled="True" Visibility="Hidden" Step="10"></lvc:Separator>
+                            </lvc:Axis.Separator>
+                        </lvc:Axis>
+                        
                     </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis ShowLabels="True"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                    
                 </lvc:CartesianChart>
                 
             </DockPanel>
