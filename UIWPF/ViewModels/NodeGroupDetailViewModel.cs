@@ -161,10 +161,6 @@ namespace UIWPF.ViewModels
                 }
                
             }
-            else
-            {
-               
-            }
 
             if (successValueCount > 0)
             {
@@ -175,11 +171,7 @@ namespace UIWPF.ViewModels
 
                 _pieChartSuccessValue.Value = successValueCount;
             }
-            else
-            {
-               
-            }
-
+           
             if(warningValueCount>0)
             {
                 if(_pieChartWarningValue==null)
@@ -189,12 +181,7 @@ namespace UIWPF.ViewModels
 
                 _pieChartWarningValue.Value = warningValueCount;
             }
-            else
-            {
-                
-            }
-            
-
+           
             if(alertValueCount>0)
             {
                 if(_pieChartAlertValue==null)
@@ -204,10 +191,7 @@ namespace UIWPF.ViewModels
 
                 _pieChartAlertValue.Value = alertValueCount;
             }
-            else
-            {
-                
-            }
+           
         }
         private void PieChartSetValues()
         {
