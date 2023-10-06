@@ -46,7 +46,9 @@ namespace UIWPF
             containerRegistry.RegisterDialog<NodeEditView, NodeEditViewModel>();
             containerRegistry.RegisterDialog<NodeDetailView, NodeDetailViewModel>();
             containerRegistry.RegisterDialogWindow<FixedDialogWindow>("FixedDialogWindow");
-            
+
+            containerRegistry.RegisterDialog<WarningDialogView, WarningDialogViewModel>();
+            containerRegistry.RegisterDialogWindow<WarningDialogWindow>("WarningDialogWindow");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

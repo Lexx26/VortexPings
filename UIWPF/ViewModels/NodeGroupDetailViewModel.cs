@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
+using UIWPF.Commands;
 using VortexPings.Factories;
 using VortexPings.Models;
 
@@ -55,8 +56,6 @@ namespace UIWPF.ViewModels
         public override void OnDialogClosed()
         {
             base.OnDialogClosed();
-            _timer.Stop();
-            _timer.Tick -= TimerTick;
         }
 
         private DispatcherTimer _timer = new DispatcherTimer();
@@ -65,7 +64,7 @@ namespace UIWPF.ViewModels
             _timer.Interval = TimeSpan.FromSeconds(0.5);
             _timer.Tick += TimerTick;
             _timer.Start();
-                
+
         }
 
         private void TimerTick(object? sender, EventArgs e)
@@ -76,8 +75,6 @@ namespace UIWPF.ViewModels
             _timer.Start();
         }
 
-       
-
         #region Charts
         public SeriesCollection StackedSeries { get; set; } = new SeriesCollection();
 
@@ -86,7 +83,7 @@ namespace UIWPF.ViewModels
             var nodesInPingerQueueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true).Count();
             var nodesIdleCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == false).Count();
 
-            if(nodesInPingerQueueCount==0&&nodesIdleCount==0)
+            if (nodesInPingerQueueCount == 0 && nodesIdleCount == 0)
             {
                 return;
             }
@@ -102,11 +99,11 @@ namespace UIWPF.ViewModels
 
             var stackedColumnSeries2NodesIdle = new StackedColumnSeries
             {
-                Values = new ChartValues<int> {nodesIdleCount },
+                Values = new ChartValues<int> { nodesIdleCount },
                 StackMode = StackMode.Values,
                 Title = "Nodes idle",
                 DataLabels = true,
-                Name ="NodesIdle"
+                Name = "NodesIdle"
             };
 
             StackedSeries.Add(stackedColumnSeriesNodesPinging);
@@ -115,13 +112,16 @@ namespace UIWPF.ViewModels
 
         private void StackedSeriesUpdate()
         {
+            if (StackedSeries.Count == 0)
+                return;
+
             var nodesPinging = (int)StackedSeries[0].Values[0];
             var nodesIdle = (int)StackedSeries[1].Values[0];
 
             var nodesInPingerQueueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true).Count();
             var nodesIdleCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == false).Count();
 
-            if(nodesPinging!= nodesInPingerQueueCount||nodesIdle!=nodesIdleCount)
+            if (nodesPinging != nodesInPingerQueueCount || nodesIdle != nodesIdleCount)
             {
                 StackedSeries[0].Values[0] = nodesInPingerQueueCount;
                 StackedSeries[1].Values[0] = nodesIdleCount;
@@ -145,61 +145,61 @@ namespace UIWPF.ViewModels
             var warningValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Yellow).Count();
             var alertValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Red).Count();
 
-            if(successValueCount==0&& warningValueCount==0&&alertValueCount==0&& _pieChartNoDataValue==null)
+            if (successValueCount == 0 && warningValueCount == 0 && alertValueCount == 0 && _pieChartNoDataValue == null)
             {
                 PieChartSeries.Clear();
                 CreatePieSeriesNoData(1);
-               return;
+                return;
             }
 
-            if(successValueCount != 0 || warningValueCount != 0 || alertValueCount != 0)
+            if (successValueCount != 0 || warningValueCount != 0 || alertValueCount != 0)
             {
-                if(_pieChartNoDataValue != null)
+                if (_pieChartNoDataValue != null)
                 {
                     PieChartSeries.Clear();
                     _pieChartNoDataValue = null;
                 }
-               
+
             }
 
             if (successValueCount > 0)
             {
-                if(_pieChartSuccessValue==null)
+                if (_pieChartSuccessValue == null)
                 {
                     CreatePieSeriesSuccess(successValueCount);
                 }
 
                 _pieChartSuccessValue.Value = successValueCount;
             }
-           
-            if(warningValueCount>0)
+
+            if (warningValueCount > 0)
             {
-                if(_pieChartWarningValue==null)
+                if (_pieChartWarningValue == null)
                 {
                     CreatePieSeriesWarning(warningValueCount);
                 }
 
                 _pieChartWarningValue.Value = warningValueCount;
             }
-           
-            if(alertValueCount>0)
+
+            if (alertValueCount > 0)
             {
-                if(_pieChartAlertValue==null)
+                if (_pieChartAlertValue == null)
                 {
-                  CreratePieSeriesAlert(alertValueCount); 
+                    CreratePieSeriesAlert(alertValueCount);
                 }
 
                 _pieChartAlertValue.Value = alertValueCount;
             }
-           
+
         }
         private void PieChartSetValues()
         {
-            var successValueCount = NodeGroup.Nodes.Where(t =>t.IsInPingerQueue==true&&t.PingResultData.PingStatus == PingStatus.Green).Count();
+            var successValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Green).Count();
             var warningValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Yellow).Count();
             var alertValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Red).Count();
 
-            if(successValueCount==0&& warningValueCount==0&& alertValueCount==0)
+            if (successValueCount == 0 && warningValueCount == 0 && alertValueCount == 0)
             {
                 PieChartSeries.Clear();
                 CreatePieSeriesNoData(1);
@@ -207,21 +207,21 @@ namespace UIWPF.ViewModels
             else
             {
                 PieChartSeries.Clear();
-                if(successValueCount!=0)
+                if (successValueCount != 0)
                 {
-                  CreatePieSeriesSuccess(successValueCount);
+                    CreatePieSeriesSuccess(successValueCount);
                 }
 
                 if (warningValueCount != 0)
                 {
-                  CreatePieSeriesWarning(warningValueCount);
+                    CreatePieSeriesWarning(warningValueCount);
                 }
 
                 if (alertValueCount != 0)
                 {
-                   CreratePieSeriesAlert(alertValueCount);
+                    CreratePieSeriesAlert(alertValueCount);
                 }
-            }  
+            }
         }
 
         private void CreatePieSeriesNoData(int value)
@@ -231,7 +231,7 @@ namespace UIWPF.ViewModels
             var pieSerie = new PieSeries()
             {
                 Title = "No data",
-                Values = new ChartValues<ObservableValue> {_pieChartNoDataValue},
+                Values = new ChartValues<ObservableValue> { _pieChartNoDataValue },
                 DataLabels = false,
                 Fill = new SolidColorBrush(_successColorPieChartFill),
                 Stroke = new SolidColorBrush(_successColorPieChartFill),
@@ -248,7 +248,7 @@ namespace UIWPF.ViewModels
             var pieSerie = new PieSeries()
             {
                 Title = "Alert status nodes",
-                Values = new ChartValues<ObservableValue> {_pieChartAlertValue},
+                Values = new ChartValues<ObservableValue> { _pieChartAlertValue },
                 DataLabels = true,
                 Fill = new SolidColorBrush(_alertColorPieChartFill),
                 Stroke = new SolidColorBrush(_alertColorPieChartFill),
@@ -265,7 +265,7 @@ namespace UIWPF.ViewModels
             var pieSerie = new PieSeries()
             {
                 Title = "Warning status nodes",
-                Values = new ChartValues<ObservableValue> {_pieChartWarningValue},
+                Values = new ChartValues<ObservableValue> { _pieChartWarningValue },
                 DataLabels = true,
                 Fill = new SolidColorBrush(_warningColorPieChartFill),
                 Stroke = new SolidColorBrush(_warningColorPieChartFill),
@@ -282,7 +282,7 @@ namespace UIWPF.ViewModels
             var pieSerie = new PieSeries()
             {
                 Title = "Success status nodes",
-                Values = new ChartValues<ObservableValue> {_pieChartSuccessValue},
+                Values = new ChartValues<ObservableValue> { _pieChartSuccessValue },
                 DataLabels = true,
                 Fill = new SolidColorBrush(_successColorPieChartFill),
                 Stroke = new SolidColorBrush(_successColorPieChartFill),
@@ -291,6 +291,14 @@ namespace UIWPF.ViewModels
             PieChartSeries.Add(pieSerie);
         }
         #endregion
+        public override void Dispose()
+        {
+            base.Dispose();
+            _NodeGroups = null;
+            NodeGroup = null;
+            _timer.Stop();
+            _timer.Tick -= TimerTick;
+        }
 
         #region Commands
         private DelegateCommand _renameGroupCommand;
@@ -327,16 +335,21 @@ namespace UIWPF.ViewModels
 
         void ExecuteDeleteGroupNodeCommand()
         {
-            _NodeGroups.Remove(NodeGroup);
-            NodeGroup.Dispose();
-            base.CloseDialogCommand.Execute("true");
-        }
+            var dialogParameters = new DialogParameters();
+            var message1 = $"Are you sure you want to delete the group {NodeGroup.Name}?";
+            var message2 = $"All the related nodes will be deleted along with the group!";
+            dialogParameters.Add("Message1", message1);
+            dialogParameters.Add("Message2", message2);
+            _dialogService.ShowDialog("WarningDialogView", dialogParameters, r =>
+            {
+                if (r.Result == ButtonResult.OK)
+                {
+                    _NodeGroups.Remove(NodeGroup);
+                    NodeGroup.Dispose();
+                    base.CloseDialogCommand.Execute("true");
+                }
 
-        public override void Dispose()
-        {
-            base.Dispose();
-            _NodeGroups = null;
-            NodeGroup = null;
+            }, "WarningDialogWindow");
         }
 
         bool CanExecuteDeleteGroupNodeCommand()
@@ -357,7 +370,7 @@ namespace UIWPF.ViewModels
             dialogParameters.Add("NodeDataViewModel", nodeDataViewModel);
             var nodeNames = _NodeGroups.SelectMany(t => t.Nodes.Select(n => n.NodeDataViewModel.NodeName)).ToList();
             dialogParameters.Add("NodeNames", nodeNames);
-            
+
             _dialogService.ShowDialog("NodeEditView", dialogParameters, r =>
             {
                 if (r.Result == ButtonResult.OK)
@@ -378,6 +391,32 @@ namespace UIWPF.ViewModels
         {
             return true;
         }
+
+        private RelayCommand _removeAllNodesCommand;
+        public RelayCommand RemoveAllNodesCommand => _removeAllNodesCommand ??
+                  (_removeAllNodesCommand = new RelayCommand(obj =>
+                  {
+                      var dialogParameters = new DialogParameters();
+                      var message1 = "Are you sure you want to delete all group nodes?";
+                      var message2 = $"{NodeGroup.NodesCount} nodes will be deleted!";
+                      dialogParameters.Add("Message1", message1);
+                      dialogParameters.Add("Message2", message2);
+                      _dialogService.ShowDialog("WarningDialogView", dialogParameters, r =>
+                      {
+                          if (r.Result == ButtonResult.OK)
+                          {
+                              foreach (var node in NodeGroup.Nodes)
+                              {
+                                  node.Dispose();
+                              }
+
+                              NodeGroup.Nodes.Clear();
+                          }
+
+                      }, "WarningDialogWindow");
+
+                  }, o => NodeGroup!=null&&NodeGroup.Nodes!=null&&NodeGroup.NodesCount>0
+                  ));
 
         #endregion
     }

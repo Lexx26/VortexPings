@@ -147,7 +147,6 @@ namespace UIWPF.ViewModels
             return true;
         }
 
-
         private DelegateCommand _NodeCommand;
         public DelegateCommand NodeCommand =>
             _NodeCommand ?? (_NodeCommand = new DelegateCommand(ExecuteNodeCommand));

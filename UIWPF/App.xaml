@@ -14,9 +14,11 @@
                 <ResourceDictionary Source="Style/FocusVisual.xaml"/>
                 <ResourceDictionary Source="Style/ButtonSecond.xaml"/>
                 <ResourceDictionary Source="Style/ButtonAlert.xaml"/>
+                <ResourceDictionary Source="Style/ButtonWarning.xaml"/>
                 <ResourceDictionary Source="Style/Node.xaml"/>
                 <ResourceDictionary Source="Style/NodeGroup.xaml"/>
                 <ResourceDictionary Source="Style/FixedDialogWindow.xaml"/>
+                <ResourceDictionary Source="Style/WarningDialogWindow.xaml"/>
                 <ResourceDictionary Source="Style/Text.xaml"/>
                 <ResourceDictionary Source="Style/CheckBox.xaml"/>
             </ResourceDictionary.MergedDictionaries>

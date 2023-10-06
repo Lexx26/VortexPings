@@ -103,13 +103,11 @@ namespace VortexPings.Ping
 
             if (_pingTasks.Count == 0)
                 IsPinging = false;
-
         }
 
         public void StopPing(Node node)
         {
             node.CancellationTokenSource.Cancel();
-
         }
 
     }
