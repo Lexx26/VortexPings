@@ -69,6 +69,12 @@ namespace UIWPF.Controls.Custom
 
             this.PingResult.SetBinding(TextBlock.TextProperty, pingResultBinding);
 
+            var responseAdressBinding = new Binding("NodeViewModel.PingResultData.ResponseAdress");
+            responseAdressBinding.Source = this;
+            responseAdressBinding.Mode = BindingMode.OneWay;
+
+            this.ResponseAddress.SetBinding(TextBlock.TextProperty, responseAdressBinding);
+
             NodeViewModel.PropertyChanged += NodeViewModel_PropertyChanged;
         }
 
@@ -85,7 +91,7 @@ namespace UIWPF.Controls.Custom
                 else
                 {
                     Dispatcher.Invoke(() =>
-                   PingNodeButtonMain.Style = _ButtonStyleNotPing);
+                    PingNodeButtonMain.Style = _ButtonStyleNotPing);
                 }
 
                 return;
@@ -98,7 +104,7 @@ namespace UIWPF.Controls.Custom
                     if (PingNodeButtonMain.Style != _ButtonStylePingRed)
                     {
                         Dispatcher.Invoke(() =>
-                    PingNodeButtonMain.Style = _ButtonStylePingRed);
+                        PingNodeButtonMain.Style = _ButtonStylePingRed);
                     }
                     return;
                 }
@@ -109,7 +115,7 @@ namespace UIWPF.Controls.Custom
                     if (PingNodeButtonMain.Style != _ButtonStylePingYellow)
                     {
                         Dispatcher.Invoke(() =>
-                    PingNodeButtonMain.Style = _ButtonStylePingYellow);
+                        PingNodeButtonMain.Style = _ButtonStylePingYellow);
                     }
 
                     return;
@@ -120,7 +126,7 @@ namespace UIWPF.Controls.Custom
                     if (PingNodeButtonMain.Style != _ButtonStylePing)
                     {
                         Dispatcher.Invoke(() =>
-                    PingNodeButtonMain.Style = _ButtonStylePing);
+                        PingNodeButtonMain.Style = _ButtonStylePing);
                     }
                     return; 
                 }
