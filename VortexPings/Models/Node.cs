@@ -89,6 +89,8 @@ namespace VortexPings.Models
                         var pingReplayResult = new PingReplyResult("DestinationHostUnreachable", null, 0);
                         СreatePingResultData(pingReplayResult);
                     }
+
+                    isContainError = true;
                 }
               
             }
@@ -122,7 +124,7 @@ namespace VortexPings.Models
             else if (e.Error != null)
             {
                 pingTaskCompletionSource.TrySetException(e.Error);
-                isContainError = true;
+                
             }
             else
             {

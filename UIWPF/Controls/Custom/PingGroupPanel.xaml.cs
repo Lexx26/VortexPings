@@ -233,10 +233,5 @@ namespace UIWPF.Controls.Custom
           
         }
 
-      
-
-
-        
-
     }
 }

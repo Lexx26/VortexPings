@@ -29,7 +29,7 @@ namespace UIWPF.ViewModels
             var nodeGroup = new NodeGroup() { Id = 0, Name = "TestGroup", Order = 0 };
             for (int i = 0; i <50; i++)
             {
-                var node = _nodeFactory.CreateNodeWithDefaultValue("test", "yahoo.com");
+                var node = _nodeFactory.CreateNodeWithDefaultValue("goo", "goo");
 
                 nodeGroup.Nodes.Add(node);
 

@@ -171,6 +171,11 @@ namespace UIWPF.ViewModels
 
                 _pieChartSuccessValue.Value = successValueCount;
             }
+            else
+            {
+                RemoveSeriesByName("SuccessSeries");
+                _pieChartSuccessValue = null;
+            }
 
             if (warningValueCount > 0)
             {
@@ -180,6 +185,11 @@ namespace UIWPF.ViewModels
                 }
 
                 _pieChartWarningValue.Value = warningValueCount;
+            }
+            else
+            {
+                RemoveSeriesByName("WarningSeries");
+                _pieChartWarningValue = null;
             }
 
             if (alertValueCount > 0)
@@ -191,8 +201,24 @@ namespace UIWPF.ViewModels
 
                 _pieChartAlertValue.Value = alertValueCount;
             }
+            else
+            {
+                RemoveSeriesByName("AlertSeries");
+                _pieChartAlertValue = null;
+            }
 
         }
+
+        private void RemoveSeriesByName (string seriesName)
+        {
+            var series = PieChartSeries.OfType<PieSeries>().FirstOrDefault(t=>t.Name==seriesName);
+
+            if (series == null)
+                return;
+
+            PieChartSeries.Remove(series);
+        }
+
         private void PieChartSetValues()
         {
             var successValueCount = NodeGroup.Nodes.Where(t => t.IsInPingerQueue == true && t.PingResultData.PingStatus == PingStatus.Green).Count();
@@ -236,6 +262,7 @@ namespace UIWPF.ViewModels
                 Fill = new SolidColorBrush(_successColorPieChartFill),
                 Stroke = new SolidColorBrush(_successColorPieChartFill),
                 Name = "NoDataSeries"
+               
             };
 
             PieChartSeries.Add(pieSerie);
@@ -254,6 +281,7 @@ namespace UIWPF.ViewModels
                 Stroke = new SolidColorBrush(_alertColorPieChartFill),
                 PushOut = 5,
                 Name = "AlertSeries"
+
             };
 
             PieChartSeries.Add(pieSerie);
@@ -271,6 +299,7 @@ namespace UIWPF.ViewModels
                 Stroke = new SolidColorBrush(_warningColorPieChartFill),
                 PushOut = 10,
                 Name = "WarningSeries"
+
             };
             PieChartSeries.Add(pieSerie);
         }
@@ -287,6 +316,7 @@ namespace UIWPF.ViewModels
                 Fill = new SolidColorBrush(_successColorPieChartFill),
                 Stroke = new SolidColorBrush(_successColorPieChartFill),
                 Name = "SuccessSeries"
+
             };
             PieChartSeries.Add(pieSerie);
         }
