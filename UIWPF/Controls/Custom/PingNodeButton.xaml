@@ -21,8 +21,8 @@
                     </Grid.RowDefinitions>
                     <TextBlock  x:Name="NodeName" Text="none" TextWrapping="Wrap" Margin="2" HorizontalAlignment="Center" FontSize="14" Grid.Row="0"  ></TextBlock>
                     <TextBlock  x:Name="PingResultMs" Text="0"  HorizontalAlignment="Center" FontSize="20" VerticalAlignment="Center" Grid.Row="1"/>
-                    <TextBlock  Margin="1" x:Name="ResponseAddress" Text="0.0.0.0" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2"/>
-                    <TextBlock  Margin="4" x:Name="PingResult" Text="Success" FontSize="10" HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Row="3"/>
+                    <TextBlock  Margin="0,2,2,5" x:Name="ResponseAddress" Text="0.0.0.0" FontSize="9" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="3"/>
+                    <TextBlock  Margin="0" x:Name="PingResult" Text="Success" FontSize="10" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2"/>
                 </Grid>
             </Button>
             
