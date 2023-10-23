@@ -9,11 +9,11 @@ namespace VortexPings.Models
 {
     public class NodeData:ICloneable
     {
-        public string? NodeName { get; set; }
+       public string? NodeName { get; set; }
         public int NodeId { get; set; }
         public int? PingRepeatTime { get; set; }
         public string? HostOrIPadress { get; set; }
-        public int GroupID { get; set; }
+        public int GroupID { get; set; } 
 
         private int? _PackageSize;
         public int? PackageSize
